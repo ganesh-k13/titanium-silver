@@ -1,2 +1,2 @@
 pytest==3.6.1
-docker_py==1.10.6
+docker==3.5.0
