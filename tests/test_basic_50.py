@@ -13,9 +13,7 @@ def test_50():
 	for i in range(50):
 		# ready = Event()
 		print("Spawn container: %d"%i)
-		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':1000})
-		t.start()
-		thread_list.append(t)
+		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=5000))
 	
-	for t in thread_list:
-		t.join()
+	for i, t in enumerate(thread_list):
+		assert('Hello container: %d'%i == t.result_queue.get().decode('utf-8'))

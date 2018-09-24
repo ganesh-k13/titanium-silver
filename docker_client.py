@@ -2,12 +2,14 @@ from docker import APIClient
 import tarfile
 import os
 import time
+from thread_custom import threaded
 
 class Docker_Client:
 
 	def __init__(self, base_url='unix://var/run/docker.sock'):
 		self.cli = APIClient(base_url='unix://var/run/docker.sock')
 
+	@threaded
 	def create_process(self, **kwargs):
 		container_no = kwargs['num']
 		container_name = kwargs['name']
@@ -33,7 +35,7 @@ class Docker_Client:
 		output = self.cli.logs(container_name)
 
 		self.cli.remove_container(container_name, force=True)
-		print(output)
+		# print(output)
 		return output
 
 	def busy_wait(self, name):

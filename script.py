@@ -1,7 +1,7 @@
 import argparse
 from docker_client import Docker_Client
 from threading import Thread, Event
-
+from thread_custom import threaded
 # import Queue
 '''
 
@@ -58,15 +58,17 @@ def main():
 	
 	options = parser.parse_args()
 	# ready = Event()
+	thread_list = list()
 	for i in range(options.num):
 		# ready = Event()
 		print("Spawn container: %d"%i)
-		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':options.sleep})
-		t.start()
+		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=options.sleep))
 		# ready.wait()
 		# print(dcli.get_status())
 	# ready.wait()
 
+	for t in thread_list:
+		print(t.result_queue.get().decode('utf-8'))
 
 if __name__ == "__main__" :
 	# tar = tarfile.open("in.tar.gz", "w:gz")
