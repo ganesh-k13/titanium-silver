@@ -1,9 +1,3 @@
-# Consumer Key  vGjWQytoJdVnmCueiIsE
-# Consumer Secret   wYYPlTcELQvfVORHjIkurHDEHLefltru
-# Request Token URL https://api.discogs.com/oauth/request_token
-# Authorize URL https://www.discogs.com/oauth/authorize
-# Access Token URL  https://api.discogs.com/oauth/access_token
-
 import sys
 sys.path.append('../')
 
@@ -27,3 +21,28 @@ def test_basic():
 	for t in thread_list:
 		t.join()
 
+# def test_50():
+# 	dcli = Docker_Client()
+# 	thread_list = list()
+# 	for i in range(50):
+# 		# ready = Event()
+# 		print("Spawn container: %d"%i)
+# 		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':1000})
+# 		t.start()
+# 		thread_list.append(t)
+	
+# 	for t in thread_list:
+# 		t.join()
+
+# def test_100():
+# 	dcli = Docker_Client()
+# 	thread_list = list()
+# 	for i in range(100):
+# 		# ready = Event()
+# 		print("Spawn container: %d"%i)
+# 		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':1000})
+# 		t.start()
+# 		thread_list.append(t)
+	
+# 	for t in thread_list:
+# 		t.join()
