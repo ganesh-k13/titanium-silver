@@ -1,8 +1,7 @@
-from docker import APIClient
-import tarfile
-import os
+import argparse
+from docker_client import Docker_Client
 from threading import Thread, Event
-import time
+
 # import Queue
 '''
 19:17:~/Documents/docker/gcc/python:$ sudo docker run --rm --name voltest -v "$PWD":/app gcc:4.9 ls -la
@@ -48,68 +47,30 @@ export COMPOSE_HTTP_TIMEOUT=120
 # c groups API
 # benchmarks
 
-named_threads = dict()
+def main():
+	dcli = Docker_Client()
+	parser = argparse.ArgumentParser(description = 'usage %prog -f<file>')
+	parser.add_argument('-n', dest='num', type = int, nargs = '?', const = 1, default=1, action = 'store', help='Number of containers=(0,50]')
+	parser.add_argument('-s', dest='sleep', type = int, nargs = '?', const = 1000, default=1, action = 'store', help='Sleep duration of client file')
+	
+	options = parser.parse_args()
+	# ready = Event()
+	for i in range(options.num):
+		# ready = Event()
+		print("Spawn container: %d"%i)
+		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':options.sleep})
+		t.start()
+		# ready.wait()
+		# print(dcli.get_status())
+	# ready.wait()
 
-NO_OF_PROCESSES = 10
-
-class Docker_Client:
-
-	def __init__(self, base_url='unix://var/run/docker.sock'):
-		self.cli = APIClient(base_url='unix://var/run/docker.sock')
-
-	def create_process(self, **kwargs):
-		self.cli.create_container(
-			image='gcc:4.9',
-			command=['sh','-c','g++ -std=c++11 /opt/myapp.cpp -o /opt/myapp && /opt/myapp %d %d'%(kwargs['num'], kwargs['sleep'])],
-			volumes=['/opt'],
-			host_config=self.cli.create_host_config(
-				binds={ os.getcwd(): {
-						'bind': '/opt',
-						'mode': 'rw',
-						}
-					}
-				),
-			name=kwargs['name'],
-			working_dir='/opt',
-			environment=["DOCKER_CLIENT_TIMEOUT=120", "COMPOSE_HTTP_TIMEOUT=120"]
-		)
-
-		self.cli.start(kwargs['name'])
-		self.cli.wait(kwargs['name'])
-		output = self.cli.logs(kwargs['name'])
-
-		self.cli.remove_container(kwargs['name'], force=True)
-		print(output)
-		return output
-
-	def busy_wait(self, name):
-		named_threads[name].join()
-		self.cli.wait(name)
-		output = self.cli.logs(name)
-
-		self.cli.remove_container(name, force=True)
-		print(output)
-		return output	
-
-	def get_status(self):
-		return self.cli.status()
 
 if __name__ == "__main__" :
 	# tar = tarfile.open("in.tar.gz", "w:gz")
 	# tar.add(".", arcname="in")
 	# tar.close()
-	dcli = Docker_Client()
 	
-	# ready = Event()
-	for i in range(NO_OF_PROCESSES):
-		# ready = Event()
-		print("Spawn container: %d"%i)
-		t = Thread(target=dcli.create_process, kwargs={'name':'prototype%d'%i, 'num':i, 'sleep':10000})
-		t.start()
-		named_threads['prototype%d'%i] = t
-		# ready.wait()
-		# print(dcli.get_status())
-	# ready.wait()
+	main()
 
 	# for i in range(NO_OF_PROCESSES):
 	# 	t = Thread(target=dcli.busy_wait, args=('prototype%d'%i, ))
