@@ -4,6 +4,9 @@ from threading import Thread, Event
 
 # import Queue
 '''
+
+[IMPORTANT] Do not remove
+
 19:17:~/Documents/docker/gcc/python:$ sudo docker run --rm --name voltest -v "$PWD":/app gcc:4.9 ls -la
 docker.containers.run(image='name_of_your_image',                                                                                                                                                      
                       command='/usr/sbin/your_command --arg 123 --abc',                                                                                                                              
@@ -42,10 +45,10 @@ def create_process(name):
 	print(output)
 export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
-
-'''
 # c groups API
 # benchmarks
+'''
+
 
 def main():
 	dcli = Docker_Client()
