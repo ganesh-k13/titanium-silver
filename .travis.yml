@@ -34,5 +34,9 @@ before_install:
 install: 
   - pip3 install -r requirements.txt
 
-script: pytest
+script: 
+  - pytest tests/test_basic.py
+  - pytest tests/test_basic_50.py
+  - pytest tests/test_basic_100.py
+  - pytest tests/test_server_simulation.py
 

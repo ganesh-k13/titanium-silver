@@ -2,7 +2,6 @@ import sys
 sys.path.append('../')
 
 import pytest
-import argparse
 from docker_client import Docker_Client
 from threading import Thread, Event
 import time
