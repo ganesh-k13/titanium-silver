@@ -19,15 +19,6 @@ services:
   - docker
 
 before_install:
-  
-  # Did not read instruction :( (probably not needed)
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get remove docker docker-engine docker.io; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install apt-transport-https ca-certificates curl software-properties-common; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-key fingerprint 0EBFCD88; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"; fi
-  # - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install docker-ce; fi
   - docker pull gcc:4.9
   - docker run hello-world
 

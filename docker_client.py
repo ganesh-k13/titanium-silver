@@ -35,7 +35,6 @@ class Docker_Client:
 		output = self.cli.logs(container_name)
 
 		self.cli.remove_container(container_name, force=True)
-		# print(output)
 		return output
 
 	def busy_wait(self, name):
