@@ -1,9 +1,3 @@
-# Consumer Key  vGjWQytoJdVnmCueiIsE
-# Consumer Secret   wYYPlTcELQvfVORHjIkurHDEHLefltru
-# Request Token URL https://api.discogs.com/oauth/request_token
-# Authorize URL https://www.discogs.com/oauth/authorize
-# Access Token URL  https://api.discogs.com/oauth/access_token
-
 import sys
 sys.path.append('../')
 
@@ -17,7 +11,6 @@ def test_basic():
 	dcli = Docker_Client()
 	thread_list = list()
 	for i in range(10):
-		# ready = Event()
 		print("Spawn container: %d"%i)
 		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=5000))
 	

@@ -10,7 +10,6 @@ def test_50():
 	dcli = Docker_Client()
 	thread_list = list()
 	for i in range(50):
-		# ready = Event()
 		print("Spawn container: %d"%i)
 		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=5000))
 	
