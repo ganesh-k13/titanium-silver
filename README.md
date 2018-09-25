@@ -5,7 +5,7 @@
 
 Titanium-Silver is a python package for automating lab evalution using dockers.
 
-### Installation[TODO]
+### Installation
 
 This package requires:
 - docker-ce
@@ -33,7 +33,7 @@ $ sudo add-apt-repository \
    $(lsb_release -cs) \
    stable"
 $ sudo apt-get install docker-ce
-
+$ sudo docker pull gcc:4.9
 ```
 
 Please verify installation:
@@ -42,10 +42,21 @@ Please verify installation:
 $ sudo docker run hello-world
 ```
 
-### Tests [TODO]
+Install Required Packages:
 
 ```sh
-$ pytest
+$ sudo pip3 install -r requirements.txt
+```
+
+### Tests
+
+```sh
+$ pytest # Very Intensive, Less verbose
+$ # Recommended:
+$ sudo pytest tests/test_basic.py
+$ sudo pytest tests/test_basic_100.py
+$ sudo pytest tests/test_basic_50.py
+$ sudo pytest tests/test_server_simulation.py
 ```
 
 ### Usage
@@ -61,4 +72,3 @@ optional arguments:
 ```
 
 ### License: MIT
-
