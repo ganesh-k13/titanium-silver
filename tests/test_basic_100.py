@@ -11,7 +11,7 @@ def test_100():
 	thread_list = list()
 	for i in range(100):
 		print("Spawn container: %d"%i)
-		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=5000, path=os.getcwd()+'/tests/SC'))
+		thread_list.append(dcli.spawn_process(name='prototype%d'%i, num=i, sleep=5000, path=os.getcwd()+'/tests/SC'))
 	
 	for i, t in enumerate(thread_list):
 		assert('Hello container: %d'%i == t.result_queue.get().decode('utf-8'))

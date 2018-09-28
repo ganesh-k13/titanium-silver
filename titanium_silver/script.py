@@ -14,7 +14,7 @@ def main():
 	thread_list = list()
 	for i in range(options.num):
 		print("Spawn container: %d"%i)
-		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=options.sleep, path=os.getcwd()+'/../tests/SC/'))
+		thread_list.append(dcli.spawn_process(name='prototype%d'%i, num=i, sleep=options.sleep, path=os.getcwd()+'/../tests/SC/'))
 
 	for t in thread_list:
 		print(t.result_queue.get().decode('utf-8'))

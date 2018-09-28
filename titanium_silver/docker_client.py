@@ -10,7 +10,7 @@ class Docker_Client:
 		self.cli = APIClient(base_url='unix://var/run/docker.sock')
 
 	@threaded
-	def create_process(self, **kwargs):
+	def spawn_process(self, **kwargs):
 		container_no = kwargs['num']
 		container_name = kwargs['name']
 		source_code_path = kwargs['path']
