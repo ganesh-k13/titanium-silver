@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!flask/bin/python3
 
 from flask import Flask, jsonify, abort, request, make_response, url_for
 
@@ -21,7 +21,6 @@ def getInfo(USN):
 def getCode():
     if(not request.json):
         abort(400)
-
     return (jsonify( { 'task': request.json } ), 201)
 
 if __name__ == '__main__':
