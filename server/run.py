@@ -28,7 +28,6 @@ def sendCode(inputCode,questionHash):
 			}
 		)
 
-	print("res")
 	if(res.ok):
 		return(res.text)
 	else:
