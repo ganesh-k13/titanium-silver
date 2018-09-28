@@ -1,4 +1,4 @@
-#!../flask/bin/python3
+#!/usr/bin/python3
 
 # import sys
 from flask import Flask, jsonify, abort, request, make_response, url_for
