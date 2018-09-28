@@ -20,7 +20,7 @@ services:
 
 before_install:
   - docker pull gcc:4.9
-  - docker run hello-world
+  - tests/SC/clone.sh 100 tests/SC/myapp.cpp tests/SC/usn
 
 install: 
   - pip3 install -r requirements.txt
