@@ -48,6 +48,12 @@ Install Required Packages:
 $ sudo pip3 install -r requirements.txt
 ```
 
+Install Titanium-Silver:
+
+```sh
+$ sudo pip3 install -e . # PWD must be main folder with setup.py
+```
+
 ### Tests
 
 ```sh
@@ -68,6 +74,13 @@ optional arguments:
   -h, --help  show this help message and exit
   -n [NUM]    Number of containers=(0,50]
   -s [SLEEP]  Sleep duration of client file
+
+# or as package:
+
+>>> from titanium_silver.docker_client import Docker_Client
+>>> dcli = Docker_Client()
+>>> t = dcli.spawn_process(name='prototype%d'%i, num=i, sleep=5000, path=os.getcwd()+'/tests/SC') # returns a thread with container
+>>> t.result_queue.get().decode('utf-8') # Get result
 
 ```
 
