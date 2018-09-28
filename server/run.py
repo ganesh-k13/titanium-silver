@@ -1,4 +1,4 @@
-#!flask/bin/python3
+#!/usr/bin/python3
 
 import requests as req
 import argparse
@@ -6,7 +6,9 @@ import argparse
 def sendCode():
 	# Open the code file using the path sent.
 	fp = open(args.inputCode,"r")
+	
 	code = None
+
 	if(fp.readable()):
 		code = fp.readlines()
 
@@ -24,7 +26,7 @@ def sendCode():
 	if(res.ok):
 		return(res.text)
 	else:
-		return("Error occured : ",res.status_code) #TODO: Change this to error code
+		return("Error occured : ",res.status_code)
 
 
 if __name__=="main":
