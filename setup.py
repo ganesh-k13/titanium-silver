@@ -21,7 +21,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ),
     install_requires=[
-          pytest==3.6.1,
-          docker==3.5.0
+          'pytest==3.6.1',
+          'docker==3.5.0'
       ],
 )

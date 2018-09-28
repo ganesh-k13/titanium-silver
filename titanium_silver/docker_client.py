@@ -2,7 +2,7 @@ from docker import APIClient
 import tarfile
 import os
 import time
-from thread_custom import threaded
+from titanium_silver.thread_custom import threaded
 
 class Docker_Client:
 
@@ -17,7 +17,7 @@ class Docker_Client:
 		self.cli.create_container(
 			image='gcc:4.9',
 			command=['sh','-c','g++ -std=c++11 /opt/usn-%d.cpp -o /opt/out/usn-%d && /opt/out/usn-%d %d %d'%(container_no, container_no, container_no, container_no, kwargs['sleep'])],
-			# command=['sh','-c','ls'],
+			# command=['sh','-c','ls -la'],
 			volumes=['/opt'],
 			host_config=self.cli.create_host_config(
 				binds={ source_code_path: {

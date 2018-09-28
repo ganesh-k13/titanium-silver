@@ -1,13 +1,13 @@
 import sys
-sys.path.append('../')
-
 import pytest
-from docker_client import Docker_Client
+from titanium_silver.docker_client import Docker_Client
 from threading import Thread, Event
 import time
+import os
 
 NO_OF_CONTAINERS = 10
 
+@pytest.mark.skipif(sys.platform == 'darwin', reason="does not run on osx yet")
 def test_server_simulation():
 	dcli = Docker_Client()
 	thread_list = list()
