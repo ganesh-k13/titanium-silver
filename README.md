@@ -80,7 +80,7 @@ optional arguments:
 >>> from titanium_silver.docker_client import Docker_Client
 >>> dcli = Docker_Client()
 >>> t = dcli.spawn_process(name='prototype%d'%i, num=i, sleep=5000, path=os.getcwd()+'/tests/SC') # returns a thread with container
->> t.result_queue.get().decode('utf-8') # Get result
+>>> t.result_queue.get().decode('utf-8') # Get result
 
 ```
 
