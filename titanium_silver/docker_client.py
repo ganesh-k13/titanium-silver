@@ -5,12 +5,39 @@ import time
 from titanium_silver.thread_custom import threaded
 
 class Docker_Client:
-
+	"""
+	Custom Docker Client class aimed to efficiently
+	create specific containers in large quantities.
+	"""
 	def __init__(self, base_url='unix://var/run/docker.sock'):
 		self.cli = APIClient(base_url='unix://var/run/docker.sock')
 
 	@threaded
 	def spawn_process(self, **kwargs):
+		"""
+		Create a container in a thread.
+
+		Parameters
+		----------
+		num : int [To be depcrecated]
+			Container Number (one of the unique ways to identify a container).
+		name : string
+			Unique name to container
+		path : string
+			Path to folder containing source code of students.
+			This folder will be mounted as a volume.
+		sleep : int [To be deprecated]
+			Sleep duration of client code.
+
+		Returns
+		----------
+		String:
+			Without Closure: Output of client code.
+
+		Thread
+			With @threaded decorater: Thread object which can be waited on to
+			get above mentioned output.
+		"""
 		container_no = kwargs['num']
 		container_name = kwargs['name']
 		source_code_path = kwargs['path']
@@ -39,6 +66,11 @@ class Docker_Client:
 		return output
 
 	def busy_wait(self, name):
+		"""
+		Waits on a thread. [DEPRECATED]
+		Use spawn_process and wait on returned thread for same effect.
+		"""
+
 		named_threads[name].join()
 		self.cli.wait(name)
 		output = self.cli.logs(name)
