@@ -13,13 +13,14 @@ class Docker_Client:
 	def create_process(self, **kwargs):
 		container_no = kwargs['num']
 		container_name = kwargs['name']
+		source_code_path = kwargs['path']
 		self.cli.create_container(
 			image='gcc:4.9',
 			command=['sh','-c','g++ -std=c++11 /opt/usn-%d.cpp -o /opt/out/usn-%d && /opt/out/usn-%d %d %d'%(container_no, container_no, container_no, container_no, kwargs['sleep'])],
 			# command=['sh','-c','ls'],
 			volumes=['/opt'],
 			host_config=self.cli.create_host_config(
-				binds={ os.getcwd()+'/SC': {
+				binds={ source_code_path: {
 						'bind': '/opt',
 						'mode': 'rw',
 						}

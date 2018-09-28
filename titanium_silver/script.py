@@ -2,6 +2,7 @@ import argparse
 from docker_client import Docker_Client
 from threading import Thread, Event
 from thread_custom import threaded
+import os
 
 def main():
 	dcli = Docker_Client()
@@ -13,7 +14,7 @@ def main():
 	thread_list = list()
 	for i in range(options.num):
 		print("Spawn container: %d"%i)
-		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=options.sleep))
+		thread_list.append(dcli.create_process(name='prototype%d'%i, num=i, sleep=options.sleep, path=os.getcwd()+'/SC'))
 
 	for t in thread_list:
 		print(t.result_queue.get().decode('utf-8'))
