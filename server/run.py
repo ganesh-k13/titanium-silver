@@ -5,9 +5,9 @@ import argparse
 # not working as expected :/
 # from titanium_silver import thread_custom 
 
-# import sys
-# sys.path.insert(0, '../titanium_silver')
-# from thread_custom import threaded 
+import sys
+sys.path.insert(0, '../titanium_silver')
+from thread_custom import threaded 
 
 def sendCode(inputCode,questionHash):
 	# Open the code file using the path sent.
