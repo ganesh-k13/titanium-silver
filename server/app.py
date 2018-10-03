@@ -48,28 +48,7 @@ def notFound(error):
     		}), 
     	404)
 
-@app.route('/submitCode/<int:USN>', methods = ['GET'])
-def getInfo(USN):
-    return "Hello World"
-
-
-@app.route('/submitCode', methods = ['POST'])
-def getCode():
-    if(not request.json):
-        abort(400)
-    inputJson = request.json
-    # print(res["code"],file=sys.stderr)
-    
-    output = executeCode(inputJson)
-    
-    outputJson = jsonify({
-    		"input":inputJson,
-    		"output":output
-    	})
-
-    return (outputJson, 201)
-
-@app.route('/upload', methods=['POST'])
+@app.route('/submitCode', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         
@@ -92,3 +71,4 @@ def upload_file():
 
 if __name__ == '__main__':
     app.run(debug = True)
+
