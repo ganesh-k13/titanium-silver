@@ -1,27 +1,33 @@
-#!/usr/bin/python3
+#!../flask/bin/python3
 
 import requests as req
 import argparse
+# not working as expected :/
+# from titanium_silver import thread_custom 
 
-def sendCode(inputCode,questionHash):
+import sys
+sys.path.insert(0, '../titanium_silver')
+from thread_custom import threaded 
+
+def sendCode(inputCodeFilePath,questionHash):
 	# Open the code file using the path sent.
 	
 	code = None
 
-	with open(inputCode,"r") as fp:
+	with open(inputCodeFilePath,"r") as fp:
 		if(fp.readable()):
 			code = fp.read()
-
+	
 	# Create the data object to be sent to server.
 	data = {
-		"USN":[],
+		"USN":"usn-1",
 		"code":code,
-		"progLang":"Python3",
+		"progLang":"C++",
 		"questionHash":questionHash,
 	}
 
 	# Make a post request with the data to be sent.
-	res = req.post("http://localhost:5000/submitCode",
+	res = req.post("http://localhost:8000/submitCode",
 			json = data,
 			headers={
 				"content-type":"application/json"
@@ -39,7 +45,7 @@ if __name__=="__main__":
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument("-u","--upload",
-		dest='inputCode', 
+		dest='inputCodeFilePath', 
 		type=str, 
 		required=True, 
 		help="/path/to/the/file/having/code.ext")
@@ -51,5 +57,5 @@ if __name__=="__main__":
 
 	args = parser.parse_args()
 
-	retCode = sendCode(args.inputCode, args.questionHash)
+	retCode = sendCode(args.inputCodeFilePath, args.questionHash)
 	print(retCode)
