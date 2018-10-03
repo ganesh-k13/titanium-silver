@@ -4,31 +4,46 @@ import os
 from flask import Flask, flash, request, redirect, url_for, abort, make_response, jsonify
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './static/'
-ALLOWED_EXTENSIONS = set(['cpp','py','c','rb','php','java'])
+INPUT_FOLDER = './codes/Input'
+OUTPUT_FOLDER = './codes/Output'
+EXTENSIONS = {
+    "C++":"cpp",
+    "Python":"py",
+    "Python3":"py",
+    "C":"c",
+    "Ruby":"rb",
+    "PHP5.x":"php",
+    "PHP7.x":"php",
+    "Java":"java"
+}
 
-# app = Flask(__name__)
 app = Flask(__name__, static_url_path = "")
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['INPUT_FOLDER'] = INPUT_FOLDER
+app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 
-def executeCode(inp):
-    # --------------------------------------------------------------------------
-    # Put your code to connect to a docker container.
-    # --------------------------------------------------------------------------
+def uploadCode(inputJson):
+    inpFileName = os.path.join(
+        INPUT_FOLDER,
+        inputJson['USN']+"_"+inputJson['questionHash']+"."+EXTENSIONS[inputJson["progLang"]]
+    )
+    
+    inputFp = open(inpFileName,"w")
+    inputFp.write(inputJson['code'])
 
+    inputFp.close()
+    
+    opFileName = os.path.join(
+        OUTPUT_FOLDER,
+        "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
+    )
 
-    # --------------------------------------------------------------------------
-    # Return a dictionary. 
-    # Following is just a representation with some suggested keys.
-    # Your dictionary can contain any result you deem important
-    # for an user to see after he's submitted the code. 
-    # --------------------------------------------------------------------------
-    return {
-        "errors":"",
-        "warnings":"",
-        "numOfTestCasesPassed":0,
-        "testCasesPassed":[]
-    }
+    outputFp = open(opFileName,"r")
+    output = outputFp.read()
+    
+    #codeOutput should be a dictionary.
+    codeOutput = {"output":output}
+
+    return codeOutput
 
     
 @app.errorhandler(400)
@@ -57,14 +72,15 @@ def getCode():
     if(not request.json):
         abort(400)
     inputJson = request.json
+    print(inputJson)
     # print(res["code"],file=sys.stderr)
     
-    output = executeCode(inputJson)
+    output = uploadCode(inputJson)
     
     outputJson = jsonify({
             "input":inputJson,
             "output":output
-        })
+    })
 
     return (outputJson, 201)
 
@@ -82,7 +98,7 @@ def getCode():
         
 #         if file and allowed_file(file.filename):
 #             filename = secure_filename(file.filename)
-#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#             file.save(os.path.join(app.config['INPUT_FOLDER'], filename))
 
 #             return "Done!"
 

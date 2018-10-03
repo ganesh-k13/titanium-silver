@@ -20,9 +20,9 @@ def sendCode(inputCodeFilePath,questionHash):
 	
 	# Create the data object to be sent to server.
 	data = {
-		"USN":None,
+		"USN":"usn-1",
 		"code":code,
-		"progLang":"Python3",
+		"progLang":"C++",
 		"questionHash":questionHash,
 	}
 
