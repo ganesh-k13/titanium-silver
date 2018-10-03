@@ -1,7 +1,15 @@
 #!../flask/bin/python3
 
-# import sys
-from flask import Flask, jsonify, abort, request, make_response, url_for
+import os
+from flask import Flask, flash, request, redirect, url_for, abort, make_response, jsonify
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = './static/'
+ALLOWED_EXTENSIONS = set(['cpp','py','c','rb','php','java'])
+
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path = "")
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def executeCode(inp):
 	# --------------------------------------------------------------------------
@@ -60,6 +68,27 @@ def getCode():
     	})
 
     return (outputJson, 201)
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        
+        if 'file' not in request.files:
+            return make_response(jsonify({'error':'No file part'}),404)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return make_response(jsonify({'error':'No selected file'}),404)
+
+        file = request.files['file']
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            return "Done!"
+
 
 if __name__ == '__main__':
     app.run(debug = True)
