@@ -14,10 +14,9 @@ def sendCode(inputCodeFilePath,questionHash):
 	
 	code = None
 
-	# with open(inputCodeFilePath,"r") as fp:
-	# 	if(fp.readable()):
-	# 		code = fp.read()
-	fp = open(inputCodeFilePath,"r")
+	with open(inputCodeFilePath,"r") as fp:
+		if(fp.readable()):
+			code = fp.read()
 	
 	# Create the data object to be sent to server.
 	data = {
