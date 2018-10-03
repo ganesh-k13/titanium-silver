@@ -27,8 +27,8 @@ def notFound(error):
     		}), 
     	404)
 
-@app.route('/submitCode', methods=['POST'])
-def submitCode():
+@app.route('/uploadFile', methods=['POST'])
+def uploadFile():
     if request.method == 'POST':
         
         if 'file' not in request.files:
