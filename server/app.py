@@ -10,26 +10,6 @@ ALLOWED_EXTENSIONS = set(['cpp','py','c','rb','php','java'])
 # app = Flask(__name__)
 app = Flask(__name__, static_url_path = "")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-def executeCode(inp):
-	# --------------------------------------------------------------------------
-	# Put your code to connect to a docker container.
-	# --------------------------------------------------------------------------
-
-
-	# --------------------------------------------------------------------------
-	# Return a dictionary. 
-	# Following is just a representation with some suggested keys.
-	# Your dictionary can contain any result you deem important
-	# for an user to see after he's submitted the code. 
-	# --------------------------------------------------------------------------
-	return {
-		"errors":"",
-		"warnings":"",
-		"numOfTestCasesPassed":0,
-		"testCasesPassed":[]
-	}
-
 app = Flask(__name__, static_url_path = "")
     
 @app.errorhandler(400)
@@ -49,7 +29,7 @@ def notFound(error):
     	404)
 
 @app.route('/submitCode', methods=['POST'])
-def upload_file():
+def submitCode():
     if request.method == 'POST':
         
         if 'file' not in request.files:
