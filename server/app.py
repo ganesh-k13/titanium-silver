@@ -38,8 +38,6 @@ def submitCode():
 
         if file.filename == '':
             return make_response(jsonify({'error':'No selected file'}),404)
-
-        file = request.files['file']
         
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
