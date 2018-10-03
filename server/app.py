@@ -10,7 +10,6 @@ ALLOWED_EXTENSIONS = set(['cpp','py','c','rb','php','java'])
 # app = Flask(__name__)
 app = Flask(__name__, static_url_path = "")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app = Flask(__name__, static_url_path = "")
     
 @app.errorhandler(400)
 def notFound(error):
