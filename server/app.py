@@ -68,23 +68,23 @@ def getCode():
 
     return (outputJson, 201)
 
-@app.route('/uploadFile', methods=['POST'])
-def uploadFile():
-    if request.method == 'POST':
+# @app.route('/uploadFile', methods=['POST'])
+# def uploadFile():
+#     if request.method == 'POST':
         
-        if 'file' not in request.files:
-            return make_response(jsonify({'error':'No file part'}),404)
+#         if 'file' not in request.files:
+#             return make_response(jsonify({'error':'No file part'}),404)
 
-        file = request.files['file']
+#         file = request.files['file']
 
-        if file.filename == '':
-            return make_response(jsonify({'error':'No selected file'}),404)
+#         if file.filename == '':
+#             return make_response(jsonify({'error':'No selected file'}),404)
         
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#         if file and allowed_file(file.filename):
+#             filename = secure_filename(file.filename)
+#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            return "Done!"
+#             return "Done!"
 
 
 if __name__ == '__main__':
