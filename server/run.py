@@ -9,15 +9,16 @@ import sys
 sys.path.insert(0, '../titanium_silver')
 from thread_custom import threaded 
 
-def sendCode(inputCode,questionHash):
+def sendCode(inputCodeFilePath,questionHash):
 	# Open the code file using the path sent.
 	
 	code = None
 
-	with open(inputCode,"r") as fp:
-		if(fp.readable()):
-			code = fp.read()
-
+	# with open(inputCodeFilePath,"r") as fp:
+	# 	if(fp.readable()):
+	# 		code = fp.read()
+	fp = open(inputCodeFilePath,"r")
+	
 	# Create the data object to be sent to server.
 	data = {
 		"USN":None,
@@ -45,7 +46,7 @@ if __name__=="__main__":
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument("-u","--upload",
-		dest='inputCode', 
+		dest='inputCodeFilePath', 
 		type=str, 
 		required=True, 
 		help="/path/to/the/file/having/code.ext")
@@ -57,5 +58,5 @@ if __name__=="__main__":
 
 	args = parser.parse_args()
 
-	retCode = sendCode(args.inputCode, args.questionHash)
+	retCode = sendCode(args.inputCodeFilePath, args.questionHash)
 	print(retCode)
