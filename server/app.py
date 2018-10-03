@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!../flask/bin/python3
 
 # import sys
 from flask import Flask, jsonify, abort, request, make_response, url_for
@@ -42,7 +42,7 @@ def notFound(error):
 
 @app.route('/submitCode/<int:USN>', methods = ['GET'])
 def getInfo(USN):
-    pass
+    return "Hello World"
 
 
 @app.route('/submitCode', methods = ['POST'])

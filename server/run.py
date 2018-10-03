@@ -1,7 +1,13 @@
-#!/usr/bin/python3
+#!../flask/bin/python3
 
 import requests as req
 import argparse
+# not working as expected :/
+# from titanium_silver import thread_custom 
+
+# import sys
+# sys.path.insert(0, '../titanium_silver')
+# from thread_custom import threaded 
 
 def sendCode(inputCode,questionHash):
 	# Open the code file using the path sent.
@@ -14,14 +20,14 @@ def sendCode(inputCode,questionHash):
 
 	# Create the data object to be sent to server.
 	data = {
-		"USN":[],
+		"USN":None,
 		"code":code,
 		"progLang":"Python3",
 		"questionHash":questionHash,
 	}
 
 	# Make a post request with the data to be sent.
-	res = req.post("http://localhost:5000/submitCode",
+	res = req.post("http://localhost:8000/submitCode",
 			json = data,
 			headers={
 				"content-type":"application/json"
