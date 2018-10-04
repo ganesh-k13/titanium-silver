@@ -1,5 +1,6 @@
 # Rahul's GitIgnores:
 flask/
+server/app_file_upload.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
