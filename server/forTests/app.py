@@ -1,10 +1,10 @@
 #!../flask/bin/python3
 
 import os
+import json
 from flask import Flask, flash, request, redirect, url_for, abort, make_response, jsonify
-# from werkzeug.utils import secure_filename
 
-from titanium_silver import thread_custom 
+from titanium_silver.docker_client import Docker_Client
 
 INPUT_FOLDER = './codes/Input'
 OUTPUT_FOLDER = './codes/Output'
@@ -27,8 +27,8 @@ def uploadCode(inputJson):
     # Create a filename: 
     # inpFileName = 
     #    USN_of_user + _ + questionHash + "." + extension_of_user_code
-    # Eg: USN:usn-11, questionHash = 1, progLang = cpp gives :
-    # inpFileName = usn-11_1.cpp
+    # Eg: USN:11, questionHash = 1, progLang = cpp gives :
+    # inpFileName = 11_1.cpp
 
     inpFileName = os.path.join(
         INPUT_FOLDER,
@@ -49,16 +49,28 @@ def uploadCode(inputJson):
     # and then read the OP file. Not syncing here will 
     # cause major discrepancies.
     # ------------------------------------------------------
+    # dcli = Docker_Client()
+    # i=1
+    # res = dcli.spawn_process(name='prototype%d'%i, num=i, sleep=5000, path=os.getcwd()+'../../tests/SC')
+    # output = res.result_queue.get().decode("utf-8")
+    # ------------------------------------------------------
 
     # Create a filename: 
-    # opFileName = 
-    #    "op" + _ + USN_of_user + _ + questionHash
+    # opFileName = "op" + _ + USN_of_user + _ + questionHash
 
     opFileName = os.path.join(
         OUTPUT_FOLDER,
         "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
     )
 
+    # Following line in original app.py is a 'r'.
+    # outputFp = open(opFileName,"r")
+    outputFp = open(opFileName,"w")
+
+    # Originally just read it
+    # output = outputFp.read()
+    outputFp.write("Code recieved for USN:"+inputJson["USN"]+" question:"+inputJson["questionHash"]+" for lang:"+inputJson["progLang"])
+    outputFp.close()
     outputFp = open(opFileName,"r")
     output = outputFp.read()
 
