@@ -1,6 +1,7 @@
 # Titanium-Silver
 
-[![Build Status](https://travis-ci.org/ganesh-k13/titanium-silver.svg?branch=master)](https://travis-ci.org/ganesh-k13/titanium-silver) ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)  [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)  
+[![Build Status](https://travis-ci.org/ganesh-k13/titanium-silver.svg?branch=master)](https://travis-ci.org/ganesh-k13/titanium-silver) ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg) [![licensebuttons by-sa](https://licensebuttons.net/l/by-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0)
+
 
 ### Description
 
