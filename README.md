@@ -2,41 +2,27 @@
 
 [![Build Status](https://travis-ci.org/ganesh-k13/titanium-silver.svg?branch=master)](https://travis-ci.org/ganesh-k13/titanium-silver) ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)  [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)  
 
+### Description
 
 Titanium-Silver is a python package for automating lab evalution using dockers.
+
+- Built an online judge for source code evaluation where user submits source code and receives results such as execution time, memory usage and number of passed testcases.
+- Each user program is run in a docker container with limited memory and processing power. The number of active containers are configurable to guarantee no server crashes. Each container is spawned on a different thread to improve efficiency.
+- The server is developed using Flask and deployed using Gunicorn. Nginx is used as reverse proxy. Nginx takes care of load balancing.
+- Tests are written using pytest and continuous integration using Travis.
+- [Results](https://travis-ci.org/ganesh-k13/titanium-silver "Travis Build Status"):
+	- 50 simultaneous requests: 27.18 seconds 
+	- 100 simultaneous requests: 50.18 seconds
+	- 10 requests with 5 seconds interval, 5 times (Realistic scenario designed and tuned for): 27.64 seconds
+	- Above result translates to 0.55 seconds with average waiting time for requests being 0.528 seconds.
 
 ### Installation
 
 This package requires:
-- docker-ce
+- docker-ce ([Install Guide](https://docs.docker.com/install/))
 - python 3
 
-Install the above dependencies and required packages by:
-
-```sh
-$ # Docker
-$ apt-get update
-$ sudo apt-get remove docker docker-engine docker.io #Remove
-$ sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-$ sudo apt-key fingerprint 0EBFCD88 # Verify:
-# pub   4096R/0EBFCD88 2017-02-22
-#       Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
-# uid                  Docker Release (CE deb) <docker@docker.com>
-# sub   4096R/F273FCD8 2017-02-22
-$ sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-$ sudo apt-get install docker-ce
-$ sudo docker pull gcc:4.9
-```
-
-Please verify installation:
+Please verify docker's installation:
 
 ```sh
 $ sudo docker run hello-world
@@ -67,6 +53,7 @@ $ sudo pytest tests/test_server_simulation.py
 
 ### Usage
 
+Docker module usage:
 ```
 usage: script.py [-h] [-n [NUM]] [-s [SLEEP]]
 
@@ -85,3 +72,7 @@ optional arguments:
 ```
 
 ### License: MIT
+
+### Authors:
+- [**Ganesh K**](https://github.com/ganesh-k13)
+- [**Rahul R Bharadwaj**](https://github.com/Rahul-RB)
