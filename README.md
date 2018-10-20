@@ -15,7 +15,7 @@ Titanium-Silver is a python package for automating lab evalution using dockers.
 	- 50 simultaneous requests: 27.18 seconds 
 	- 100 simultaneous requests: 50.18 seconds
 	- 10 requests with 5 seconds interval, 5 times (Realistic scenario designed and tuned for): 27.64 seconds
-	- Above result translates to 0.55 seconds with average waiting time for requests being 0.528 seconds.
+	- Above result translates to 0.55 seconds per request with average waiting time for requests being 0.528 seconds.
 
 ### Installation
 
@@ -72,7 +72,7 @@ optional arguments:
 
 ```
 
-### License: MIT
+### License: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
 ### Authors:
 - [**Ganesh K**](https://github.com/ganesh-k13)
