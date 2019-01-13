@@ -27,6 +27,7 @@ install:
   - pip3 install -e .
 
 script: 
+  - pytest tests/test_single.py
   - pytest tests/test_basic.py
   - pytest tests/test_basic_50.py
   - pytest tests/test_basic_100.py
