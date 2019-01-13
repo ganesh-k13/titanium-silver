@@ -5,6 +5,7 @@ import argparse
 # not working as expected :/
 # from titanium_silver import thread_custom 
 
+import json
 import sys
 sys.path.insert(0, '../titanium_silver')
 from thread_custom import threaded 
@@ -26,8 +27,9 @@ def sendCode(inputCodeFilePath,questionHash):
 		"questionHash":questionHash,
 	}
 
+	print(json.dumps(data))
 	# Make a post request with the data to be sent.
-	res = req.post("http://localhost:8000/submitCode",
+	res = req.post("http://128.0.0.1:5000/submitCode",
 			json = data,
 			headers={
 				"content-type":"application/json"
