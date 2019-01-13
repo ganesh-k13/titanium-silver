@@ -28,7 +28,8 @@ class Docker_Client:
 			This folder will be mounted as a volume.
 		sleep : int [To be deprecated]
 			Sleep duration of client code.
-
+		params: string
+			params to be passed to client code in a space seperated string
 		Returns
 		----------
 		String:
@@ -43,7 +44,7 @@ class Docker_Client:
 		source_code_path = kwargs['path']
 		self.cli.create_container(
 			image='gcc:4.9',
-			command=['sh','-c','g++ -std=c++11 /opt/usn-%d.cpp -o /opt/out/usn-%d && /opt/out/usn-%d %d %d'%(container_no, container_no, container_no, container_no, kwargs['sleep'])],
+			command=['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + kwargs['params']],
 			# command=['sh','-c','ls -la'],
 			volumes=['/opt'],
 			host_config=self.cli.create_host_config(

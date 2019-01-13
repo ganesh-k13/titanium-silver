@@ -3,8 +3,10 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, abort, make_response, jsonify
 from werkzeug.utils import secure_filename
+import random
+from titanium_silver.docker_client import Docker_Client
 
-INPUT_FOLDER = './codes/Input'
+INPUT_FOLDER = os.getcwd()+'/codes/Input'
 OUTPUT_FOLDER = './codes/Output'
 EXTENSIONS = {
     "C++":"cpp",
@@ -27,12 +29,12 @@ def uploadCode(inputJson):
     #    USN_of_user + _ + questionHash + "." + extension_of_user_code
     # Eg: USN:usn-11, questionHash = 1, progLang = cpp gives :
     # inpFileName = usn-11_1.cpp
-
+    file_name = inputJson['USN']+"_"+inputJson['questionHash']
     inpFileName = os.path.join(
         INPUT_FOLDER,
-        inputJson['USN']+"_"+inputJson['questionHash']+"."+EXTENSIONS[inputJson["progLang"]]
+        file_name+"."+EXTENSIONS[inputJson["progLang"]]
     )
-    
+    print(inpFileName)
     # Open the file in 'w' mode to either overwrite previous
     # submission or create a new file for new submission.
     inputFp = open(inpFileName,"w")
@@ -47,7 +49,9 @@ def uploadCode(inputJson):
     # and then read the OP file. Not syncing here will 
     # cause major discrepancies.
     # ------------------------------------------------------
-
+    random.seed(inputJson['USN'])
+    dcli = Docker_Client()
+    thread = dcli.spawn_process(name=file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=INPUT_FOLDER)
     # Create a filename: 
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash
@@ -57,9 +61,10 @@ def uploadCode(inputJson):
         "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
     )
 
-    outputFp = open(opFileName,"r")
-    output = outputFp.read()
-
+    with open(opFileName, 'w') as f:
+        output = thread.result_queue.get().decode('utf-8') 
+        f.write(output)
+    
     #codeOutput should be a dictionary.
     codeOutput = {"output":output}
 

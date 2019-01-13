@@ -107,5 +107,7 @@ venv.bak/
 
 # Other
 tmp/*.*
-SC/out/*
+SC/*
+Input/*
+Output/*
 
