@@ -4,6 +4,8 @@ import os
 from flask import Flask, flash, request, redirect, url_for, abort, make_response, jsonify
 from werkzeug.utils import secure_filename
 
+from titanium_silver.docker_client import Docker_Client
+
 INPUT_FOLDER = './codes/Input'
 OUTPUT_FOLDER = './codes/Output'
 EXTENSIONS = {
@@ -47,7 +49,8 @@ def uploadCode(inputJson):
     # and then read the OP file. Not syncing here will 
     # cause major discrepancies.
     # ------------------------------------------------------
-
+    dcli = Docker_Client()
+    thread = dcli.spawn_process(name='prototype%d'%i, num=i, params='%d 5000'%i, path=inpFileName)
     # Create a filename: 
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash
