@@ -1,6 +1,6 @@
 import requests as req
 import argparse
-
+import timeit
 import json
 
 def sendCode(inputCodeFilePath,questionHash):
@@ -50,6 +50,9 @@ if __name__=="__main__":
 		help="Hash value of the question")
 
 	args = parser.parse_args()
-
+	start = timeit.default_timer()
 	retCode = sendCode(args.inputCodeFilePath, args.questionHash)
 	print(retCode)
+	end = timeit.default_timer()
+
+	print("Total execution time:{0} seconds".format(round(end-start,4)))
