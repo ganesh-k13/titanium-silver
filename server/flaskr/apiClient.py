@@ -1,14 +1,7 @@
-#!../flask/bin/python3
-
 import requests as req
 import argparse
-# not working as expected :/
-# from titanium_silver import thread_custom 
-
+import timeit
 import json
-import sys
-sys.path.insert(0, '../titanium_silver')
-from thread_custom import threaded 
 
 def sendCode(inputCodeFilePath,questionHash):
 	# Open the code file using the path sent.
@@ -21,15 +14,14 @@ def sendCode(inputCodeFilePath,questionHash):
 	
 	# Create the data object to be sent to server.
 	data = {
-		"USN":"usn-1",
+		"USN":"someusn",
 		"code":code,
 		"progLang":"C++",
 		"questionHash":questionHash,
 	}
 
-	print(json.dumps(data))
 	# Make a post request with the data to be sent.
-	res = req.post("http://128.0.0.1:5000/submitCode",
+	res = req.post("http://127.0.0.1:5000/submitCode",
 			json = data,
 			headers={
 				"content-type":"application/json"
@@ -58,6 +50,9 @@ if __name__=="__main__":
 		help="Hash value of the question")
 
 	args = parser.parse_args()
-
+	start = timeit.default_timer()
 	retCode = sendCode(args.inputCodeFilePath, args.questionHash)
 	print(retCode)
+	end = timeit.default_timer()
+
+	print("Total execution time:{0} seconds".format(round(end-start,4)))
