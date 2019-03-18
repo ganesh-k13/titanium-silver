@@ -14,6 +14,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     TEMPLATES_AUTO_RELOAD=True
     INPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Input'
+    HOST='0.0.0.0'
 
     OUTPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Output'
 

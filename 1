@@ -6,6 +6,7 @@ import random
 from titanium_silver.docker_client import Docker_Client
 import pdb
 
+
 @app.route('/')
 def home():
     return "Home page, under development"
@@ -33,8 +34,12 @@ def getInfo(USN):
 
 @app.route('/submitCode', methods = ['POST'])
 def getCode():
+    print('enter1')
     pdb.set_trace()
-    if(not request.form):
+    print(request)
+    if(not request.get_json(force=True)):
+        print(request.get_json(force=True))
+        print("enter3")
         abort(400)
 
     # Read incoming JSON
@@ -46,11 +51,11 @@ def getCode():
     # | questionHash | String  |
     # +--------------+---------+
     #
-    inputJson = dict(request.form)
-    inputJson.update({key:value[0] for key, value in inputJson.items()})
-    inputJson['code'] = request.files['code'].stream.read().decode()
+    print("enter2") 
+    inputJson = request.get_json(force=True)
     print(inputJson)
 
+    
     # Get output Dictionary
     output = apiServer.uploadCode(inputJson)
 
