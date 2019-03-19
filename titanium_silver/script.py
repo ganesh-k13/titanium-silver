@@ -3,8 +3,10 @@ from docker_client import Docker_Client
 from threading import Thread, Event
 from thread_custom import threaded
 import os
+import pdb
 
 def main():
+	# pdb.set_trac()
 	dcli = Docker_Client()
 	parser = argparse.ArgumentParser(description = 'usage %prog -f<file>')
 	parser.add_argument('-n', dest='num', type = int, nargs = '?', const = 1, default=1, action = 'store', help='Number of containers=(0,50]')

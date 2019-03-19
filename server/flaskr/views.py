@@ -33,7 +33,7 @@ def getInfo(USN):
 
 @app.route('/submitCode', methods = ['POST'])
 def getCode():
-    pdb.set_trace()
+    #pdb.set_trace()
     if(not request.form):
         abort(400)
 

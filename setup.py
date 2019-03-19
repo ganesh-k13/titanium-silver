@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/ganesh-k13/titanium-silver",
     packages=['titanium_silver'],
-    package_dir = {'titanium_silver': 'titanium_silver/'},
+    package_dir = {'titanium_silver': 'titanium_silver'},
     package_data={'titanium_silver': ['SC/*']},
     classifiers=(
         "Programming Language :: Python :: 3",
