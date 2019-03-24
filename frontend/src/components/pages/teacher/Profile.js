@@ -1,8 +1,6 @@
 import React from "react";
 import { Container,Col,Row,Button } from "react-bootstrap";
 
-// import StudentProfileDisplay from "../../layout/student/ProfileDisplay";
-
 function Profile() {
 	return (
 		<div>
