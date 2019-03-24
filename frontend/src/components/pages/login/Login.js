@@ -2,9 +2,6 @@ import React from "react";
 import { Container,Col,Row,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import StudentProfile from "../student/profile.js";
-import TeacherProfile from "../teacher/profile.js";
-
 function Login(argument) {
     return (
         <Container>
