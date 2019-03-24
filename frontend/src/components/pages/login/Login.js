@@ -12,14 +12,18 @@ function Login(argument) {
                     	"10px"}}>
                     	<Row>
                     		<Col xl={6}>
-			                    <Button variant="secondary" size="lg">
-			                        <Link to={"/student"}>Student </Link>
-			                    </Button>
+			                    <Link to={"/student"}>
+                                    <Button variant="secondary" size="lg">
+			                            Student
+			                        </Button>
+                                </Link>
                     		</Col>
                     		<Col xl={6}>
-			                    <Button variant="secondary" size="lg">
-			                        <Link to={"/teacher"}>Teacher </Link>
-			                    </Button>
+			                    <Link to={"/teacher"}>
+                                    <Button variant="secondary" size="lg">
+			                            Teacher
+			                        </Button>
+                                </Link>
                     		</Col>
                     	</Row>
                     </Container>

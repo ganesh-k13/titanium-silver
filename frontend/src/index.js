@@ -9,4 +9,4 @@ import Footer from "./components/layout/common/Footer.js";
 
 ReactDOM.render(<Navbar />, document.getElementById("navbar"));
 ReactDOM.render(<App />, document.getElementById("root"));
-ReactDOM.render(<Footer />, document.getElementById("footer"));
+// ReactDOM.render(<Footer />, document.getElementById("footer"));

@@ -11,9 +11,11 @@ function JumbotronContainer() {
             <Container>
                 <span style={jumbotronTitleStyle}>Ease your coding lab automation</span>
                 <ButtonToolbar>
-                    <Button variant="secondary" size="lg">
-                        <Link to={"/login"}>Get Started </Link>
-                    </Button>
+                    <Link to={"/login"}>
+                        <Button variant="secondary" size="lg">
+                            Get Started
+                        </Button>
+                    </Link>
                 </ButtonToolbar>
             </Container>
         </Jumbotron>
