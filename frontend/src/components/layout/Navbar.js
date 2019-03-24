@@ -2,7 +2,7 @@ import React from "react";
 import {Navbar} from "react-bootstrap";
 import "../../../node_modules/font-awesome/css/font-awesome.min.css";
 
-function Header() {
+function NavbarComponent() {
     return (
         <Navbar bg="dark" variant="dark" style={navBarStyle}>
             <Navbar.Brand><i className="fa fa-align-justify"></i>&nbsp;&nbsp;&nbsp;Titanium Silver</Navbar.Brand>
@@ -20,4 +20,4 @@ const navBarStyle = {
     color: "#000000"
 }
 
-export default Header;
+export default NavbarComponent;
