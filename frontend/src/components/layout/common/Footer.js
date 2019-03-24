@@ -1,6 +1,6 @@
 import React from "react";
 import {Container,Row,Col,Button} from "react-bootstrap";
-import "../../../node_modules/font-awesome/css/font-awesome.min.css";
+import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
 
 function FooterComponent() {
     return (

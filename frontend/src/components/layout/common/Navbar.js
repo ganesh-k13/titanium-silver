@@ -1,6 +1,6 @@
 import React from "react";
 import {Navbar} from "react-bootstrap";
-import "../../../node_modules/font-awesome/css/font-awesome.min.css";
+import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
 
 function NavbarComponent() {
     return (

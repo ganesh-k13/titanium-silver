@@ -3,3 +3,18 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
+#navbar{
+	margin-bottom: 70px;
+}
+
+a {
+	text-decoration: none ;
+	color: #FFFFFF;
+}
+
+a:hover{
+	color:#FFFFFF;
+	text-decoration:none;
+	cursor:pointer;
+}
