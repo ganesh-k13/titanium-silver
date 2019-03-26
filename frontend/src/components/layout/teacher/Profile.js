@@ -1,11 +1,21 @@
 import React, { Component } from "react";
 import { Container,Col,Row,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import axios from 'axios';
 
 class Profile extends Component {
     state = {
+        "test":[]
+    };
 
+    addTodo = (title) => {
+        axios.post('https://jsonplaceholder.typicode.com/todos', {
+            title,
+            completed: false
+        })
+        .then(res => this.setState({ test: [...this.state.todos, res.data] }));
+
+        console.log("here")
     }
 
     render() {
@@ -38,7 +48,7 @@ class Profile extends Component {
                     {/* This row handles the button to set tests */}
                     <Row style={{marginTop:"10px"}}>
                         <Col md={{ span: 4, offset: 4 }}  lg={{ span: 4, offset: 4 }}  xl={{ span: 4, offset: 4 }}>
-                            <Link to="/settest"> 
+                            <Link to="/settest" params={{ testvalue: "hello" }}> 
                                 <Button className="btn-block">
                                     Set Test 
                                 </Button>
