@@ -3,6 +3,10 @@ import { Container,Col,Row,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import SetTest from "./SetTest";
+import SetTestBody from "./SetTestBody";
+import SetTestFooter from "./SetTestFooter";
+
 class Profile extends Component {
     state = {
         "test":[]
@@ -48,11 +52,7 @@ class Profile extends Component {
                     {/* This row handles the button to set tests */}
                     <Row style={{marginTop:"10px"}}>
                         <Col md={{ span: 4, offset: 4 }}  lg={{ span: 4, offset: 4 }}  xl={{ span: 4, offset: 4 }}>
-                            <Link to="/settest" params={{ testvalue: "hello" }}> 
-                                <Button className="btn-block">
-                                    Set Test 
-                                </Button>
-                            </Link>
+                            <SetTest modaltitle="Set Test" modalbody={<SetTestBody/>} modalfooter={<SetTestFooter/>}/>
                         </Col>
                     </Row>
 
@@ -114,7 +114,11 @@ class Profile extends Component {
         )
     }
 }
-
+// <Link to="/settest" params={{ testvalue: "hello" }}> 
+//     <Button className="btn-block">
+//         Set Test 
+//     </Button>
+// </Link>
 const profileTitle = {
 
 };

@@ -1,36 +1,38 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { Container,Col,Row,Button } from "react-bootstrap";
+import { ButtonToolbar,Button } from "react-bootstrap";
+
+import VerticalModal from '../common/VerticalModal';
 
 class SetTest extends Component {
-	// state={
-	// 	title:""
-	// };
+	constructor(...args) {
+		super(...args);
 
-	// formSumbit = (e) =>{
-	// 	e.preventDefault();
-	// 	console.log("form submit");
-	// 	this.props.addTodo(this.state.title);
-	// }
-
-	// formChange = (e) =>{
-	// 	console.log("form change");
-	// 	let res = {
-	// 		[e.target.name]:e.target.value
-	// 	}
-	// 	this.setState(res);
-	// }
+		this.state = { modalShow: false };
+	}
 
     render() {
-    	console.log("props recieved:",this.props);
-        return (
-            <div>
-            	<form onSubmit={this.formSubmit}>
-					enter number: <input name="title" type="text" onChange={this.formChange}/>
-					<input type="submit" value="submit"/>
-            	</form>
-            </div>
-        );
+    	console.log("SetTest prop:",this.props);
+		let modalClose = () => this.setState({ modalShow: false });
+
+		return (
+			<ButtonToolbar>
+				<Button
+					variant="primary"
+					onClick={() => this.setState({ modalShow: true })}
+					block
+				>
+					Set a Challenge
+				</Button>
+
+				<VerticalModal
+					show={this.state.modalShow}
+					onHide={modalClose}
+					modaltitle={this.props.modaltitle}
+					modalbody={this.props.modalbody}
+					modalfooter={this.props.modalfooter}
+				/>
+			</ButtonToolbar>
+		);
     }
 }
 
