@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal,Button } from "react-bootstrap";
 
-class VerticalModal extends React.Component {
+class VerticalModal extends Component {
     render() {
         console.log("Modal props:",this.props);
         return (

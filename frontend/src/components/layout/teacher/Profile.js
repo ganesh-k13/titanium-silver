@@ -1,26 +1,13 @@
 import React, { Component } from "react";
 import { Container,Col,Row,Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import axios from 'axios';
+// import { Link } from "react-router-dom";
+// import axios from 'axios';
 
 import SetTest from "./SetTest";
 import SetTestBody from "./SetTestBody";
 import SetTestFooter from "./SetTestFooter";
 
 class Profile extends Component {
-    state = {
-        "test":[]
-    };
-
-    addTodo = (title) => {
-        axios.post('https://jsonplaceholder.typicode.com/todos', {
-            title,
-            completed: false
-        })
-        .then(res => this.setState({ test: [...this.state.todos, res.data] }));
-
-        console.log("here")
-    }
 
     render() {
         return (
