@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Modal,Button } from "react-bootstrap";
 
 class VerticalModal extends Component {
+    componentDidMount(){
+        console.log("VerticAl mounted");
+    }
+
     render() {
         console.log("Modal props:",this.props);
         return (
@@ -19,13 +23,11 @@ class VerticalModal extends Component {
                 <Modal.Body>
                     {this.props.modalbody}
                 </Modal.Body>
-                <Modal.Footer>
-                    {this.props.modalfooter}
-                    <Button variant="danger" onClick={this.props.onHide}>Cancel</Button>
-                </Modal.Footer>
             </Modal>
         );
     }
 }
 
+                    // {this.props.modalfooter}
+                    // <Button variant="danger" onClick={this.props.onHide}>Cancel</Button>
 export default VerticalModal;

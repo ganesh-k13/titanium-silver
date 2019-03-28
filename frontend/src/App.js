@@ -6,6 +6,7 @@ import Login from "./components/pages/login/Login.js";
 import StudentProfile from "./components/pages/student/Profile.js";
 
 import TeacherProfile from "./components/layout/teacher/Profile.js";
+import TeacherSetTest from "./components/layout/teacher/SetTest.js";
 import StudentTestUI from "./components/layout/student/StudentTestUI.js";
 
 
@@ -18,7 +19,8 @@ class App extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/student" component={StudentProfile} />
                     <Route path="/teacher" component={TeacherProfile} />
-                    <Route path="/studenttest" component={StudentTestUI} />
+                    <Route path="/studentTest" component={StudentTestUI} />
+                    <Route path="/setTest" component={TeacherSetTest} />
                 </div>
             </Router>
         );
