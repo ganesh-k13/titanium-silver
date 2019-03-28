@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Container,Col,Row,ButtonToolbar,Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from 'axios';
 
 import VerticalModal from '../common/VerticalModal';
 import SetTestBody from "./SetTestBody";
@@ -17,13 +19,27 @@ class SetTest extends Component {
 	}
 
 	componentDidMount(){
-		console.log("SetTest component did mount");
+		
 	}
 	
 	addTest = (question) => {
-		console.log("here");
+		console.log("addTest");
 		console.log(question);
 		this.setState({ questions: [...this.state.questions, question] })
+	}
+
+	addChallenge = (question) => {
+		console.log("addChallenge");
+		let questions = this.state.questions;
+		let props = this.props;
+
+		axios.post('https://jsonplaceholder.typicode.com/posts', {
+			questions
+		})
+		.then(response => {
+			console.log("done:",response);
+			props.history.push("/teacher");
+		});
 	}
     
     render() {
@@ -72,18 +88,21 @@ class SetTest extends Component {
 						<Col xl={6} lg={6} md={6}>
 							<Button
 								variant="success"
+								onClick={this.addChallenge}
 								block
 							>
 								Done
 							</Button>
 						</Col>
 						<Col xl={6} lg={6} md={6}>
-							<Button
-								variant="danger"
-								block
-							>
-								Cancel
-							</Button>
+							<Link to={"/teacher"}>
+								<Button
+									variant="danger"
+									block
+								>
+									Cancel
+								</Button>
+							</Link>
 						</Col>
 					</Row>
 				</Container>

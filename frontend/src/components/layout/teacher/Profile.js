@@ -7,6 +7,10 @@ import SetTest from "./SetTest";
 
 class Profile extends Component {
 
+    componentDidMount(){
+        console.log("---------mount point.org -----------");
+    }
+
     render() {
         return (
             <div>
