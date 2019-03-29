@@ -1,33 +1,39 @@
 import React from "react";
+import { Container,Col,Row } from "react-bootstrap";
 
 function StudentTestUISideBar() {
 	return (
-		<nav className="col-md-2 d-none d-md-block bg-light sidebar" style={{height:window.innerHeight,borderRight:"1px solid black"}}>
-		    <div className="sidebar-sticky">
-		        <ul className="nav flex-column">
-		            <li className="nav-item">
-		                <a className="nav-link active" style={darkLink}>
-		                    Question 1
-		                </a>
-		            </li>
-		            <li className="nav-item">
-		                <a className="nav-link" style={darkLink}>
-		                    Question 2
-		                </a>
-		            </li>
-		            <li className="nav-item">
-		                <a className="nav-link" style={darkLink}>
-		                    Question 3
-		                </a>
-		            </li>
-		        </ul>
-		    </div>
-		</nav>		
+
+		<Col xl={2} style={sideBarStyle}>
+			<Container>
+				<Row style={questionStyle}>
+					<Col xl={12}>
+						<a> Question 1 </a>
+					</Col>
+				</Row>
+				<Row style={questionStyle}>
+					<Col xl={12}>
+						<a> Question 2 </a>
+					</Col>
+				</Row>
+				<Row style={questionStyle}>
+					<Col xl={12}>
+						<a> Question 3 </a>
+					</Col>
+				</Row>
+			</Container>
+		</Col>
 	);
 }
 
-const darkLink = {
-	color:"#000000"
-};
+const questionStyle = {
+	paddingTop:"5px",
+	paddingBottom:"5px"
+}
+
+const sideBarStyle = {
+	backgroundColor:"#C9C9C9",
+	height:document.documentElement.scrollHeight	
+}
 
 export default StudentTestUISideBar;
