@@ -1,4 +1,5 @@
 import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     DEBUG = True
@@ -11,6 +12,10 @@ class ProductionConfig(Config):
 
     OUTPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Output'
     
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'TitaniumSilver.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
@@ -20,6 +25,9 @@ class DevelopmentConfig(Config):
 
     OUTPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Output'
 
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'TitaniumSilver.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestingConfig(Config):
     TESTING = True
