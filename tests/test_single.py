@@ -4,6 +4,7 @@ from titanium_silver.docker_client import Docker_Client
 from threading import Thread, Event
 import time
 import os
+import pdb
 
 @pytest.mark.skipif(sys.platform == 'darwin', reason="does not run on osx yet")
 def test_basic():

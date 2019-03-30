@@ -3,6 +3,7 @@ import tarfile
 import os
 import time
 from titanium_silver.thread_custom import threaded
+import pdb
 
 class Docker_Client:
 	"""
@@ -39,6 +40,7 @@ class Docker_Client:
 			With @threaded decorater: Thread object which can be waited on to
 			get above mentioned output.
 		"""
+		# pdb.set_trace()
 		container_no = kwargs['num']
 		container_name = kwargs['name']
 		source_code_path = kwargs['path']
