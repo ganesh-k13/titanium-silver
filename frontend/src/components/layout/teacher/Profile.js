@@ -3,8 +3,6 @@ import { Container,Col,Row,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 // import axios from 'axios';
 
-import SetTest from "./SetTest";
-
 class Profile extends Component {
 
     componentDidMount(){

@@ -7,8 +7,12 @@ class Login extends Component{
     constructor(...args){
         super(...args);
         this.state = {
-            
+            "acctType":"Student"
         }
+    }
+
+    changeAcctType = (e) => {
+        this.setState({"acctType":e.target.id})
     }
 
     render(){
@@ -25,8 +29,7 @@ class Login extends Component{
                                 <Row>
                                     <Col xl={12} lg={12} md={12}>
                                         <div style={marginTop}>
-                                            <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required="" autofocus=""/>
-                                            <label for="inputEmail" className="sr-only">Email address</label>
+                                            <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required=""/>
                                         </div>
                                     </Col>
                                 </Row>
@@ -34,20 +37,19 @@ class Login extends Component{
                                     <Col xl={12} lg={12} md={12}>
                                         <div style={marginTop}>
                                             <input type="password" id="inputPassword" className="form-control" placeholder="Password" required=""/>
-                                            <label for="inputPassword" className="sr-only">Password</label>
                                         </div>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xl={12} lg={12} md={12}>
                                         <Dropdown>
-                                            <Dropdown.Toggle variant="secondary" id="dropdown-basic" style={fullWidth}>
-                                                Select account type
+                                            <Dropdown.Toggle variant="secondary" id="signupAcctDropdown" style={fullWidth}>
+                                                Account type {this.state.acctType}
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu style={fullWidth}>
-                                                <Dropdown.Item >Student</Dropdown.Item>
-                                                <Dropdown.Item >Teacher</Dropdown.Item>
+                                                <Dropdown.Item id="Student" onClick={this.changeAcctType}>Student</Dropdown.Item>
+                                                <Dropdown.Item id="Teacher" onClick={this.changeAcctType}>Teacher</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </Col>
@@ -91,9 +93,9 @@ const marginTop = {
     marginTop:"10px"
 };
 
-const marginBottom = {
-    marginBottom:"10px"
-};
+// const marginBottom = {
+//     marginBottom:"10px"
+// };
 
 // <div className="checkbox mb-3">
 //     <label>

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import VerticalModal from '../common/VerticalModal';
 import SetTestBody from "./SetTestBody";
-import SetTestFooter from "./SetTestFooter";
+// import SetTestFooter from "./SetTestFooter";
 import Question from "./Question";
 
 class SetTest extends Component {

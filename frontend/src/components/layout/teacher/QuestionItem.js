@@ -1,10 +1,6 @@
 import React,{ Component } from "react";
 
 class QuestionItem extends Component{
-	constructor(...args){
-		super(...args);
-	}
-
 
 	render(){
 		return (

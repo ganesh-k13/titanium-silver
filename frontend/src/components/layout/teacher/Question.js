@@ -4,10 +4,6 @@ import QuestionItem from "./QuestionItem";
 // import uuidv4 from "uuid/v4";
 
 class Question extends Component{
-	constructor(...args){
-		super(...args);
-	}
-
 
 	render(){
 		return this.props.questions.map((question)=>(
