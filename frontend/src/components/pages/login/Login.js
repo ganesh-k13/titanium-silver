@@ -31,12 +31,12 @@ function Login(props) {
                             </Row>
                             <Row>
                                 <Col xl={12} lg={12} md={12}>
-                                    <Dropdown style={marginTop}>
-                                        <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="secondary" id="dropdown-basic" style={fullWidth}>
                                             Select account type
                                         </Dropdown.Toggle>
 
-                                        <Dropdown.Menu>
+                                        <Dropdown.Menu style={fullWidth}>
                                             <Dropdown.Item >Student</Dropdown.Item>
                                             <Dropdown.Item >Teacher</Dropdown.Item>
                                         </Dropdown.Menu>
@@ -70,6 +70,11 @@ function Login(props) {
             </Row>
         </Container>
     );
+}
+
+const fullWidth={
+    width:"100%",
+    marginTop:"10px"
 }
 
 const marginTop = {
