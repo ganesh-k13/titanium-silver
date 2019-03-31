@@ -46,6 +46,7 @@ class Docker_Client:
 		source_code_path = kwargs['path']
 		self.cli.create_container(
 			image='gcc:4.9',
+			#  g++ test.cpp -o test && ./test < in | diff out -
 			command=['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + kwargs['params']],
 			# command=['sh','-c','ls -la'],
 			volumes=['/opt'],
