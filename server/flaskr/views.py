@@ -65,6 +65,11 @@ def getCode():
 
     return (outputJson, 201)
 
+@app.route("/api",methods=["POST"])
+def api():
+    print(request.get_json())
+    return jsonify({"res":"success"})
+
 # Serve React App
 # @app.route("/")
 # def home():

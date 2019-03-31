@@ -1,6 +1,6 @@
 import React,{ Component } from "react";
 import { Container,Col,Row,Dropdown } from "react-bootstrap";
-// import { Link } from "react-router-dom";
+import axios from "axios";
 
 class SignUp extends Component{
     
@@ -16,11 +16,22 @@ class SignUp extends Component{
             "password":""
         }
     }
+    
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     formSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);
         // Submit to backend and put into database.
+        axios.post('http://localhost:5000/api',this.state)
+        .then(function (resp) {
+            console.log("<GET> done:",resp);
+        })
+        .catch(function (resp) {
+            console.log("<GET> error:",resp);
+        })
     }
 
     handleChange = (e) => {
@@ -65,7 +76,7 @@ class SignUp extends Component{
                                     <Col xl={12} lg={12} md={12}>
                                         <Dropdown>
                                             <Dropdown.Toggle variant="secondary" id="signupAcctDropdown" style={fullWidth}>
-                                                Account type {this.state.acctType}
+                                                Account type: {this.state.acctType}
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu style={fullWidth}>
@@ -89,7 +100,7 @@ class SignUp extends Component{
                                 </Row>
                                 <Row style={marginTop}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <span>Designation/Semester</span>
+                                        <span>{this.capitalizeFirstLetter(this.state.detailType)}</span>
                                         <input type="text" name="detailValue" className="form-control" onChange={this.handleChange}/>
                                     </Col>
                                 </Row>
