@@ -23,9 +23,8 @@ class SignUp extends Component{
 
     formSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
         // Submit to backend and put into database.
-        axios.post('http://localhost:5000/api',this.state)
+        axios.post('http://localhost:5000/api/registration',this.state)
         .then(function (resp) {
             console.log("<GET> done:",resp);
         })

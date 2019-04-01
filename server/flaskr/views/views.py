@@ -1,5 +1,5 @@
 from server.flaskr import app
-from server.flaskr import apiServer
+from server.flaskr.API import apiServer
 import os
 from flask import request, abort, make_response, jsonify, render_template, send_from_directory
 import random
@@ -74,6 +74,7 @@ def api():
 # @app.route("/")
 # def home():
 #     return render_template("index.html")
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
