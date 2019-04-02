@@ -42,7 +42,13 @@ class Login extends Component{
                     "alertVariant":"success",
                     "alertMessage":"Login successful, you'll be redirected soon",
                 });
-                setTimeout(()=>{loginThis.props.history.push("/")},2000);
+
+                if(inpData.acctType === "Student"){
+                    setTimeout(()=>{loginThis.props.history.push("/student")},2000);
+                }
+                else{
+                    setTimeout(()=>{loginThis.props.history.push("/teacher")},2000);
+                }
             }
             else if(resp["data"].hasOwnProperty("error")){
                 loginThis.setState({

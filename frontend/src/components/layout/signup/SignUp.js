@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { Container,Col,Row,Dropdown } from "react-bootstrap";
+import { Container,Col,Row,Dropdown,Alert } from "react-bootstrap";
 import axios from "axios";
 
 class SignUp extends Component{
@@ -13,7 +13,9 @@ class SignUp extends Component{
             "detailType":"semester",
             "detailValue":"",
             "username":"",
-            "password":""
+            "password":"",
+            "alertVariant":"",
+            "alertMessage":""
         }
     }
     
@@ -24,12 +26,53 @@ class SignUp extends Component{
     formSubmit = (e) => {
         e.preventDefault();
         // Submit to backend and put into database.
-        axios.post('http://localhost:5000/api/registration',this.state)
+        let inpData = {
+            "acctType":this.state.acctType,
+            "ID":this.state.ID,
+            "name":this.state.name,
+            "detailType":this.state.detailType,
+            "detailValue":this.state.detailValue,
+            "username":this.state.username,
+            "password":this.state.password           
+        }
+
+        let registrationThis = this;
+
+        axios.post('http://localhost:5000/api/registration',inpData)
         .then(function (resp) {
-            console.log("<GET> done:",resp);
+            if(resp["data"].hasOwnProperty("success")){
+                localStorage.setItem("accessToken",resp["data"]["accessToken"]);
+                localStorage.setItem("refreshToken",resp["data"]["refreshToken"]);
+                registrationThis.setState({
+                    "alertVariant":"success",
+                    "alertMessage":"Registration successful, you'll be redirected soon",
+                });
+                if(inpData.acctType === "Student"){
+                    setTimeout(()=>{registrationThis.props.history.push("/student")},2000);
+                }
+                else{
+                    setTimeout(()=>{registrationThis.props.history.push("/teacher")},2000);
+                }
+            }
+            else if(resp["data"].hasOwnProperty("error")){
+                registrationThis.setState({
+                    "alertVariant":"danger",
+                    "alertMessage":resp["data"]["error"],
+                });
+            }
+            else{
+                registrationThis.setState({
+                    "alertVariant":"warning",
+                    "alertMessage":resp["data"]["message"] || "Server Error",
+                });
+            }
         })
         .catch(function (resp) {
-            console.log("<GET> error:",resp);
+            console.log(resp);
+            registrationThis.setState({
+                "alertVariant":"danger",
+                "alertMessage":"Username/Password Error",
+            });
         })
     }
 
@@ -67,10 +110,20 @@ class SignUp extends Component{
                         >
                             <Row>
                                 <Col xl={12} lg={12} md={12}>
+                                    <div style={marginTop}>
+                                        <Alert variant={this.state.alertVariant}>
+                                            {this.state.alertMessage}
+                                        </Alert>
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xl={12} lg={12} md={12}>
                                     <h2> Sign Up! </h2>
                                 </Col>
                             </Row>
                             <form onSubmit={this.formSubmit}>
+
                                 <Row style={marginTop}>
                                     <Col xl={12} lg={12} md={12}>
                                         <Dropdown>
