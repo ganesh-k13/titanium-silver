@@ -42,7 +42,7 @@ class Login extends Component{
                     "alertVariant":"success",
                     "alertMessage":"Login successful, you'll be redirected soon",
                 });
-                loginThis.props.history.push("/");
+                setTimeout(()=>{loginThis.props.history.push("/")},2000);
             }
             else if(resp["data"].hasOwnProperty("error")){
                 loginThis.setState({
@@ -59,6 +59,10 @@ class Login extends Component{
         })
         .catch(function (resp) {
             console.log(resp);
+            loginThis.setState({
+                "alertVariant":"danger",
+                "alertMessage":"Username/Password Error",
+            });
         })
     }
 
