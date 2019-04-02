@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { Container,Col,Row,Dropdown } from "react-bootstrap";
+import { Container,Col,Row,Dropdown,Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -10,7 +10,9 @@ class Login extends Component{
         this.state = {
             "acctType":"Student",
             "username":"",
-            "password":""
+            "password":"",
+            "alertVariant":"",
+            "alertMessage":"",
         }
     }
 
@@ -23,12 +25,40 @@ class Login extends Component{
     formSubmit = (e) => {
         e.preventDefault();
         // Submit to backend and put into database.
-        axios.post('http://localhost:5000/api/login',this.state)
+        let inpData = {
+            "acctType":this.state.acctType,
+            "username":this.state.username,
+            "password":this.state.password            
+        }
+
+        let loginThis = this;
+
+        axios.post('http://localhost:5000/api/login',inpData)
         .then(function (resp) {
-            console.log("<GET> done:",resp);
+            if(resp["data"].hasOwnProperty("success")){
+                localStorage.setItem("accessToken",resp["data"]["accessToken"]);
+                localStorage.setItem("refreshToken",resp["data"]["refreshToken"]);
+                loginThis.setState({
+                    "alertVariant":"success",
+                    "alertMessage":"Login successful, you'll be redirected soon",
+                });
+                loginThis.props.history.push("/");
+            }
+            else if(resp["data"].hasOwnProperty("error")){
+                loginThis.setState({
+                    "alertVariant":"danger",
+                    "alertMessage":resp["data"]["error"],
+                });
+            }
+            else{
+                loginThis.setState({
+                    "alertVariant":"warning",
+                    "alertMessage":resp["data"]["message"] || "Server Error",
+                });
+            }
         })
         .catch(function (resp) {
-            console.log("<GET> error:",resp);
+            console.log(resp);
         })
     }
 
@@ -42,6 +72,16 @@ class Login extends Component{
                             style={{marginTop:"10px"}}
                         >
                             <form className="form-signin" onSubmit={this.formSubmit}>
+                                <Row>
+                                    <Col xl={12} lg={12} md={12}>
+                                        <div style={marginTop}>
+                                            <Alert variant={this.state.alertVariant}>
+                                                {this.state.alertMessage}
+                                            </Alert>
+                                        </div>
+                                    </Col>
+                                </Row>
+
                                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                                 <Row>
                                     <Col xl={12} lg={12} md={12}>
@@ -82,17 +122,15 @@ class Login extends Component{
 
                             </form>
 
-                                <Row>
-                                    <Col xl={12} lg={12} md={12}>
-                                        <div style={marginTop}>
-                                            <Link to={"/signup"}>
-                                                <button className="btn btn-primary btn-block">Sign Up</button>
-                                            </Link>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            
-                                 
+                            <Row>
+                                <Col xl={12} lg={12} md={12}>
+                                    <div style={marginTop}>
+                                        <Link to={"/signup"}>
+                                            <button className="btn btn-primary btn-block">Sign Up</button>
+                                        </Link>
+                                    </div>
+                                </Col>
+                            </Row>
                         </Container>
                     </Col>
                 </Row>
