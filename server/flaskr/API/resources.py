@@ -1,6 +1,7 @@
 from flask_restful import Resource,reqparse
 from server.flaskr.models import modelHelpers
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
+from server.flaskr.API import apiServer
 
 parser = reqparse.RequestParser()
 parser.add_argument("acctType")
@@ -10,6 +11,9 @@ parser.add_argument("detailType")
 parser.add_argument("detailValue")
 parser.add_argument("username", help = "This field cannot be blank", required = True)
 parser.add_argument("password", help = "This field cannot be blank", required = True)
+
+parser.add_argument("code")
+parser.add_argument("progLang")
 
 class UserRegistration(Resource):
     def post(self):
@@ -117,10 +121,45 @@ class TokenRefresh(Resource):
       
 
 # This class will represent all hidden routes
-class SecretResource(Resource):
+class UploadCode(Resource):
     @jwt_required
-    def get(self):
+    def post(self):
         claims = get_jwt_claims()
-        return {
-            "username": claims["username"]
-        }, 200
+        username = claims["username"]
+
+        # Get Student details by username
+        # Then convert into a JSON
+
+        # Read incoming JSON
+        # JSON Structure as Key-Value pairs (proposed):
+        # +--------------+---------+
+        # | USN          | String  |
+        # | code         | String  |
+        # | progLang     | String  |
+        # | questionHash | String  |
+        # +--------------+---------+
+        #
+        inputJson = dict(request.form)
+        inputJson.update({key:value[0] for key, value in inputJson.items()})
+        inputJson['code'] = request.files['code'].stream.read().decode()
+        print(inputJson)
+
+        # Get output Dictionary
+        output = apiServer.uploadCode(inputJson)
+
+
+        # JSON Structure as Key-Value pairs (proposed):
+        # +--------+--------+
+        # | input  | JSON   |
+        # | output | String |
+        # +--------+--------+
+        #
+
+        outputJson = jsonify({
+                "input":inputJson,
+                "output":output
+        })
+
+        return outputJson, 201
+
+
