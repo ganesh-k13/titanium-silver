@@ -38,6 +38,18 @@ def uploadCode(inputJson):
     # and then read the OP file. Not syncing here will 
     # cause major discrepancies.
     # ------------------------------------------------------
+    
+	# [TODO]: Ganesh
+    # 1. Send lang to dcli
+    # 2. For each testcase, run in loop
+    # 3. Process output per testcase to give boolean pass or fail
+
+    # [TODO]: RAHUL
+    # Query to get TC input and output file name in two list variables(one question multiple TC).
+    # path must be relative to INPUT_FOLDER.
+    # For example, if INPUT_FOLDER is '/server/flaskr/codes/Input' and TC is like: 
+    # input: /server/flaskr/codes/Input/TC_IN/q1_1.in, q1_2.in and output: /server/flaskr/codes/Input/TC_OUT/q1_1.out, q1_2.out
+	# Variables must be: tc_in = [TC_IN/q1_1.in, TC_IN/q1_2.in] and tc_out = [/TC_OUT/q1_1.out, /TC_OUT/q1_2.out]
 
     random.seed(inputJson['USN'])
     dcli = Docker_Client()
