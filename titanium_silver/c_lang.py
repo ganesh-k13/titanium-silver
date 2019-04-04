@@ -11,7 +11,7 @@ class CContainer(LangContainer):
 		source_code_path = self.path
 		cli.create_container(
 				image='gcc:4.9',
-				command=['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + self.params],
+				command=['sh','-c',('gcc -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + self.params],
 				# command=['sh','-c','ls -la'],
 				volumes=['/opt'],
 				host_config=cli.create_host_config(

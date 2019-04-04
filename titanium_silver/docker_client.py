@@ -4,6 +4,7 @@ import os
 import time
 from titanium_silver.thread_custom import threaded
 from titanium_silver.c_lang import CContainer
+from titanium_silver.cpp_lang import CppContainer
 import pdb
 
 class Docker_Client:
