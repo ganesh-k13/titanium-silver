@@ -7,6 +7,7 @@ from titanium_silver.c_lang import CContainer
 from titanium_silver.cpp_lang import CppContainer
 from titanium_silver.python_lang import PythonContainer
 from titanium_silver.python2_lang import Python2Container
+from titanium_silver.java_lang import JavaContainer
 import pdb
 
 class Docker_Client:
