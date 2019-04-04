@@ -23,6 +23,7 @@ from server.flaskr import initScripts
 
 api.add_resource(resources.UserRegistration, "/api/registration")
 api.add_resource(resources.GetStudentDetails, "/api/getstudentdetails")
+api.add_resource(resources.GetTeacherDetails, "/api/getteacherdetails")
 api.add_resource(resources.UserLogin, "/api/login")
 api.add_resource(resources.UserLogoutAccess, "/api/logout/access")
 api.add_resource(resources.UserLogoutRefresh, "/api/logout/refresh")
