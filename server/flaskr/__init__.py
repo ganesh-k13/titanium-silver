@@ -19,8 +19,10 @@ from server.flaskr.views import views
 from server.flaskr.models import models
 from server.flaskr.API import resources
 from server.flaskr.models import modelHelpers
+from server.flaskr import initScripts
 
 api.add_resource(resources.UserRegistration, "/api/registration")
+api.add_resource(resources.GetStudentDetails, "/api/getstudentdetails")
 api.add_resource(resources.UserLogin, "/api/login")
 api.add_resource(resources.UserLogoutAccess, "/api/logout/access")
 api.add_resource(resources.UserLogoutRefresh, "/api/logout/refresh")

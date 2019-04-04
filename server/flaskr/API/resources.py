@@ -15,6 +15,7 @@ parser.add_argument("password", help = "This field cannot be blank", required = 
 parser.add_argument("code")
 parser.add_argument("progLang")
 
+
 class UserRegistration(Resource):
     def post(self):
         data = parser.parse_args()
@@ -118,7 +119,21 @@ class TokenRefresh(Resource):
         currentUser = get_jwt_identity()
         accessToken = create_access_token(identity = currentUser)
         return {"access_token": accessToken}
-      
+
+class GetStudentDetails(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        res = modelHelpers.getStudentByUsername(username)
+
+        return {
+            "ID":res.ID,
+            "name":res.name,
+            "semester":res.semester,
+            "noOfChallenges":res.noOfChallenges
+        }
+
 
 # This class will represent all hidden routes
 class UploadCode(Resource):
