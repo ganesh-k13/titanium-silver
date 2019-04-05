@@ -12,6 +12,7 @@ class SetTest extends Component {
 	constructor(...args) {
 		super(...args);
 
+
 		this.state = { 
 			modalShow: false ,
 			questions:[]
@@ -22,6 +23,14 @@ class SetTest extends Component {
 		
 	}
 	
+	deleteTest = (index,e) => {
+		const questions = Object.assign([],this.state.questions);
+		questions.splice(index,1);
+		this.setState({
+			questions:questions
+		})
+	} 
+
 	addTest = (question) => {
 		console.log("addTest");
 		console.log(question);
@@ -33,18 +42,34 @@ class SetTest extends Component {
 		let questions = this.state.questions;
 		let props = this.props;
 
-		axios.post('https://jsonplaceholder.typicode.com/posts', {
-			questions
+		let inpData = {
+			questions:questions
+		}
+
+		console.log(inpData);
+		axios({
+			method: 'post',
+			url: 'http://localhost:5000/api/setchallenge',
+			headers: {
+				"Authorization":"Bearer "+localStorage.getItem("accessToken")
+			},
+			data: inpData
+		}).then((resp)=>{
+			console.log(resp);
+		}).catch((resp)=>{
+			console.log(resp);
 		})
-		.then(response => {
-			console.log("done:",response);
-			props.history.push("/teacher");
-		});
+
+	}
+	
+	modalClose = () => {
+		this.setState({ 
+			modalShow: false 
+		})
 	}
     
     render() {
-    	console.log("SetTest prop:",this.props);
-		let modalClose = () => this.setState({ modalShow: false });
+    	console.log("SetTest:",this.state);
 
 		return (
 			<div>
@@ -59,7 +84,7 @@ class SetTest extends Component {
 						<Col xl={12} lg={12} md={12} >
 							Questions
 							<div id="questionBox" style={questionsBoxStyle}>
-								<Question questions={this.state.questions}/>
+								<Question questions={this.state.questions} deleteQuestion={this.deleteTest}/>
 							</div>
 						</Col>
 					</Row>
@@ -78,7 +103,7 @@ class SetTest extends Component {
 								<VerticalModal
 									show={this.state.modalShow}
 									modaltitle="Question"
-									modalbody={<SetTestBody addTest={this.addTest} onHide={modalClose}/>}
+									modalbody={<SetTestBody addTest={this.addTest} hideModal={this.modalClose}/>}
 								/>
 							</ButtonToolbar>
 						</Col>

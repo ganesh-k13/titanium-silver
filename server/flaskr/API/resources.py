@@ -1,3 +1,4 @@
+from flask import request
 from flask_restful import Resource,reqparse
 from server.flaskr.models import modelHelpers
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
@@ -9,12 +10,11 @@ parser.add_argument("ID")
 parser.add_argument("name")
 parser.add_argument("detailType")
 parser.add_argument("detailValue")
-parser.add_argument("username", help = "This field cannot be blank", required = True)
-parser.add_argument("password", help = "This field cannot be blank", required = True)
-
+parser.add_argument("username")
+parser.add_argument("password")
 parser.add_argument("code")
 parser.add_argument("progLang")
-
+parser.add_argument("questions")
 
 class UserRegistration(Resource):
     def post(self):
@@ -205,4 +205,10 @@ class UploadCode(Resource):
 class SetChallenge(Resource):
     @jwt_required
     def post(self):
-        pass
+        print("beofre parsing")
+        data = parser.parse_args()
+        print("---------------")
+        print("Here")
+        print("---------------")
+        print(request.get_json())
+        print(data["questions"])

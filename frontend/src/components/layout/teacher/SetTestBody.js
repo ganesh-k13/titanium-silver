@@ -1,16 +1,20 @@
 import React,{ Component } from "react";
 import { Container,Col,Row,Form,Button } from "react-bootstrap";
+import UniqueId from "react-html-id";
 
 // import uuidv4 from "uuid/v4";
 
 class SetTestBody extends Component{
 	constructor(...args){
 		super(...args);
+		UniqueId.enableUniqueIds(this);
 		this.state={
+			id:this.nextUniqueId(),
 			questionName:"",
 			cpu:"",
 			memory:"",
-			testCases:""
+			testCases:"",
+			expectedOutputs:""
 		}
 	}
 
@@ -74,7 +78,7 @@ class SetTestBody extends Component{
 							</Form.Text>
 						</Col>
 						<Col xl={6} lg={6} md={6}>
-							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
+							<Form.Control as="textarea" rows="3" id="expectedOutputs" onChange={this.formValChange}/>
 							<Form.Text className="text-muted">
 								End each expected output with the text in a new line"---testcase---".
 							</Form.Text>
@@ -88,7 +92,7 @@ class SetTestBody extends Component{
 					        <Button onClick={this.submitValues} variant="success" block>Save</Button>
 						</Col>
 						<Col md={{ span: 2 }}  lg={{ span: 2 }}  xl={{ span: 2 }}>
-                    		<Button variant="danger" onClick={this.props.onHide} block>Cancel</Button>
+                    		<Button variant="danger" onClick={this.props.hideModal} block>Cancel</Button>
 						</Col>
 					</Row>
 				</Container>
