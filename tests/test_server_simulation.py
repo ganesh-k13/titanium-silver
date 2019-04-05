@@ -16,7 +16,7 @@ def test_server_simulation():
 		for i in range(NO_OF_CONTAINERS):
 			container_num = ( ( NO_OF_CONTAINERS * turn ) + i )
 			print("Spawn container: %d"%container_num)
-			thread_list.append(dcli.spawn_process(name='usn-%d'%container_num, num=container_num, params='%d 5000'%container_num, path=os.getcwd()+'/tests/SC'))
+			thread_list.append(dcli.spawn_process(name='usn-%d'%container_num, num=container_num, params='%d 5000'%container_num, path=os.getcwd()+'/tests/SC', lang='CppContainer'))
 			# thread_list.append(dcli.spawn_process(name='prototype%d'%container_num, num=container_num, sleep=2000, path=os.getcwd()+'/tests/SC'))
 		time.sleep(5)
 

@@ -3,6 +3,11 @@ import tarfile
 import os
 import time
 from titanium_silver.thread_custom import threaded
+from titanium_silver.c_lang import CContainer
+from titanium_silver.cpp_lang import CppContainer
+from titanium_silver.python_lang import PythonContainer
+from titanium_silver.python2_lang import Python2Container
+from titanium_silver.java_lang import JavaContainer
 import pdb
 
 class Docker_Client:
@@ -31,6 +36,8 @@ class Docker_Client:
 			Sleep duration of client code.
 		params: string
 			params to be passed to client code in a space seperated string
+		lang: string
+			Name of language (class name)
 		Returns
 		----------
 		String:
@@ -41,32 +48,13 @@ class Docker_Client:
 			get above mentioned output.
 		"""
 		# pdb.set_trace()
-		container_no = kwargs['num']
-		container_name = kwargs['name']
-		source_code_path = kwargs['path']
-		self.cli.create_container(
-			image='gcc:4.9',
-			#  g++ test.cpp -o test && ./test < in | diff out -
-			command=['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + kwargs['params']],
-			# command=['sh','-c','ls -la'],
-			volumes=['/opt'],
-			host_config=self.cli.create_host_config(
-				binds={ source_code_path: {
-						'bind': '/opt',
-						'mode': 'rw',
-						}
-					}
-				),
-			name=container_name,
-			working_dir='/opt',
-			environment=["DOCKER_CLIENT_TIMEOUT=120", "COMPOSE_HTTP_TIMEOUT=120"]
-		)
 
-		self.cli.start(container_name)
-		self.cli.wait(container_name)
-		output = self.cli.logs(container_name)
-
-		self.cli.remove_container(container_name, force=True)
+		container = globals()[kwargs['lang']]()
+		setattr(container, 'num', kwargs['num'])
+		setattr(container, 'name', kwargs['name'])
+		setattr(container, 'path', kwargs['path'])
+		setattr(container, 'params', kwargs['params'])
+		output = container.run_container(cli=self.cli)
 		return output
 
 	def busy_wait(self, name):
