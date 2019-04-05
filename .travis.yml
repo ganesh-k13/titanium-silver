@@ -31,8 +31,8 @@ install:
 script: 
   - pytest tests/test_c.py
   - pytest tests/test_cpp.py
+  - pytest tests/test_python2.py
   - pytest tests/test_python.py
-  - pytest tests/test_python3.py
   - pytest tests/test_java.py
   - pytest tests/test_basic.py
   - pytest tests/test_basic_50.py
