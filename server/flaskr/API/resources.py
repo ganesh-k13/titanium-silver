@@ -58,9 +58,14 @@ class UserRegistration(Resource):
                         username = data["username"],
                         password = data["password"]
                     )
+                    accessToken = create_access_token(identity = data["username"])
+                    refreshToken = create_refresh_token(identity = data["username"])
                     return {
-                        "success": "Teacher {} was created".format(data["username"])
+                        "success": "Teacher {} was created".format(data["username"]),
+                        "accessToken": accessToken,
+                        "refreshToken": refreshToken
                     }
+                    
                 except:
                     return {"error": "Something went wrong"}, 500
 
@@ -197,3 +202,7 @@ class UploadCode(Resource):
         return outputJson, 201
 
 
+class SetChallenge(Resource):
+    @jwt_required
+    def post(self):
+        pass
