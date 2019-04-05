@@ -131,3 +131,13 @@ class SubmissionResult(db.Model):
                                             self.qID,
                                             self.tID,
                                             self.testPass)
+
+
+class RevokedTokens(db.Model):
+    ID = db.Column(db.Integer, primary_key = True)
+    JTI = db.Column(db.String(120))
+    
+    def __repr__(self):
+        return "<RevokedTokens {0},{1}>".format(
+                                    self.ID,
+                                    self.JTI)

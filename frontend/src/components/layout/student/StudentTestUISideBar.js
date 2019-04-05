@@ -1,5 +1,5 @@
 import React from "react";
-import { Container,Col,Row } from "react-bootstrap";
+import { Container,Col,Row,Button } from "react-bootstrap";
 
 function StudentTestUISideBar() {
 	return (
@@ -8,17 +8,17 @@ function StudentTestUISideBar() {
 			<Container>
 				<Row style={questionStyle}>
 					<Col xl={12}>
-						<a> Question 1 </a>
+						<Button> Question 1 </Button>
 					</Col>
 				</Row>
 				<Row style={questionStyle}>
 					<Col xl={12}>
-						<a> Question 2 </a>
+						<Button> Question 2 </Button>
 					</Col>
 				</Row>
 				<Row style={questionStyle}>
 					<Col xl={12}>
-						<a> Question 3 </a>
+						<Button> Question 3 </Button>
 					</Col>
 				</Row>
 			</Container>

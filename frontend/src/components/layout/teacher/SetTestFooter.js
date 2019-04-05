@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 
 class SetTestFooter extends Component{
-	constructor(...args){
-		super(...args);
-	}
 
 	render(){
 		return(

@@ -5,7 +5,6 @@ import StudentTestUISideBar from "./StudentTestUISideBar";
 
 function StudentTestUI() {
 	return (
-
 		<React.Fragment>
 			<Container fluid={true}>
 				<Row>
