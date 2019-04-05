@@ -41,6 +41,23 @@ Install Titanium-Silver:
 $ sudo pip3 install -e . # PWD must be main folder with setup.py
 ```
 
+### Production:
+Steps:
+1. Do these:
+
+```sh
+$ cd frontend/ && npm run build
+$ cd server/flaskr/ 
+$ ln -s ../../frontend/build/static static
+$ ln -s ../../frontend/build/ templates
+``` 
+
+2. Open the file `index.html` in `frontend/build`. For each `<script>` tag, add this: `type="text/babel"`
+3. Remove the `<link>` for `manifest.json`
+4. For `favicon.ico` to load do this: 
+    1. Move `favicon.ico` to `build/static`.
+    2. Change `href` of `<link>` to : ```{{url_for("static",filename="./favicon.ico")}}```
+
 ### Tests
 
 ```sh
