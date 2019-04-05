@@ -59,15 +59,24 @@ class SetTestBody extends Component{
 				</Container>			
 				<Container>
 					<Row>
-						<Col xl={12} lg={12} md={12}>
+						<Col xl={6} lg={6} md={6}>
 							<Form.Label>Test Cases:</Form.Label>
+						</Col>
+						<Col xl={6} lg={6} md={6}>
+							<Form.Label>Expected Outputs:</Form.Label>
 						</Col>
 					</Row>			
 					<Row>
-						<Col xl={12} lg={12} md={12}>
+						<Col xl={6} lg={6} md={6}>
 							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
 							<Form.Text className="text-muted">
 								End each test case with the text in a new line"---testcase---".
+							</Form.Text>
+						</Col>
+						<Col xl={6} lg={6} md={6}>
+							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
+							<Form.Text className="text-muted">
+								End each expected output with the text in a new line"---testcase---".
 							</Form.Text>
 						</Col>
 					</Row>

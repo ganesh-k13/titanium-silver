@@ -77,7 +77,10 @@ class UserLogin(Resource):
         if not currentUser:
             return {"error": "User {} doesn't exist".format(data["username"])}
         
-        currentUser = modelHelpers.getStudentByUsername(data["username"])
+        if(data["acctType"]=="Student"):
+            currentUser = modelHelpers.getStudentByUsername(data["username"])
+        else:
+            currentUser = modelHelpers.getTeacherByUsername(data["username"])
 
         if data["password"] == currentUser.password:
             accessToken = create_access_token(identity = data["username"])
@@ -130,7 +133,23 @@ class GetStudentDetails(Resource):
         return {
             "ID":res.ID,
             "name":res.name,
+            "username":res.username,
             "semester":res.semester,
+            "noOfChallenges":res.noOfChallenges
+        }
+
+class GetTeacherDetails(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        res = modelHelpers.getTeacherByUsername(username)
+
+        return {
+            "ID":res.ID,
+            "name":res.name,
+            "username":res.username,
+            "designation":res.designation,
             "noOfChallenges":res.noOfChallenges
         }
 
