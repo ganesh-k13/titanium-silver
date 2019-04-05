@@ -16,4 +16,4 @@ def test_basic():
 		thread_list.append(dcli.spawn_process(name='myapp', num=i, params='%d 5000'%i, path=os.getcwd()+'/tests/SC', lang='PythonContainer'))
 	
 	for i, t in enumerate(thread_list):
-		assert('Hello container: %d\n'%i == t.result_queue.get().decode('utf-8'))
+		assert('Hello container: %d'%i == t.result_queue.get().decode('utf-8'))

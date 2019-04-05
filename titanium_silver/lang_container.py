@@ -8,7 +8,7 @@ class LangContainer(ABC):
     def run_container(self, cli):
         #pdb.set_trace()
         cli.create_container(
-                        image='gcc:4.9',
+                        image=self.image,
                         command=self.command,
                         # command=['sh','-c','ls -la'],
                         volumes=['/opt'],
@@ -32,5 +32,5 @@ class LangContainer(ABC):
         return output
 
     @abstractmethod
-    def create_command(self):
+    def configure(self):
         pass
