@@ -8,6 +8,7 @@ class Question extends Component{
 		return this.props.questions.map((question)=>(
 			<QuestionItem
 				key={question.id}
+				qID={question.id}
 				questionName={question.questionName}
 				cpu={question.cpu}
 				memory={question.memory}

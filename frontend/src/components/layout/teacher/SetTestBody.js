@@ -1,15 +1,12 @@
 import React,{ Component } from "react";
 import { Container,Col,Row,Form,Button } from "react-bootstrap";
-import UniqueId from "react-html-id";
-
-// import uuidv4 from "uuid/v4";
+import uuidv4 from "uuid/v4";
 
 class SetTestBody extends Component{
 	constructor(...args){
 		super(...args);
-		UniqueId.enableUniqueIds(this);
 		this.state={
-			id:this.nextUniqueId(),
+			id:"",
 			questionName:"",
 			cpu:"",
 			memory:"",
@@ -19,6 +16,7 @@ class SetTestBody extends Component{
 	}
 
 	formValChange = (e) =>{
+		this.setState({id:uuidv4()});
 		this.setState({[e.target.id]:e.target.value});
 	}
 

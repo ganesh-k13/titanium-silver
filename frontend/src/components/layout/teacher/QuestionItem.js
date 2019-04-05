@@ -19,7 +19,7 @@ class QuestionItem extends Component{
 						<span style={questionDetsStyle}>{this.props.testCases}</span>
 					</Col>
 					<Col>
-						<Button variant="danger" onClick={this.props.deleteQuestion}>X</Button>
+						<Button variant="danger" id={this.props.qID} onClick={this.props.deleteQuestion}>X</Button>
 					</Col>
 				</Row>
 			</Container>

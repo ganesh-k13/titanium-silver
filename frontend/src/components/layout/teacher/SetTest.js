@@ -23,13 +23,19 @@ class SetTest extends Component {
 		
 	}
 	
-	deleteTest = (index,e) => {
+	deleteTest = (e) => {
 		const questions = Object.assign([],this.state.questions);
-		questions.splice(index,1);
+		for(var i=0;i<questions.length;i++){
+			if(questions[i]["id"] == e.target.id){
+				break;
+			}
+		}
+		questions.splice(i,1);
+		
 		this.setState({
 			questions:questions
 		})
-	} 
+	}
 
 	addTest = (question) => {
 		console.log("addTest");
