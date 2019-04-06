@@ -5,7 +5,8 @@ import {
 	Row,
 	ButtonToolbar,
 	Button,
-	Form
+	Form,
+	Alert
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from 'axios';
@@ -24,7 +25,9 @@ class SetTest extends Component {
 			modalShow: false ,
 			questions:[],
 			timeLimitHrs:"0",
-			timeLimitMins:"30"
+			timeLimitMins:"30",
+            "alertVariant":"",
+            "alertMessage":""
 		};
 	}
 
@@ -85,6 +88,9 @@ class SetTest extends Component {
 
 		}
 		console.log(inpData);
+
+		let setTestThis = this;
+
 		axios({
 			method: 'post',
 			url: 'http://localhost:5000/api/setchallenge',
@@ -94,10 +100,21 @@ class SetTest extends Component {
 
 			data: inpData
 		}).then((resp)=>{
+			
 			console.log(resp);
-			this.props.history.push("/teacher");
+			setTestThis.setState({
+                "alertVariant":"success",
+                "alertMessage":"Submission successful, you'll be redirected back soon",
+            },()=>{
+				setTimeout(()=>{setTestThis.props.history.push("/teacher")},2000);
+            })
+
 		}).catch((resp)=>{
 			console.log(resp);
+			setTestThis.setState({
+                "alertVariant":"danger",
+                "alertMessage":"Server error:"+resp
+            });
 		})
 	}
 	
@@ -117,6 +134,14 @@ class SetTest extends Component {
 		return (
 			<div>
 				<Container>
+					<Row>
+						<Col xl={12} lg={12} md={12}>
+                            <Alert variant={this.state.alertVariant}>
+                                {this.state.alertMessage}
+                            </Alert>
+						</Col>
+					</Row>
+
 					<Row>
 						<Col xl={12} lg={12} md={12} style={titleStyle}>
 							Set a Test

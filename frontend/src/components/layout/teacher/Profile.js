@@ -9,6 +9,10 @@ import {
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import ActiveChallenge from "./ActiveChallenge";
+import InactiveChallenge from "./InactiveChallenge";
+import FinishedChallenge from "./FinishedChallenge";
+
 class Profile extends Component {
 
     constructor(...args){
@@ -19,7 +23,10 @@ class Profile extends Component {
             username:"",
             designation:"",
             noOfChallenges:"",
-            showAlert:false
+            showAlert:false,
+            activeChallenges:[],
+            inactiveChallenges:[],
+            finishedChallenges:[],
         }
     }
 
@@ -56,9 +63,56 @@ class Profile extends Component {
                 showAlert:true
             });            
         })
+
+        axios.get(
+            "http://localhost:5000/api/getteacherchallenges",
+            {
+                headers: {
+                    "Authorization" : "Bearer "+localStorage.getItem("accessToken")
+                }
+            }
+        )
+        .then(function(resp) {
+            if(resp.data == "not valid"){
+                profileThis.setState({
+                    showAlert:true
+                });
+            }
+            else{
+                var challenges = resp.data.challenges;
+                var activeChallenges=[];
+                var inactiveChallenges=[];
+                var finishedChallenges=[];
+
+                for (var i = challenges.length - 1; i >= 0; i--) {
+                    if(challenges[i].status === "INACTIVE"){
+                        inactiveChallenges.push(challenges[i]);
+                    }
+                    else if(challenges[i].status === "ACTIVE"){
+                        activeChallenges.push(challenges[i]);
+                    }
+                    else{
+                        finishedChallenges.push(challenges[i]);
+                    }
+                }
+
+                profileThis.setState({
+                    activeChallenges:activeChallenges,
+                    inactiveChallenges:inactiveChallenges,
+                    finishedChallenges:finishedChallenges
+                })
+
+            }    
+        })
+        .catch(function(resp) {
+            profileThis.setState({
+                showAlert:true
+            });            
+        })
     }
 
     render() {
+        console.log("state:",this.state)
         return (
             <div>
                 <Container>
@@ -122,12 +176,12 @@ class Profile extends Component {
                             <Container style={paddLeftZero}>
                                 <Row>
                                     <Col xl={12} lg={12} md={12} style={paddLeftZero}>
-                                        <div>Live Challenges</div>
+                                        <div>Active Challenges</div>
                                     </Col>
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <ActiveChallenge challengeList={this.state.activeChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>
@@ -145,7 +199,7 @@ class Profile extends Component {
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <InactiveChallenge challengeList={this.state.inactiveChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>
@@ -163,7 +217,7 @@ class Profile extends Component {
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <FinishedChallenge challengeList={this.state.finishedChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>

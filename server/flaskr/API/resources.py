@@ -164,6 +164,27 @@ class GetTeacherDetails(Resource):
             "noOfChallenges":res.noOfChallenges
         }
 
+class GetTeacherChallenges(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        res = modelHelpers.getTeacherChallengesByUsername(username)
+
+        resList = [{
+            "ID":ele.ID,
+            "teacherID":ele.teacherID,
+            "status":ele.status,
+            "timeLimitHrs":ele.timeLimitHrs,
+            "timeLimitMins":ele.timeLimitMins
+        } for ele in res]
+
+        return {
+            "challenges":resList
+        }
+
+
+
 
 # This class will represent all hidden routes
 class UploadCode(Resource):
@@ -282,3 +303,15 @@ class SetChallenge(Resource):
                 cID=challengeID,
                 qID=questionID
             )
+
+
+class StartChallenge(Resource):
+    def get(self):
+        return {},200
+
+
+
+## With refresh token, use this to get
+    # @jwt_refresh_token_required
+        # current_user = get_jwt_identity()
+        # print(current_user)

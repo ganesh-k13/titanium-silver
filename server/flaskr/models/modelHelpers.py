@@ -110,3 +110,17 @@ def isJTIBlackListed(JTI):
 
 def getRevokedTokenByJTI(JTI):
     return db.session.query(models.RevokedTokens).filter_by(JTI=JTI).first()
+
+def getChallengeByChallengeID(ID):
+    return db.session.query(models.Challenge).filter_by(ID=ID).first()
+
+def getChallengeByTeacherID(ID):
+    return db.session.query(models.Challenge).filter_by(teacherID=ID).first()
+
+def getAllChallengesByTeacherID(ID):
+    return db.session.query(models.Challenge).filter_by(teacherID=ID).all()
+
+def getTeacherChallengesByUsername(username):
+    teacherID = getTeacherByUsername(username).ID
+    challengeList = getAllChallengesByTeacherID(teacherID)
+    return challengeList
