@@ -16,13 +16,13 @@ class SetTestBody extends Component{
 	}
 
 	formValChange = (e) =>{
-		this.setState({id:uuidv4()});
 		this.setState({[e.target.id]:e.target.value});
 	}
 
 	submitValues = () => {
-		console.log(this.state);
-		this.props.addTest(this.state);
+		this.setState({id:uuidv4()},()=>{
+			this.props.addTest(this.state);
+		});
 	}
 
 	render(){

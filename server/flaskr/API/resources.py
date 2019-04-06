@@ -1,7 +1,11 @@
+import uuid
+
 from flask import request
 from flask_restful import Resource,reqparse
-from server.flaskr.models import modelHelpers
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
+
+from server.flaskr import app
+from server.flaskr.models import modelHelpers
 from server.flaskr.API import apiServer
 
 parser = reqparse.RequestParser()
@@ -205,10 +209,14 @@ class UploadCode(Resource):
 class SetChallenge(Resource):
     @jwt_required
     def post(self):
-        print("beofre parsing")
-        data = parser.parse_args()
-        print("---------------")
-        print("Here")
-        print("---------------")
-        print(request.get_json())
-        print(data["questions"])
+        questions = request.get_json()["questions"]
+        timeLimitHrs = request.get_json()["timeLimitHrs"]
+        timeLimitMins = request.get_json()["timeLimitMins"]
+        TEST_CASES_FOLDER = app.config["TEST_CASES_FOLDER"]
+        EXPECTED_OUTPUTS_FOLDER = app.config["EXPECTED_OUTPUTS_FOLDER"]
+        print(questions)
+        print(timeLimitHrs)
+        print(timeLimitMins)
+        # Insert 
+
+        # for question in questions

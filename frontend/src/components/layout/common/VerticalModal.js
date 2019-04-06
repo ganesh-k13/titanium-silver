@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import { Modal } from "react-bootstrap";
 
 class VerticalModal extends Component {
-    componentDidMount(){
-        console.log("VerticAl mounted");
-    }
-
     render() {
-        console.log("Modal props:",this.props);
         return (
             <Modal
                 {...this.props}

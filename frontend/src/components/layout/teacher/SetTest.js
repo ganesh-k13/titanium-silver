@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Container,Col,Row,ButtonToolbar,Button } from "react-bootstrap";
+import { 
+	Container,
+	Col,
+	Row,
+	ButtonToolbar,
+	Button,
+	Form
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
 import VerticalModal from '../common/VerticalModal';
 import SetTestBody from "./SetTestBody";
-// import SetTestFooter from "./SetTestFooter";
+import {Minutes,Hours} from "./Time";
 import Question from "./Question";
 
 class SetTest extends Component {
@@ -15,14 +22,29 @@ class SetTest extends Component {
 
 		this.state = { 
 			modalShow: false ,
-			questions:[]
+			questions:[],
+			timeLimitHrs:"0",
+			timeLimitMins:"30"
 		};
 	}
 
 	componentDidMount(){
 		
 	}
-	
+		
+	transformQuestions = (questions) => {
+		var testCaseString;
+		var expectedOutputString;
+		let newLineRegex = /\r?\n|\r/g;
+
+		for (var i = questions.length - 1; i >= 0; i--) {
+			questions[i]["testCases"] = questions[i]["testCases"].replace(newLineRegex,"").split("---testcase---");
+			questions[i]["expectedOutputs"] = questions[i]["expectedOutputs"].replace(newLineRegex,"").split("---testcase---");			
+		}
+		return questions;
+	}
+
+
 	deleteTest = (e) => {
 		const questions = Object.assign([],this.state.questions);
 		for(var i=0;i<questions.length;i++){
@@ -38,8 +60,7 @@ class SetTest extends Component {
 	}
 
 	addTest = (question) => {
-		console.log("addTest");
-		console.log(question);
+
 		this.setState({ questions: [...this.state.questions, question] })
 	}
 
@@ -49,9 +70,11 @@ class SetTest extends Component {
 		let props = this.props;
 
 		let inpData = {
-			questions:questions
-		}
+			questions:this.transformQuestions(questions),
+			timeLimitHrs:this.state.timeLimitHrs,
+			timeLimitMins:this.state.timeLimitMins
 
+		}
 		console.log(inpData);
 		axios({
 			method: 'post',
@@ -59,15 +82,23 @@ class SetTest extends Component {
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
+
 			data: inpData
 		}).then((resp)=>{
 			console.log(resp);
+			this.props.history.push("/teacher");
 		}).catch((resp)=>{
 			console.log(resp);
 		})
 
 	}
 	
+	updateChallengeTimeDuration = (e) => {
+		this.setState({
+			[e.target.name]:e.target.value
+		})
+	}
+
 	modalClose = () => {
 		this.setState({ 
 			modalShow: false 
@@ -75,14 +106,21 @@ class SetTest extends Component {
 	}
     
     render() {
-    	console.log("SetTest:",this.state);
-
 		return (
 			<div>
 				<Container>
 					<Row>
 						<Col xl={12} lg={12} md={12} style={titleStyle}>
 							Set a Test
+						</Col>
+					</Row>
+
+					<Row>
+						<Col xl={6} lg={6} md={6}>
+							<Hours updateTime={this.updateChallengeTimeDuration} timeLimitHrs={this.state.timeLimitHrs}/>
+						</Col>
+						<Col xl={6} lg={6} md={6}>
+							<Minutes updateTime={this.updateChallengeTimeDuration} timeLimitMins={this.state.timeLimitMins}/>
 						</Col>
 					</Row>
 
