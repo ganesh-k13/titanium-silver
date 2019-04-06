@@ -1,4 +1,6 @@
-import uuid
+import os
+
+from uuid import uuid4
 
 from flask import request
 from flask_restful import Resource,reqparse
@@ -209,14 +211,74 @@ class UploadCode(Resource):
 class SetChallenge(Resource):
     @jwt_required
     def post(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+
+        teacherID = modelHelpers.getTeacherByUsername(username).ID
+
         questions = request.get_json()["questions"]
         timeLimitHrs = request.get_json()["timeLimitHrs"]
         timeLimitMins = request.get_json()["timeLimitMins"]
+
         TEST_CASES_FOLDER = app.config["TEST_CASES_FOLDER"]
         EXPECTED_OUTPUTS_FOLDER = app.config["EXPECTED_OUTPUTS_FOLDER"]
-        print(questions)
-        print(timeLimitHrs)
-        print(timeLimitMins)
-        # Insert 
 
-        # for question in questions
+        # Create a UUID $uuid1
+        # Create a models.Challenge entry with UUID $uuid1, teacherID, status="INACTIVE", timeLimitHrs, timeLimitMins
+
+        challengeID = uuid4().time #18 character long unique ID
+        modelHelpers.insertIntoChallenge(
+            ID=challengeID,
+            teacherID=teacherID,
+            status="INACTIVE",
+            timeLimitHrs=timeLimitHrs,
+            timeLimitMins=timeLimitMins
+        )
+
+        # For each question in questions:
+        #   Create a UUID $uuid2
+        #   Create a models.Question entry with UUID $uuid2, name=question.questionName, CPU=question.cpu, memory=question.memory 
+        #   For each testCase,expectedOutput in question.testCase,question.expectedOutput:
+        #       Create a UUID #uuid3
+        #       Make a file each for testCase and expectedOutput
+        #       Create a models.TestCase entry with: $uuid3, testCase filePath, expectedOutput filePath
+        #       Create a models.QuestionAndTestCase entry with $uuid2,$uuid3
+        #   
+        #   Create a models.ChallengeAndQuestion entry with $uuid1,$uuid2
+
+
+        for question in questions:
+            questionID = uuid4().time
+            modelHelpers.insertIntoQuestion(
+                ID=questionID,
+                name=question["questionName"],
+                CPU=question["cpu"],
+                memory=question["memory"]
+            )
+
+            for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
+                testCaseID = uuid4().time
+                testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
+                expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
+
+                with open(testCasePath,"w") as fp:
+                    fp.write(testCase)
+
+                with open(expectedOutputPath,"w") as fp:
+                    fp.write(expectedOutput)
+
+                modelHelpers.insertIntoTestCase(
+                    ID=testCaseID,
+                    testCasePath=testCasePath,
+                    expectedOutputPath=expectedOutputPath
+                )
+
+                modelHelpers.insertIntoQuestionAndTestCase(
+                    qID=questionID,
+                    tID=testCaseID
+                )
+
+            modelHelpers.insertIntoChallengeAndQuestion(
+                cID=challengeID,
+                qID=questionID
+            )

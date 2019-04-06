@@ -33,6 +33,60 @@ def insertIntoRevokedTokens(JTI):
     db.session.add(newToken)
     db.session.commit()
 
+
+def insertIntoChallenge(ID,teacherID,status,timeLimitHrs,timeLimitMins):
+    newChallenge = models.Challenge(
+        ID=ID,
+        teacherID=teacherID,
+        status=status,
+        timeLimitHrs=timeLimitHrs,
+        timeLimitMins=timeLimitMins
+    )
+
+    db.session.add(newChallenge)
+    db.session.commit()
+
+def insertIntoQuestion(ID,name,CPU,memory):
+    newQuestion = models.Question(
+        ID=ID,
+        name=name,
+        CPU=CPU,
+        memory=memory
+    )
+
+    db.session.add(newQuestion)
+    db.session.commit()
+
+
+def insertIntoTestCase(ID,testCasePath,expectedOutputPath):
+    newTestCase = models.TestCase(
+        ID=ID,
+        testCasePath=testCasePath,
+        expectedOutputPath=expectedOutputPath
+    )
+
+    db.session.add(newTestCase)
+    db.session.commit()
+
+
+def insertIntoChallengeAndQuestion(cID,qID):
+    newItem = models.ChallengeAndQuestion(
+        cID=cID,
+        qID=qID
+    )
+
+    db.session.add(newItem)
+    db.session.commit()
+
+def insertIntoQuestionAndTestCase(qID,tID):
+    newItem = models.QuestionAndTestCase(
+        qID=qID,
+        tID=tID
+    )
+
+    db.session.add(newItem)
+    db.session.commit()
+
 def isExistingStudentByID(ID):
     return not db.session.query(models.Student).filter_by(ID=ID).first()==None
 

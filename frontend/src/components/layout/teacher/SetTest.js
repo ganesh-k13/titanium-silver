@@ -31,15 +31,24 @@ class SetTest extends Component {
 	componentDidMount(){
 		
 	}
-		
+	
+	removeEmptyStringsFromList = (stringList) => {
+		for (var i = stringList.length - 1; i >= 0; i--) {
+			if(stringList[i]==""){
+				stringList.splice(i,1);
+			}
+		}
+		return stringList;
+	}
+
 	transformQuestions = (questions) => {
 		var testCaseString;
 		var expectedOutputString;
 		let newLineRegex = /\r?\n|\r/g;
 
 		for (var i = questions.length - 1; i >= 0; i--) {
-			questions[i]["testCases"] = questions[i]["testCases"].replace(newLineRegex,"").split("---testcase---");
-			questions[i]["expectedOutputs"] = questions[i]["expectedOutputs"].replace(newLineRegex,"").split("---testcase---");			
+			questions[i]["testCases"] = this.removeEmptyStringsFromList(questions[i]["testCases"].replace(newLineRegex,"").split("---testcase---"));
+			questions[i]["expectedOutputs"] = this.removeEmptyStringsFromList(questions[i]["expectedOutputs"].replace(newLineRegex,"").split("---testcase---"));	
 		}
 		return questions;
 	}
@@ -90,7 +99,6 @@ class SetTest extends Component {
 		}).catch((resp)=>{
 			console.log(resp);
 		})
-
 	}
 	
 	updateChallengeTimeDuration = (e) => {
