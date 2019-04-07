@@ -5,9 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object(config.DevelopmentConfig)
+mail = Mail(app)
 CORS(app)
 
 jwt = JWTManager(app)
@@ -32,5 +34,6 @@ api.add_resource(resources.TokenRefresh, "/api/token/refresh")
 api.add_resource(resources.UploadCode, "/api/submitcode")
 api.add_resource(resources.SetChallenge, "/api/setchallenge")
 api.add_resource(resources.StartChallenge, "/api/startchallenge")
+api.add_resource(resources.StopChallenge, "/api/stopchallenge")
 api.add_resource(resources.GetChallengeDetails, "/api/getchallengedetails")
 

@@ -38,7 +38,7 @@ class SignUp extends Component{
 
         let registrationThis = this;
 
-        axios.post('http://localhost:5000/api/registration',inpData)
+        axios.post('http://localhost:8000/api/registration',inpData)
         .then(function (resp) {
             if(resp["data"].hasOwnProperty("success")){
                 localStorage.setItem("accessToken",resp["data"]["accessToken"]);

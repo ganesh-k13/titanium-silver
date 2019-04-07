@@ -9,6 +9,8 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 from server.flaskr import app
 from server.flaskr.models import modelHelpers
 from server.flaskr.API import apiServer
+from server.flaskr.utils import sendMail
+from server.flaskr.utils import dbTimers
 
 parser = reqparse.RequestParser()
 parser.add_argument("acctType")
@@ -21,7 +23,6 @@ parser.add_argument("password")
 parser.add_argument("code")
 parser.add_argument("progLang")
 parser.add_argument("questions")
-parser.add_argument("cID")
 
 class UserRegistration(Resource):
     def post(self):
@@ -309,7 +310,32 @@ class SetChallenge(Resource):
 class StartChallenge(Resource):
     @jwt_required
     def post(self):
-        pass
+        data = request.get_json()
+        modelHelpers.setChallengeStatusByID(data["cID"],"ACTIVE")
+        challenge = modelHelpers.getChallengeByChallengeID(data["cID"])
+        seconds = ((challenge.timeLimitHrs)*3600)+((challenge.timeLimitMins)*60)
+
+        dbTimers.endChallengeAfter(
+                            seconds=seconds, # convert HH:MM to SS
+                            cID=challenge.ID
+                        ) 
+        try:
+            sendMail.sendMail(data["recipients"],str(data["cID"]))
+        except:
+            return {"error":"Error sending mails"}
+        else:
+            return {"success":"Mails sent, you can now close the box"}
+
+class StopChallenge(Resource):
+    @jwt_required
+    def post(self):
+        data = request.get_json()
+        try:
+            modelHelpers.setChallengeStatusByID(data["cID"],"FINISHED")
+        except:
+            return {"error"},500
+        else:
+            return {"Success":"Stopped Successfully"},200
 
 class GetChallengeDetails(Resource):
     @jwt_required

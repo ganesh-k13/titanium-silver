@@ -33,7 +33,7 @@ class Profile extends Component {
     componentDidMount(){
         let profileThis = this;
         axios.get(
-            "http://localhost:5000/api/getteacherdetails",
+            "http://localhost:8000/api/getteacherdetails",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")
@@ -65,7 +65,7 @@ class Profile extends Component {
         })
 
         axios.get(
-            "http://localhost:5000/api/getteacherchallenges",
+            "http://localhost:8000/api/getteacherchallenges",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")

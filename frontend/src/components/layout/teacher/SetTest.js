@@ -93,7 +93,7 @@ class SetTest extends Component {
 
 		axios({
 			method: 'post',
-			url: 'http://localhost:5000/api/setchallenge',
+			url: 'http://localhost:8000/api/setchallenge',
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},

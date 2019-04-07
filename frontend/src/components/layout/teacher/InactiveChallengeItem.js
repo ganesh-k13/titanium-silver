@@ -40,7 +40,7 @@ class InactiveChallengeItem extends Component {
 
         axios({
 			method: 'post',
-			url: 'http://localhost:5000/api/getchallengedetails',
+			url: 'http://localhost:8000/api/getchallengedetails',
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
@@ -66,7 +66,7 @@ class InactiveChallengeItem extends Component {
 	deleteChallenge = (e) => {
 		let challengeThis = this;
 	    axios.get(
-            "http://localhost:5000/api/",
+            "http://localhost:8000/api/",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")
@@ -139,13 +139,13 @@ class InactiveChallengeItem extends Component {
 						show={this.state.startmodalshow}
 						onHide={this.handleClose}
 						data={this.state.data}
-						cID={this.props.ID}
+						cid={this.props.ID}
 					/>
 					<DeleteChallengeModal
 						show={this.state.deletemodalshow}
 						onHide={this.handleClose}
 						data={this.state.data}
-						cID={this.props.ID}
+						cid={this.props.ID}
 					/>
 				</Row>
 			</Container>

@@ -29,6 +29,12 @@ class DevelopmentConfig(Config):
     TEST_CASES_FOLDER = os.getcwd()+"/server/flaskr/codes/TestCases"
     EXPECTED_OUTPUTS_FOLDER = os.getcwd()+"/server/flaskr/codes/ExpectedOutputs"
 
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or "titaniumsilverbot@gmail.com"
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or "elioigqqqdmsjefp"
 
 class TestingConfig(Config):
     TESTING = True

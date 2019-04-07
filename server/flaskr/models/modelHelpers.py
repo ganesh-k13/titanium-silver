@@ -175,3 +175,8 @@ def getChallengeDetailsByID(ID):
         })
 
     return res
+
+def setChallengeStatusByID(ID,status):
+    challenge = getChallengeByChallengeID(ID)
+    challenge.status=status
+    db.session.commit()

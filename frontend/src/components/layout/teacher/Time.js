@@ -6,7 +6,7 @@ import {
 function Minutes(props){
 	return(
 		<Form.Group>
-		    <Form.Label>Time Duration in Hours</Form.Label>
+		    <Form.Label>Time Duration in Minutes</Form.Label>
 				<select className="form-control" as="select" name="timeLimitMins" onChange={props.updateTime} value={props.timeLimitMins}>
 					<option value="0">0</option>
 					<option value="1">1</option>
