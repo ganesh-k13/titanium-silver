@@ -41,6 +41,18 @@ Install Titanium-Silver:
 $ sudo pip3 install -e . # PWD must be main folder with setup.py
 ```
 
+### Development:
+Steps:
+1. Install `nvm` to install `node` and `npm`:
+```sh
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+source ~/.bashrc
+nvm install node
+cd <project_root>/frontend
+npm install
+<in one shell> $ npm run start
+<in another shell> $ ./run.sh
+```
 ### Production:
 Steps:
 1. Do these:
