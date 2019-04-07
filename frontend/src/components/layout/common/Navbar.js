@@ -6,7 +6,6 @@ import {
     ButtonToolbar
 } from "react-bootstrap";
 import axios from "axios";
-import { withRouter } from 'react-router-dom';
 
 import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
 

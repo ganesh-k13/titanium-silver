@@ -108,21 +108,17 @@ class Profile extends Component{
                     </Row>
 
                     <Row style={{marginTop:"10px"}}>
-                        <Col md={{ span: 4, offset: 4 }}  lg={{ span: 4, offset: 4 }}  xl={{ span: 4, offset: 4 }}>
+                        <Col md={{ span: 5, offset: 5 }}  lg={{ span: 5, offset: 5 }}  xl={{ span: 5, offset: 5 }}>
                             <ButtonToolbar>
-                                <Button
-                                    variant="primary"
-                                    onClick={() => this.setState({ modalShow: true })}
-                                    block
-                                >
-                                    Enter a Challenge
-                                </Button>
-
-                                <VerticalModal
-                                    show={this.state.modalShow}
-                                    modaltitle="Question"
-                                    modalbody={<QuestionKey onHide={modalClose}/>}
-                                />
+                                <Link to={"/studentTest"}>
+                                    <Button
+                                        variant="primary"
+                                        block
+                                    >
+                                        Enter a Challenge
+                                    </Button>
+                                    <div></div>
+                                </Link>
                             </ButtonToolbar>
                         </Col>
                     </Row>
