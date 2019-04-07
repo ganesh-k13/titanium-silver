@@ -114,6 +114,12 @@ def getRevokedTokenByJTI(JTI):
 def getChallengeByChallengeID(ID):
     return db.session.query(models.Challenge).filter_by(ID=ID).first()
 
+def getQuestionByQuestionID(ID):
+    return db.session.query(models.Question).filter_by(ID=ID).first()
+
+def getTestCaseByTestCaseID(ID):
+    return db.session.query(models.TestCase).filter_by(ID=ID).first()
+
 def getChallengeByTeacherID(ID):
     return db.session.query(models.Challenge).filter_by(teacherID=ID).first()
 
@@ -124,3 +130,48 @@ def getTeacherChallengesByUsername(username):
     teacherID = getTeacherByUsername(username).ID
     challengeList = getAllChallengesByTeacherID(teacherID)
     return challengeList
+
+def getAllQuestionsByChallengeID(ID):
+    return db.session.query(models.ChallengeAndQuestion).filter_by(cID=ID).all()
+
+def getAllTestCasesByQuestionID(ID):
+    return db.session.query(models.QuestionAndTestCase).filter_by(qID=ID).all()
+
+def getChallengeDetailsByID(ID):
+    res = {
+        "cID":ID,
+        "questions":[]
+    }
+    challenge = getChallengeByChallengeID(ID)
+    questionList = getAllQuestionsByChallengeID(ID)
+
+    for question in questionList:
+        questionDet = getQuestionByQuestionID(question.qID)
+        questionName = questionDet.name
+        questionCpu = questionDet.CPU
+        questionMemory = questionDet.memory
+
+        testCaseList = getAllTestCasesByQuestionID(question.qID)
+
+        testCases = []
+        for testCase in testCaseList:
+            testCaseDet = getTestCaseByTestCaseID(testCase.tID)
+            testCaseString = ""
+            expectedOutputString = ""
+
+            with open(testCaseDet.testCasePath,"r") as fp:
+                testCaseString = "".join(fp.readlines())
+
+            with open(testCaseDet.expectedOutputPath,"r") as fp:
+                expectedOutputString = "".join(fp.readlines())
+
+            testCases.append((testCaseString,expectedOutputString))
+
+        res["questions"].append({
+            "questionName":questionName,
+            "cpu":questionCpu,
+            "memory":questionMemory,
+            "testCases":testCases,
+        })
+
+    return res

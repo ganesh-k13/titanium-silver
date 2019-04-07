@@ -21,6 +21,7 @@ parser.add_argument("password")
 parser.add_argument("code")
 parser.add_argument("progLang")
 parser.add_argument("questions")
+parser.add_argument("cID")
 
 class UserRegistration(Resource):
     def post(self):
@@ -306,9 +307,19 @@ class SetChallenge(Resource):
 
 
 class StartChallenge(Resource):
-    def get(self):
-        return {},200
+    @jwt_required
+    def post(self):
+        pass
 
+class GetChallengeDetails(Resource):
+    @jwt_required
+    def post(self):
+        data = parser.parse_args()
+        cID = data["cID"]
+
+        res = modelHelpers.getChallengeDetailsByID(cID)
+
+        return res
 
 
 ## With refresh token, use this to get

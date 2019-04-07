@@ -8,6 +8,7 @@ class VerticalModal extends Component {
                 {...this.props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
+                onHide={this.props.onHide}
                 centered
             >
                 <Modal.Header closeButton>
@@ -23,6 +24,4 @@ class VerticalModal extends Component {
     }
 }
 
-                    // {this.props.modalfooter}
-                    // <Button variant="danger" onClick={this.props.onHide}>Cancel</Button>
 export default VerticalModal;

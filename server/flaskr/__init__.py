@@ -32,5 +32,5 @@ api.add_resource(resources.TokenRefresh, "/api/token/refresh")
 api.add_resource(resources.UploadCode, "/api/submitcode")
 api.add_resource(resources.SetChallenge, "/api/setchallenge")
 api.add_resource(resources.StartChallenge, "/api/startchallenge")
-
+api.add_resource(resources.GetChallengeDetails, "/api/getchallengedetails")
 

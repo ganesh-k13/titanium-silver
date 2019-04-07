@@ -18,7 +18,7 @@ class QuestionItem extends Component{
 						<span style={questionDetsStyle}>{this.props.memory}</span>
 						<span style={questionDetsStyle}>{this.props.testCases}</span>
 					</Col>
-					<Col>
+					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
 						<Button variant="danger" id={this.props.qID} onClick={this.props.deleteQuestion}>X</Button>
 					</Col>
 				</Row>
