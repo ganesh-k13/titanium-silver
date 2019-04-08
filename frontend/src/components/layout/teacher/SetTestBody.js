@@ -1,16 +1,17 @@
 import React,{ Component } from "react";
 import { Container,Col,Row,Form,Button } from "react-bootstrap";
-
-// import uuidv4 from "uuid/v4";
+import uuidv4 from "uuid/v4";
 
 class SetTestBody extends Component{
 	constructor(...args){
 		super(...args);
 		this.state={
+			id:"",
 			questionName:"",
 			cpu:"",
 			memory:"",
-			testCases:""
+			testCases:"",
+			expectedOutputs:""
 		}
 	}
 
@@ -19,8 +20,9 @@ class SetTestBody extends Component{
 	}
 
 	submitValues = () => {
-		console.log(this.state);
-		this.props.addTest(this.state);
+		this.setState({id:uuidv4()},()=>{
+			this.props.addTest(this.state);
+		});
 	}
 
 	render(){
@@ -59,15 +61,24 @@ class SetTestBody extends Component{
 				</Container>			
 				<Container>
 					<Row>
-						<Col xl={12} lg={12} md={12}>
+						<Col xl={6} lg={6} md={6}>
 							<Form.Label>Test Cases:</Form.Label>
+						</Col>
+						<Col xl={6} lg={6} md={6}>
+							<Form.Label>Expected Outputs:</Form.Label>
 						</Col>
 					</Row>			
 					<Row>
-						<Col xl={12} lg={12} md={12}>
+						<Col xl={6} lg={6} md={6}>
 							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
 							<Form.Text className="text-muted">
 								End each test case with the text in a new line"---testcase---".
+							</Form.Text>
+						</Col>
+						<Col xl={6} lg={6} md={6}>
+							<Form.Control as="textarea" rows="3" id="expectedOutputs" onChange={this.formValChange}/>
+							<Form.Text className="text-muted">
+								End each expected output with the text in a new line"---testcase---".
 							</Form.Text>
 						</Col>
 					</Row>
@@ -79,7 +90,7 @@ class SetTestBody extends Component{
 					        <Button onClick={this.submitValues} variant="success" block>Save</Button>
 						</Col>
 						<Col md={{ span: 2 }}  lg={{ span: 2 }}  xl={{ span: 2 }}>
-                    		<Button variant="danger" onClick={this.props.onHide} block>Cancel</Button>
+                    		<Button variant="danger" onClick={this.props.hideModal} block>Cancel</Button>
 						</Col>
 					</Row>
 				</Container>

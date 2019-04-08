@@ -1,18 +1,129 @@
 import React, { Component } from "react";
-import { Container,Col,Row,Button } from "react-bootstrap";
+import { 
+    Container,
+    Col,
+    Row,
+    Button,
+    Alert
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import axios from 'axios';
+import axios from 'axios';
+
+import ActiveChallenge from "./ActiveChallenge";
+import InactiveChallenge from "./InactiveChallenge";
+import FinishedChallenge from "./FinishedChallenge";
 
 class Profile extends Component {
 
+    constructor(...args){
+        super(...args);
+        this.state={
+            ID:"",
+            name:"",
+            username:"",
+            designation:"",
+            noOfChallenges:"",
+            showAlert:false,
+            activeChallenges:[],
+            inactiveChallenges:[],
+            finishedChallenges:[],
+        }
+    }
+
     componentDidMount(){
-        console.log("---------mount point.org -----------");
+        let profileThis = this;
+        axios.get(
+            "http://localhost:8000/api/getteacherdetails",
+            {
+                headers: {
+                    "Authorization" : "Bearer "+localStorage.getItem("accessToken")
+                }
+            }
+        )
+        .then(function(resp) {
+            if(resp.data == "not valid"){
+                profileThis.setState({
+                    showAlert:true
+                });
+            }
+            else{
+                console.log(resp);
+                let respData = {
+                    ID:resp.data.ID,
+                    name:resp.data.name,
+                    username:resp.data.username,
+                    designation:resp.data.designation,
+                    noOfChallenges:resp.data.noOfChallenges
+                }
+                profileThis.setState(respData);
+            }    
+        })
+        .catch(function(resp) {
+            profileThis.setState({
+                showAlert:true
+            });            
+        })
+
+        axios.get(
+            "http://localhost:8000/api/getteacherchallenges",
+            {
+                headers: {
+                    "Authorization" : "Bearer "+localStorage.getItem("accessToken")
+                }
+            }
+        )
+        .then(function(resp) {
+            if(resp.data == "not valid"){
+                profileThis.setState({
+                    showAlert:true
+                });
+            }
+            else{
+                var challenges = resp.data.challenges;
+                var activeChallenges=[];
+                var inactiveChallenges=[];
+                var finishedChallenges=[];
+
+                for (var i = challenges.length - 1; i >= 0; i--) {
+                    if(challenges[i].status === "INACTIVE"){
+                        inactiveChallenges.push(challenges[i]);
+                    }
+                    else if(challenges[i].status === "ACTIVE"){
+                        activeChallenges.push(challenges[i]);
+                    }
+                    else{
+                        finishedChallenges.push(challenges[i]);
+                    }
+                }
+
+                profileThis.setState({
+                    activeChallenges:activeChallenges,
+                    inactiveChallenges:inactiveChallenges,
+                    finishedChallenges:finishedChallenges
+                })
+
+            }    
+        })
+        .catch(function(resp) {
+            profileThis.setState({
+                showAlert:true
+            });            
+        })
     }
 
     render() {
+        console.log("state:",this.state)
         return (
             <div>
                 <Container>
+                    <Row>
+                        <Col xl={12} lg={12} md={12} style={paddLeftZero}>
+                            {this.state.showAlert===true && <Alert variant="info" style={{marginTop:"10px"}}>
+                                You don't seem to be logged in, click 
+                                <Link to={"/login"} style={{marginLeft:"1px","color":"#000"}}> here </Link> to login.
+                            </Alert>}
+                        </Col>
+                    </Row>
                     {/* This row is just title only */}
                     <Row style={profileTitle}>
                         <Col xl={12} lg={12} md={12} style={paddLeftZero}>
@@ -25,11 +136,20 @@ class Profile extends Component {
                         <Col xl={12} lg={12} md={12}>
                             <Container>
                                 <Row>
-                                    <Col xl={3} lg={3} md={3} >
-                                        <div style={picStyle}>Pic Here</div>
+                                    <Col xl={2} lg={2} md={2}>
+                                        <b>ID</b>: {this.state.ID}
                                     </Col>
-                                    <Col xl={9} lg={9} md={9}>
-                                        Info Here
+                                    <Col xl={2} lg={2} md={2}>
+                                        <b>Name</b>: {this.state.name}
+                                    </Col>
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>Username</b>: {this.state.username}
+                                    </Col>
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>Designation</b>: {this.state.designation}
+                                    </Col>
+                                    <Col xl={2} lg={2} md={2}>
+                                        <b>No Of Challenges</b>: {this.state.noOfChallenges}
                                     </Col>
                                 </Row>
                             </Container>
@@ -56,12 +176,12 @@ class Profile extends Component {
                             <Container style={paddLeftZero}>
                                 <Row>
                                     <Col xl={12} lg={12} md={12} style={paddLeftZero}>
-                                        <div>Live Challenges</div>
+                                        <div>Active Challenges</div>
                                     </Col>
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <ActiveChallenge challengeList={this.state.activeChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>
@@ -79,7 +199,7 @@ class Profile extends Component {
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <InactiveChallenge challengeList={this.state.inactiveChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>
@@ -97,7 +217,7 @@ class Profile extends Component {
                                 </Row>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                                        <FinishedChallenge challengeList={this.state.finishedChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>

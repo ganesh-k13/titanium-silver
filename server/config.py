@@ -6,36 +6,35 @@ class Config(object):
     TESTING = False
 
 class ProductionConfig(Config):
-    PRODUCTION = True
-    DEBUG = False
-    INPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Input'
+    pass
 
-    OUTPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Output'
-    
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'TitaniumSilver.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = "somesecretkeyhereplease"
-    JWT_SECRET_KEY = "somesecretkeyhereplease"
-    JWT_BLACKLIST_ENABLED=True
-    JWT_BLACKLIST_TOKEN_CHECKS = ["access","refresh"]
-    
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     TEMPLATES_AUTO_RELOAD=True
-    INPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Input'
-    HOST='0.0.0.0'
-
-    OUTPUT_FOLDER = os.getcwd()+'/server/flaskr/codes/Output'
-
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'TitaniumSilver.db')
+    
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
+        "sqlite:///" + os.path.join(basedir, "TitaniumSilver.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
     SECRET_KEY = "somesecretkeyhereplease"
+    
     JWT_SECRET_KEY = "somesecretkeyhereplease"
     JWT_BLACKLIST_ENABLED=True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access","refresh"]
+
+    CODE_FOLDER = os.getcwd()+"/server/flaskr/codes"
+    INPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Input"
+    OUTPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Output"
+    TEST_CASES_FOLDER = os.getcwd()+"/server/flaskr/codes/TestCases"
+    EXPECTED_OUTPUTS_FOLDER = os.getcwd()+"/server/flaskr/codes/ExpectedOutputs"
+
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or "titaniumsilverbot@gmail.com"
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or "elioigqqqdmsjefp"
 
 class TestingConfig(Config):
     TESTING = True

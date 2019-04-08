@@ -1,7 +1,16 @@
+import os
+
+from uuid import uuid4
+
+from flask import request
 from flask_restful import Resource,reqparse
-from server.flaskr.models import modelHelpers
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
+
+from server.flaskr import app
+from server.flaskr.models import modelHelpers
 from server.flaskr.API import apiServer
+from server.flaskr.utils import sendMail
+from server.flaskr.utils import dbTimers
 
 parser = reqparse.RequestParser()
 parser.add_argument("acctType")
@@ -9,12 +18,11 @@ parser.add_argument("ID")
 parser.add_argument("name")
 parser.add_argument("detailType")
 parser.add_argument("detailValue")
-parser.add_argument("username", help = "This field cannot be blank", required = True)
-parser.add_argument("password", help = "This field cannot be blank", required = True)
-
+parser.add_argument("username")
+parser.add_argument("password")
 parser.add_argument("code")
 parser.add_argument("progLang")
-
+parser.add_argument("questions")
 
 class UserRegistration(Resource):
     def post(self):
@@ -58,9 +66,14 @@ class UserRegistration(Resource):
                         username = data["username"],
                         password = data["password"]
                     )
+                    accessToken = create_access_token(identity = data["username"])
+                    refreshToken = create_refresh_token(identity = data["username"])
                     return {
-                        "success": "Teacher {} was created".format(data["username"])
+                        "success": "Teacher {} was created".format(data["username"]),
+                        "accessToken": accessToken,
+                        "refreshToken": refreshToken
                     }
+                    
                 except:
                     return {"error": "Something went wrong"}, 500
 
@@ -77,7 +90,10 @@ class UserLogin(Resource):
         if not currentUser:
             return {"error": "User {} doesn't exist".format(data["username"])}
         
-        currentUser = modelHelpers.getStudentByUsername(data["username"])
+        if(data["acctType"]=="Student"):
+            currentUser = modelHelpers.getStudentByUsername(data["username"])
+        else:
+            currentUser = modelHelpers.getTeacherByUsername(data["username"])
 
         if data["password"] == currentUser.password:
             accessToken = create_access_token(identity = data["username"])
@@ -130,9 +146,46 @@ class GetStudentDetails(Resource):
         return {
             "ID":res.ID,
             "name":res.name,
+            "username":res.username,
             "semester":res.semester,
             "noOfChallenges":res.noOfChallenges
         }
+
+class GetTeacherDetails(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        res = modelHelpers.getTeacherByUsername(username)
+
+        return {
+            "ID":res.ID,
+            "name":res.name,
+            "username":res.username,
+            "designation":res.designation,
+            "noOfChallenges":res.noOfChallenges
+        }
+
+class GetTeacherChallenges(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        res = modelHelpers.getTeacherChallengesByUsername(username)
+
+        resList = [{
+            "ID":ele.ID,
+            "teacherID":ele.teacherID,
+            "status":ele.status,
+            "timeLimitHrs":ele.timeLimitHrs,
+            "timeLimitMins":ele.timeLimitMins
+        } for ele in res]
+
+        return {
+            "challenges":resList
+        }
+
+
 
 
 # This class will represent all hidden routes
@@ -178,3 +231,124 @@ class UploadCode(Resource):
         return outputJson, 201
 
 
+class SetChallenge(Resource):
+    @jwt_required
+    def post(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+
+        teacherID = modelHelpers.getTeacherByUsername(username).ID
+
+        questions = request.get_json()["questions"]
+        timeLimitHrs = request.get_json()["timeLimitHrs"]
+        timeLimitMins = request.get_json()["timeLimitMins"]
+
+        TEST_CASES_FOLDER = app.config["TEST_CASES_FOLDER"]
+        EXPECTED_OUTPUTS_FOLDER = app.config["EXPECTED_OUTPUTS_FOLDER"]
+
+        # Create a UUID $uuid1
+        # Create a models.Challenge entry with UUID $uuid1, teacherID, status="INACTIVE", timeLimitHrs, timeLimitMins
+
+        challengeID = uuid4().time #18 character long unique ID
+        modelHelpers.insertIntoChallenge(
+            ID=challengeID,
+            teacherID=teacherID,
+            status="INACTIVE",
+            timeLimitHrs=timeLimitHrs,
+            timeLimitMins=timeLimitMins
+        )
+
+        # For each question in questions:
+        #   Create a UUID $uuid2
+        #   Create a models.Question entry with UUID $uuid2, name=question.questionName, CPU=question.cpu, memory=question.memory 
+        #   For each testCase,expectedOutput in question.testCase,question.expectedOutput:
+        #       Create a UUID #uuid3
+        #       Make a file each for testCase and expectedOutput
+        #       Create a models.TestCase entry with: $uuid3, testCase filePath, expectedOutput filePath
+        #       Create a models.QuestionAndTestCase entry with $uuid2,$uuid3
+        #   
+        #   Create a models.ChallengeAndQuestion entry with $uuid1,$uuid2
+
+
+        for question in questions:
+            questionID = uuid4().time
+            modelHelpers.insertIntoQuestion(
+                ID=questionID,
+                name=question["questionName"],
+                CPU=question["cpu"],
+                memory=question["memory"]
+            )
+
+            for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
+                testCaseID = uuid4().time
+                testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
+                expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
+
+                with open(testCasePath,"w") as fp:
+                    fp.write(testCase)
+
+                with open(expectedOutputPath,"w") as fp:
+                    fp.write(expectedOutput)
+
+                modelHelpers.insertIntoTestCase(
+                    ID=testCaseID,
+                    testCasePath=testCasePath,
+                    expectedOutputPath=expectedOutputPath
+                )
+
+                modelHelpers.insertIntoQuestionAndTestCase(
+                    qID=questionID,
+                    tID=testCaseID
+                )
+
+            modelHelpers.insertIntoChallengeAndQuestion(
+                cID=challengeID,
+                qID=questionID
+            )
+
+
+class StartChallenge(Resource):
+    @jwt_required
+    def post(self):
+        data = request.get_json()
+        modelHelpers.setChallengeStatusByID(data["cID"],"ACTIVE")
+        challenge = modelHelpers.getChallengeByChallengeID(data["cID"])
+        seconds = ((challenge.timeLimitHrs)*3600)+((challenge.timeLimitMins)*60)
+
+        dbTimers.endChallengeAfter(
+                            seconds=seconds, # convert HH:MM to SS
+                            cID=challenge.ID
+                        ) 
+        try:
+            sendMail.sendMail(data["recipients"],str(data["cID"]))
+        except:
+            return {"error":"Error sending mails"}
+        else:
+            return {"success":"Mails sent, you can now close the box"}
+
+class StopChallenge(Resource):
+    @jwt_required
+    def post(self):
+        data = request.get_json()
+        try:
+            modelHelpers.setChallengeStatusByID(data["cID"],"FINISHED")
+        except:
+            return {"error"},500
+        else:
+            return {"Success":"Stopped Successfully"},200
+
+class GetChallengeDetails(Resource):
+    @jwt_required
+    def post(self):
+        data = parser.parse_args()
+        cID = data["cID"]
+
+        res = modelHelpers.getChallengeDetailsByID(cID)
+
+        return res
+
+
+## With refresh token, use this to get
+    # @jwt_refresh_token_required
+        # current_user = get_jwt_identity()
+        # print(current_user)

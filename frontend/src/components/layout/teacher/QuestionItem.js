@@ -1,17 +1,28 @@
 import React,{ Component } from "react";
+import {
+	Container,
+	Row,
+	Col,
+	Button
+} from "react-bootstrap";
 
 class QuestionItem extends Component{
 
 	render(){
 		return (
-			<div style={questionWrapperStyle}>
-				<div style={questionStyle}>
-					<span style={questionNameStyle}>{this.props.questionName}</span><br/>
-					<span style={questionDetsStyle}>{this.props.cpu}</span>
-					<span style={questionDetsStyle}>{this.props.memory}</span>
-					<span style={questionDetsStyle}>{this.props.testCases}</span>
-				</div>
-			</div>
+			<Container style={questionWrapperStyle}>
+				<Row style={questionStyle}>
+					<Col xl={11} lg={11} md={11} sm={11} xs={11}>
+						<span style={questionNameStyle}>{this.props.questionName}</span><br/>
+						<span style={questionDetsStyle}>{this.props.cpu}</span>
+						<span style={questionDetsStyle}>{this.props.memory}</span>
+						<span style={questionDetsStyle}>{this.props.testCases}</span>
+					</Col>
+					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
+						<Button variant="danger" id={this.props.qID} onClick={this.props.deleteQuestion}>X</Button>
+					</Col>
+				</Row>
+			</Container>
 		);
 	}
 }
