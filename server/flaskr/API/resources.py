@@ -164,7 +164,7 @@ class GetStudentDetails(Resource):
             "username":res.username,
             "semester":res.semester,
             "noOfChallenges":res.noOfChallenges
-        }
+        },200
 
 class GetTeacherDetails(Resource):
     @jwt_required
@@ -179,7 +179,7 @@ class GetTeacherDetails(Resource):
             "username":res.username,
             "designation":res.designation,
             "noOfChallenges":res.noOfChallenges
-        }
+        },200
 
 class GetTeacherChallenges(Resource):
     @jwt_required
@@ -198,7 +198,7 @@ class GetTeacherChallenges(Resource):
 
         return {
             "challenges":resList
-        }
+        },200
 
 
 
@@ -230,13 +230,13 @@ class UploadCode(Resource):
             "op"+"_"+sID+"_"+qID
         )
 
-        modelHelpers.insertIntoSubmission(
-            sID=sID,
-            cID=cID,
-            qID=qID,
-            codeFilePath=codeFilePath,
-            status="Compile:Pending"
-        )
+        # modelHelpers.insertIntoSubmission(
+        #     sID=sID,
+        #     cID=cID,
+        #     qID=qID,
+        #     codeFilePath=codeFilePath,
+        #     status="Compile:Pending"
+        # )
 
         inputJson = {
             "code":code,
@@ -278,10 +278,10 @@ class UploadCode(Resource):
         # +--------+--------+
         #
 
-        outputJson = jsonify({
+        outputJson = {
             "input":inputJson,
             "output":output
-        })
+        }
 
         return outputJson, 201
 
