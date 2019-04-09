@@ -37,5 +37,6 @@ script:
   - pytest tests/test_basic.py
   - pytest tests/test_basic_50.py
   - pytest tests/test_basic_100.py
-  - pytest tests/test_server_simulation.py
+  - pytest tests/test_student_APIs.py
+  - pytest tests/test_teacher_APIs.py
 
