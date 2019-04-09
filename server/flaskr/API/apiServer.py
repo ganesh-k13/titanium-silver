@@ -21,15 +21,17 @@ def uploadCode(inputJson):
     #    USN_of_user + _ + questionHash + "." + extension_of_user_code
     # Eg: USN:usn-11, questionHash = 1, progLang = cpp gives :
     # inpFileName = usn-11_1.cpp
-    file_name = inputJson['USN']+"_"+inputJson['questionHash']
-    inpFileName = os.path.join(
-        app.config["INPUT_FOLDER"],
-        file_name+"."+META_DATA[inputJson["progLang"]]["extension"]
-    )
 
+    # file_name = inputJson['USN']+"_"+inputJson['questionHash']
+    # inpFileName = os.path.join(
+    #     app.config["INPUT_FOLDER"],
+    #     file_name+"."+META_DATA[inputJson["progLang"]]["extension"]
+    # )
+    file_name = inputJson["file_name"]
+    codeFilePath = inputJson["codeFilePath"]
     # Open the file in 'w' mode to either overwrite previous
     # submission or create a new file for new submission.
-    with open(inpFileName,"w") as inputFp:
+    with open(codeFilePath,"w") as inputFp:
         inputFp.write(inputJson['code']) # Write incoming 'code' string into the file.
         inputFp.close()
           
@@ -58,12 +60,14 @@ def uploadCode(inputJson):
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash
 
-    opFileName = os.path.join(
-        app.config["OUTPUT_FOLDER"],
-        "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
-    )
+    # opFileName = os.path.join(
+    #     app.config["OUTPUT_FOLDER"],
+    #     "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
+    # )
 
-    with open(opFileName, 'w') as f:
+    outputFilePath = inputJson["outputFilePath"]
+
+    with open(outputFilePath, 'w') as f:
         output = thread.result_queue.get().decode('utf-8') 
         f.write(output)
     

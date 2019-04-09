@@ -6,7 +6,6 @@ import {
     ButtonToolbar
 } from "react-bootstrap";
 import axios from "axios";
-
 import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
 
 class NavbarComponent extends Component {
@@ -18,34 +17,30 @@ class NavbarComponent extends Component {
     }
 
     logOut = () => {
-        axios.get(
-            "http://localhost:8000/api/logout/access",
-            {
-                headers: {
-                    "Authorization" : "Bearer "+localStorage.getItem("accessToken")
-                }
-            }
-        )
-        .then((resp) => {
-            console.log("Done:",resp)
-        })
-        .catch((resp) => {
-            console.log("Done:",resp)
+        axios({
+            method: 'post',
+            url: 'http://localhost:8000/api/logout/access',
+            headers: {
+                "Authorization":"Bearer "+localStorage.getItem("accessToken")
+            },
+            data: {}
+        }).then((resp)=>{
+            console.log(resp);
+        }).catch((resp)=>{
+            console.log(resp);
         })
 
-        axios.get(
-            "http://localhost:8000/api/logout/refresh",
-            {
-                headers: {
-                    "Authorization" : "Bearer "+localStorage.getItem("refeshToken")
-                }
-            }
-        )
-        .then((resp) => {
-            console.log("Done:",resp)
-        })
-        .catch((resp) => {
-            console.log("Done:",resp)
+        axios({
+            method: 'post',
+            url: 'http://localhost:8000/api/logout/refresh',
+            headers: {
+                "Authorization":"Bearer "+localStorage.getItem("refreshToken")
+            },
+            data: {}
+        }).then((resp)=>{
+            console.log(resp);
+        }).catch((resp)=>{
+            console.log(resp);
         })
     }
 
@@ -53,7 +48,9 @@ class NavbarComponent extends Component {
         return (
             <Navbar bg="dark" variant="dark" style={navBarStyle}>
                 <Nav className="mr-auto">
-                    <Navbar.Brand>&nbsp;&nbsp;&nbsp;Titanium Silver</Navbar.Brand>
+                    <a href="/">
+                        <Navbar.Brand>&nbsp;&nbsp;&nbsp;Titanium Silver</Navbar.Brand>
+                    </a>
                 </Nav>
                 <Nav>
                     <ButtonToolbar>

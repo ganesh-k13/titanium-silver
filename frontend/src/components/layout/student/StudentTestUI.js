@@ -3,13 +3,17 @@ import {
 	Container,
 	Col,
 	Row,
-	Form
+	Form,
+	Button
 } from "react-bootstrap";
 import AceEditor from "react-ace";
+import axios from "axios";
 
 import "brace/mode/java";
 import "brace/mode/python";
 import "brace/mode/c_cpp";
+import "brace/mode/php";
+import "brace/mode/ruby";
 
 import "brace/theme/monokai";
 import "brace/theme/github";
@@ -29,17 +33,51 @@ class StudentTestUI extends Component {
 	constructor(...args){
 		super(...args);
 		this.state = {
+			cID:"",
 			code:"",
 			editorWidth:"",
 			mode:"c_cpp",
+			progLang:"C",
 			fontSize:14,
-			theme:"monokai"
+			theme:"monokai",
+			questionID:""
 		}
 	}
 
 	componentDidMount(){
 		this.setState({
 			editorWidth: document.getElementById("editorParent").clientWidth
+		})
+	}
+
+	submitCode = () => {
+		let inpData = {
+			cID:this.state.cID,
+			code:this.state.code,
+			questionID:this.state.questionID,
+			progLang:this.state.progLang
+		}
+		console.log("inpData:",inpData);
+        axios({
+            method: 'post',
+            url: 'http://localhost:8000/api/submitcode',
+            headers: {
+                "Authorization":"Bearer "+localStorage.getItem("accessToken")
+            },
+            data: inpData
+        }).then((resp)=>{
+            console.log(resp);
+        }).catch((resp)=>{
+            console.log(resp);
+        })
+	}
+
+	updateEditorLanguage = (e) => {
+		let progLang = e.target[e.target.selectedIndex].id;
+		let val = e.target.value;
+		this.setState({
+			[e.target.name]:val,
+			progLang:progLang
 		})
 	}
 
@@ -50,14 +88,13 @@ class StudentTestUI extends Component {
 	}
 
 	codeChange = (v) => {
-		// console.log(e);
 		this.setState({
 			"code":v
 		});
 	}
 
 	render(){
-		console.log(this.state);
+		// console.log(this.state);
 		return (
 			<React.Fragment>
 				<Container fluid={true}>
@@ -92,10 +129,15 @@ class StudentTestUI extends Component {
 			                                    <Col xl={4} lg={4} md={4} style={paddLeftZero}>
 			                                        <Form.Group controlId="exampleForm.ControlSelect1">
 													    <Form.Label>Mode</Form.Label>
-													    <select className="form-control" as="select" name="mode" onChange={this.updateEditorProps} value={this.state.mode}>
-													        <option value="c_cpp">C and C++</option>
-													        <option value="java">java</option>
-													        <option value="python">python</option>
+													    <select className="form-control" as="select" name="mode" onChange={this.updateEditorLanguage} value={this.state.mode}>
+													        <option id="C" value="c_cpp">C</option>
+													        <option id="C++" value="c_cpp">C++</option>
+													        <option id="Java" value="java">Java</option>
+													        <option id="Python3" value="python">Python 3</option>
+													        <option id="Python" value="python">Python 2</option>
+													        <option id="Ruby" value="ruby">Ruby</option>
+													        <option id="PHP5.x" value="php">PHP 5.x</option>
+													        <option id="PHP7.x" value="php">PHP 7.x</option>
 													    </select>
 													</Form.Group>
 			                                    </Col>
@@ -169,6 +211,30 @@ class StudentTestUI extends Component {
 															tabSize: 4,
 														}}
 													/>
+			                                    </Col>
+			                                </Row>
+			                            </Container>
+			                        </Col>
+			                    </Row>
+
+			                    {/* This row has all completed tests */}
+			                    <Row style={{marginTop:"20px"}}>
+			                        <Col xl={12} lg={12} md={12} style={paddRightZero}>
+			                            <Container style={paddLeftZero}>
+			                                <Row>
+			                                    <Col 
+			                                    	xl={{span:3, offset:5}} 
+			                                    	lg={{span:3, offset:5}} 
+			                                    	md={{span:3, offset:5}} 
+			                                    	style={paddLeftZero}
+			                                    >
+			                                    	<Button 
+			                                    		variant="success"
+			                                    		onClick={this.submitCode}
+			                                    		block
+			                                    	>
+			                                    		Submit
+			                                    	</Button>
 			                                    </Col>
 			                                </Row>
 			                            </Container>

@@ -87,6 +87,17 @@ def insertIntoQuestionAndTestCase(qID,tID):
     db.session.add(newItem)
     db.session.commit()
 
+def insertIntoSubmission(sID,cID,qID,codeFilePath,status):
+    newSubmission = models.Submission(
+        sID=sID,
+        cID=cID,
+        qID=qID,
+        codeFilePath=codeFilePath,
+        status=status
+    )
+    db.session.add(newSubmission)
+    db.session.commit()
+
 def isExistingStudentByID(ID):
     return not db.session.query(models.Student).filter_by(ID=ID).first()==None
 
