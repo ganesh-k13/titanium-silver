@@ -33,7 +33,7 @@ const questionStyle = {
 
 const sideBarStyle = {
 	backgroundColor:"#C9C9C9",
-	height:document.documentElement.scrollHeight	
+	height:"1000px"	
 }
 
 export default StudentTestUISideBar;

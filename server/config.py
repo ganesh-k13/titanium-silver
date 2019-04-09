@@ -23,11 +23,18 @@ class DevelopmentConfig(Config):
     JWT_BLACKLIST_ENABLED=True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access","refresh"]
 
+    ROOT_FOLDER = os.getcwd()
     CODE_FOLDER = os.getcwd()+"/server/flaskr/codes"
     INPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Input"
     OUTPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Output"
     TEST_CASES_FOLDER = os.getcwd()+"/server/flaskr/codes/TestCases"
     EXPECTED_OUTPUTS_FOLDER = os.getcwd()+"/server/flaskr/codes/ExpectedOutputs"
+
+    # CODE_FOLDER = "./codes"
+    # INPUT_FOLDER = "./codes/Input"
+    # OUTPUT_FOLDER = "./codes/Output"
+    # TEST_CASES_FOLDER = "./codes/TestCases"
+    # EXPECTED_OUTPUTS_FOLDER = "./codes/ExpectedOutputs"
 
     MAIL_SERVER = "smtp.gmail.com"
     MAIL_PORT = 465

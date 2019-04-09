@@ -20,9 +20,24 @@ parser.add_argument("detailType")
 parser.add_argument("detailValue")
 parser.add_argument("username")
 parser.add_argument("password")
-parser.add_argument("code")
 parser.add_argument("progLang")
 parser.add_argument("questions")
+
+parser.add_argument("code")
+parser.add_argument("cID")
+parser.add_argument("questionID")
+parser.add_argument("progLang")
+
+META_DATA = {
+    "C++":{"extension": "cpp", "container":"CppContainer"},
+    "Python":{"extension": "py", "container":"Python2Container"},
+    "Python3":{"extension": "py","container":"PythonContainer"},
+    "C":{"extension": "c","container":"CContainer"},
+    "Ruby":{"extension": "rb","container":"RubyContainer"},
+    "PHP5.x":{"extension": "php","container":"Php5Container"},
+    "PHP7.x":{"extension": "php","container":"Php7Container"},
+    "Java":{"extension": "java","container":"JavaContainer"}
+}
 
 class UserRegistration(Resource):
     def post(self):
@@ -190,10 +205,50 @@ class GetTeacherChallenges(Resource):
 
 # This class will represent all hidden routes
 class UploadCode(Resource):
+
     @jwt_required
     def post(self):
         claims = get_jwt_claims()
         username = claims["username"]
+
+        data = parser.parse_args()
+        code = data["code"]
+        progLang = data["progLang"]
+        
+        sID = modelHelpers.getStudentByUsername(username).ID
+        cID = data["cID"]
+        qID = data["questionID"]
+        file_name = sID+"_"+qID
+        
+        codeFilePath = os.path.join(
+            app.config["INPUT_FOLDER"],
+            file_name+"."+META_DATA[progLang]["extension"]
+        )
+
+        outputFilePath = os.path.join(
+            app.config["OUTPUT_FOLDER"],
+            "op"+"_"+sID+"_"+qID
+        )
+
+        modelHelpers.insertIntoSubmission(
+            sID=sID,
+            cID=cID,
+            qID=qID,
+            codeFilePath=codeFilePath,
+            status="Compile:Pending"
+        )
+
+        inputJson = {
+            "code":code,
+            "questionID":qID,
+            "progLang":progLang,
+            "codeFilePath":codeFilePath,
+            "outputFilePath":codeFilePath,
+            "USN":sID, #sent for random.seed line 55 apiServer, remove if unnecessary,
+            "file_name":file_name #sent since DockerClient names containers as file_name
+        }
+
+        print(inputJson)
 
         # Get Student details by username
         # Then convert into a JSON
@@ -201,16 +256,16 @@ class UploadCode(Resource):
         # Read incoming JSON
         # JSON Structure as Key-Value pairs (proposed):
         # +--------------+---------+
-        # | USN          | String  |
+        # | USN          | String  |    
         # | code         | String  |
         # | progLang     | String  |
         # | questionHash | String  |
         # +--------------+---------+
         #
-        inputJson = dict(request.form)
-        inputJson.update({key:value[0] for key, value in inputJson.items()})
-        inputJson['code'] = request.files['code'].stream.read().decode()
-        print(inputJson)
+        # inputJson = dict(request.form)
+        # inputJson.update({key:value[0] for key, value in inputJson.items()})
+        # inputJson['code'] = request.files['code'].stream.read().decode()
+        # print(inputJson)
 
         # Get output Dictionary
         output = apiServer.uploadCode(inputJson)
@@ -224,8 +279,8 @@ class UploadCode(Resource):
         #
 
         outputJson = jsonify({
-                "input":inputJson,
-                "output":output
+            "input":inputJson,
+            "output":output
         })
 
         return outputJson, 201
@@ -243,6 +298,10 @@ class SetChallenge(Resource):
         timeLimitHrs = request.get_json()["timeLimitHrs"]
         timeLimitMins = request.get_json()["timeLimitMins"]
 
+        ROOT_FOLDER = app.config["ROOT_FOLDER"]
+        print("----------")
+        print("ROOT_FOLDER:",ROOT_FOLDER)
+        print("----------")
         TEST_CASES_FOLDER = app.config["TEST_CASES_FOLDER"]
         EXPECTED_OUTPUTS_FOLDER = app.config["EXPECTED_OUTPUTS_FOLDER"]
 
