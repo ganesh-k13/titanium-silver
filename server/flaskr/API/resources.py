@@ -222,7 +222,7 @@ class UploadCode(Resource):
         cID = data["cID"]
         qID = data["questionID"]
         file_name = sID+"_"+qID
-        
+        tIDs = modelHelpers.getTestcasesByQID(qID)
         codeFilePath = os.path.join(
             app.config["INPUT_FOLDER"],
             file_name+"."+META_DATA[progLang]["extension"]
@@ -244,6 +244,7 @@ class UploadCode(Resource):
         inputJson = {
             "code":code,
             "questionID":qID,
+            "testcasesID":tIDs,
             "progLang":progLang,
             "codeFilePath":codeFilePath,
             "outputFilePath":outputFilePath,

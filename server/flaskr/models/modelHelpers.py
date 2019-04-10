@@ -191,3 +191,7 @@ def setChallengeStatusByID(ID,status):
     challenge = getChallengeByChallengeID(ID)
     challenge.status=status
     db.session.commit()
+
+def getTestcasesByQID(ID):
+    tid = db.session.query(models.QuestionAndTestCase).filter_by(qID=ID).all()
+    return [tc.tID for tc in tid]
