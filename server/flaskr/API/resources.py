@@ -2,7 +2,7 @@ import os
 
 from uuid import uuid4
 
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource,reqparse
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
 
@@ -207,6 +207,9 @@ class GetTeacherChallenges(Resource):
 class UploadCode(Resource):
 
     @jwt_required
+    def get(self):
+        return "True", 201
+    @jwt_required
     def post(self):
         claims = get_jwt_claims()
         username = claims["username"]
@@ -243,7 +246,7 @@ class UploadCode(Resource):
             "questionID":qID,
             "progLang":progLang,
             "codeFilePath":codeFilePath,
-            "outputFilePath":codeFilePath,
+            "outputFilePath":outputFilePath,
             "USN":sID, #sent for random.seed line 55 apiServer, remove if unnecessary,
             "file_name":file_name #sent since DockerClient names containers as file_name
         }
