@@ -3,6 +3,7 @@ from flask import request, abort, make_response, jsonify
 import random
 from titanium_silver.docker_client import Docker_Client
 from server.flaskr import app
+import pdb
 
 META_DATA = {
     "C++":{"extension": "cpp", "container":"CppContainer"},
@@ -27,12 +28,15 @@ def uploadCode(inputJson):
     #     app.config["INPUT_FOLDER"],
     #     file_name+"."+META_DATA[inputJson["progLang"]]["extension"]
     # )
+    # pdb.set_trace()
     file_name = inputJson["file_name"]
     codeFilePath = inputJson["codeFilePath"]
     # Open the file in 'w' mode to either overwrite previous
     # submission or create a new file for new submission.
-    with open(codeFilePath,"w") as inputFp:
+    with open(codeFilePath, "w") as inputFp:
         inputFp.write(inputJson['code']) # Write incoming 'code' string into the file.
+        inputFp.flush()
+        os.fsync(inputFp)
         inputFp.close()
           
     # ------------------------------------------------------
