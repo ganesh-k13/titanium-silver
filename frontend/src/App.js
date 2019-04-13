@@ -9,7 +9,7 @@ import Navbar from "./components/layout/common/Navbar";
 
 import TeacherProfile from "./components/layout/teacher/Profile";
 import TeacherSetTest from "./components/layout/teacher/SetTest";
-import StudentTestUI from "./components/layout/student/StudentTestUI";
+import Challenge from "./components/layout/student/Challenge";
 
 class App extends Component {
     render() {
@@ -21,7 +21,7 @@ class App extends Component {
                     <Route path="/signup" component={SignUp} />
                     <Route path="/student" component={StudentProfile} />
                     <Route path="/teacher" component={TeacherProfile} />
-                    <Route path="/studentTest" component={StudentTestUI} />
+                    <Route path="/enterChallenge" component={Challenge} />
                     <Route path="/setTest" component={TeacherSetTest} />
                 </div>
             </Router>
