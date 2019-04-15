@@ -194,4 +194,4 @@ def setChallengeStatusByID(ID,status):
 
 def getTestcasesByQID(ID):
     tid = db.session.query(models.QuestionAndTestCase).filter_by(qID=ID).all()
-    return [tc.tID for tc in tid]
+    return [{'in': tc.testCasePath, 'out': tc.expectedOutputPath} for tc in tid]

@@ -58,43 +58,43 @@ q3 = models.Question(
 t1uuid = str(uuid4().time)
 t1 = models.TestCase(
 		ID=t1uuid,
-		testCasePath="./codes/TestCases/t1",
-		expectedOutputPath="./codes/ExpectedOutput/t1e"
+		testCasePath="TestCases/t1",
+		expectedOutputPath="ExpectedOutput/t1e"
 	)
 
 t2uuid = str(uuid4().time)
 t2 = models.TestCase(
 		ID=t2uuid,
-		testCasePath="./codes/TestCases/t2",
-		expectedOutputPath="./codes/ExpectedOutput/t2e"
+		testCasePath="TestCases/t2",
+		expectedOutputPath="ExpectedOutput/t2e"
 	)
 
 t3uuid = str(uuid4().time)
 t3 = models.TestCase(
 		ID=t3uuid,
-		testCasePath="./codes/TestCases/t3",
-		expectedOutputPath="./codes/ExpectedOutput/t3e"
+		testCasePath="TestCases/t3",
+		expectedOutputPath="ExpectedOutput/t3e"
 	)
 
 t4uuid = str(uuid4().time)
 t4 = models.TestCase(
 		ID=t4uuid,
-		testCasePath="./codes/TestCases/t4",
-		expectedOutputPath="./codes/ExpectedOutput/t4e"
+		testCasePath="TestCases/t4",
+		expectedOutputPath="ExpectedOutput/t4e"
 	)
 
 t5uuid = str(uuid4().time)
 t5 = models.TestCase(
 		ID=t5uuid,
-		testCasePath="./codes/TestCases/t5",
-		expectedOutputPath="./codes/ExpectedOutput/t5e"
+		testCasePath="TestCases/t5",
+		expectedOutputPath="ExpectedOutput/t5e"
 	)
 
 t6uuid = str(uuid4().time)
 t6 = models.TestCase(
 		ID=t6uuid,
-		testCasePath="./codes/TestCases/t6",
-		expectedOutputPath="./codes/ExpectedOutput/t6e"
+		testCasePath="TestCases/t6",
+		expectedOutputPath="ExpectedOutput/t6e"
 	)
 
 
