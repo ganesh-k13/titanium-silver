@@ -1,5 +1,6 @@
 from server.flaskr import db
 from server.flaskr.models import models
+import pdb
 
 def insertIntoStudent(ID,name,semester,username,password):
     newStudent = models.Student(
@@ -193,5 +194,10 @@ def setChallengeStatusByID(ID,status):
     db.session.commit()
 
 def getTestcasesByQID(ID):
-    tid = db.session.query(models.QuestionAndTestCase).filter_by(qID=ID).all()
-    return [{'in': tc.testCasePath, 'out': tc.expectedOutputPath} for tc in tid]
+    # pdb.set_trace()
+    tids = db.session.query(models.QuestionAndTestCase).filter_by(qID=ID).all()
+    testcases_list = list()
+    for tid in tids:
+        testcase = db.session.query(models.TestCase).filter_by(ID=tid.tID).first()
+        testcases_list.append({'in': testcase.testCasePath,'out': testcase.expectedOutputPath})
+    return testcases_list

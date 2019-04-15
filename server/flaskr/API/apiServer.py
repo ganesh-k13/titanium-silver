@@ -59,7 +59,7 @@ def uploadCode(inputJson):
 
     random.seed(inputJson['USN'])
     dcli = Docker_Client()
-    thread = dcli.spawn_process(name=file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=inputJson["testcasesID"])
+    thread = dcli.spawn_process(name=file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=inputJson["testcases"])
     # Create a filename: 
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash

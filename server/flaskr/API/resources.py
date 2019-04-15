@@ -222,7 +222,6 @@ class UploadCode(Resource):
         cID = data["cID"]
         qID = data["questionID"]
         file_name = sID+"_"+qID
-        tIDs = modelHelpers.getTestcasesByQID(qID)
         codeFilePath = os.path.join(
             app.config["INPUT_FOLDER"],
             file_name+"."+META_DATA[progLang]["extension"]
@@ -232,6 +231,8 @@ class UploadCode(Resource):
             app.config["OUTPUT_FOLDER"],
             "op"+"_"+sID+"_"+qID
         )
+        
+        testcases = modelHelpers.getTestcasesByQID(qID)
 
         #modelHelpers.insertIntoSubmission(
         #    sID=sID,
@@ -244,8 +245,8 @@ class UploadCode(Resource):
         inputJson = {
             "code":code,
             "questionID":qID,
-            "testcasesID":tIDs,
             "progLang":progLang,
+            "testcases":testcases,
             "codeFilePath":codeFilePath,
             "outputFilePath":outputFilePath,
             "USN":sID, #sent for random.seed line 55 apiServer, remove if unnecessary,
