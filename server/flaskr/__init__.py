@@ -23,11 +23,11 @@ from server.flaskr.API import resources
 from server.flaskr.models import modelHelpers
 from server.flaskr import initScripts
 
-api.add_resource(resources.UserRegistration, "/api/registration")
-api.add_resource(resources.GetStudentDetails, "/api/getstudentdetails")
-api.add_resource(resources.GetTeacherDetails, "/api/getteacherdetails")
-api.add_resource(resources.GetTeacherChallenges, "/api/getteacherchallenges")
-api.add_resource(resources.UserLogin, "/api/login")
+api.add_resource(resources.UserRegistration, "/api/registration") # Has tests
+api.add_resource(resources.GetStudentDetails, "/api/getstudentdetails") # Has tests
+api.add_resource(resources.GetTeacherDetails, "/api/getteacherdetails") # Has tests
+api.add_resource(resources.GetTeacherChallenges, "/api/getteacherchallenges") # Has tests
+api.add_resource(resources.UserLogin, "/api/login") # Has tests
 api.add_resource(resources.UserLogoutAccess, "/api/logout/access")
 api.add_resource(resources.UserLogoutRefresh, "/api/logout/refresh")
 api.add_resource(resources.TokenRefresh, "/api/token/refresh")
