@@ -30,7 +30,7 @@ c1 = models.Challenge(
 		timeLimitMins=30
 	)
 
-q1uuid = str(uuid4().time)
+q1uuid = "54321"
 q1 = models.Question(
 		ID=q1uuid,
 		name="This is question 1",
@@ -55,46 +55,61 @@ q3 = models.Question(
 	)
 
 
-t1uuid = str(uuid4().time)
-t1 = models.TestCase(
-		ID=t1uuid,
-		testCasePath="./codes/TestCases/t1",
-		expectedOutputPath="./codes/ExpectedOutput/t1e"
+t1_1uuid = "1234567"
+t1_1 = models.TestCase(
+		ID=t1_1uuid,
+		testCasePath="TestCases/t1",
+		expectedOutputPath="ExpectedOutput/t1e"
 	)
+
+t1_2uuid = "12345678"
+t1_2 = models.TestCase(
+		ID=t1_2uuid,
+		testCasePath="TestCases/t2",
+		expectedOutputPath="ExpectedOutput/t2e"
+	)
+
+t1_3uuid = "12345679"
+t1_3 = models.TestCase(
+		ID=t1_3uuid,
+		testCasePath="TestCases/t3",
+		expectedOutputPath="ExpectedOutput/t3e"
+	)
+
 
 t2uuid = str(uuid4().time)
 t2 = models.TestCase(
 		ID=t2uuid,
-		testCasePath="./codes/TestCases/t2",
-		expectedOutputPath="./codes/ExpectedOutput/t2e"
+		testCasePath="TestCases/t2",
+		expectedOutputPath="ExpectedOutput/t2e"
 	)
 
 t3uuid = str(uuid4().time)
 t3 = models.TestCase(
 		ID=t3uuid,
-		testCasePath="./codes/TestCases/t3",
-		expectedOutputPath="./codes/ExpectedOutput/t3e"
+		testCasePath="TestCases/t3",
+		expectedOutputPath="ExpectedOutput/t3e"
 	)
 
 t4uuid = str(uuid4().time)
 t4 = models.TestCase(
 		ID=t4uuid,
-		testCasePath="./codes/TestCases/t4",
-		expectedOutputPath="./codes/ExpectedOutput/t4e"
+		testCasePath="TestCases/t4",
+		expectedOutputPath="ExpectedOutput/t4e"
 	)
 
 t5uuid = str(uuid4().time)
 t5 = models.TestCase(
 		ID=t5uuid,
-		testCasePath="./codes/TestCases/t5",
-		expectedOutputPath="./codes/ExpectedOutput/t5e"
+		testCasePath="TestCases/t5",
+		expectedOutputPath="ExpectedOutput/t5e"
 	)
 
 t6uuid = str(uuid4().time)
 t6 = models.TestCase(
 		ID=t6uuid,
-		testCasePath="./codes/TestCases/t6",
-		expectedOutputPath="./codes/ExpectedOutput/t6e"
+		testCasePath="TestCases/t6",
+		expectedOutputPath="ExpectedOutput/t6e"
 	)
 
 
@@ -118,9 +133,20 @@ cq3 = models.ChallengeAndQuestion(
 		qID=q3uuid
 	)
 
-qt1 = models.QuestionAndTestCase(
+qt1_1 = models.QuestionAndTestCase(
 		qID=q1uuid,
-		tID=t1uuid
+		tID=t1_1uuid
+	)
+
+qt1_2 = models.QuestionAndTestCase(
+		qID=q1uuid,
+		tID=t1_2uuid
+	)
+
+
+qt1_3 = models.QuestionAndTestCase(
+		qID=q1uuid,
+		tID=t1_3uuid
 	)
 
 qt2 = models.QuestionAndTestCase(
@@ -176,7 +202,7 @@ subRes1 = models.SubmissionResult(
 		sID="01FB15ECS444",
 		cID=c1uuid,
 		qID=q1uuid,
-		tID=t1uuid,
+		tID=t1_1uuid,
 		testPass=0
 	)
 
@@ -203,7 +229,9 @@ db.session.add(c1)
 db.session.add(q1)
 db.session.add(q2)
 db.session.add(q3)
-db.session.add(t1)
+db.session.add(t1_1)
+db.session.add(t1_2)
+db.session.add(t1_3)
 db.session.add(t2)
 db.session.add(t3)
 db.session.add(t4)
@@ -213,7 +241,9 @@ db.session.add(cq1)
 db.session.add(cs1)
 db.session.add(cq2)
 db.session.add(cq3)
-db.session.add(qt1)
+db.session.add(qt1_1)
+db.session.add(qt1_2)
+db.session.add(qt1_3)
 db.session.add(qt2)
 db.session.add(qt3)
 db.session.add(qt4)

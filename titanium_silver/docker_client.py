@@ -50,10 +50,8 @@ class Docker_Client:
         # pdb.set_trace()
 
         container = globals()[kwargs['lang']]()
-        setattr(container, 'num', kwargs['num'])
-        setattr(container, 'name', kwargs['name'])
-        setattr(container, 'path', kwargs['path'])
-        setattr(container, 'params', kwargs['params'])
+        for key, value in kwargs.items():
+            setattr(container, key, value)
         output = container.run_container(cli=self.cli)
         return output
 

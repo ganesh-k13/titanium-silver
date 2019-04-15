@@ -15,5 +15,5 @@ class CContainer(LangContainer):
         container_no = self.num
         container_name = self.name
         source_code_path = self.path
-        self.command =  ['sh','-c',('gcc /opt/%s.c -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + self.params]	 
+        self.command =  ['sh','-c',('gcc /opt/%s.c -o /opt/%s && /opt/%s %s'%(container_name, container_name, container_name, self.params))]	 
         self.image = "gcc:4.9"
