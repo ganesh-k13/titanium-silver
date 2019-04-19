@@ -7,7 +7,7 @@ class LangContainer(ABC):
 
     def run_container(self, cli):
         #pdb.set_trace()
-        container_name = self.name.split('/')[-1]
+        container_name = self.name.split('/')[-1]+str(self.num)
         cli.create_container(
                         image=self.image,
                         command=self.command,
