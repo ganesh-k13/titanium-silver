@@ -59,7 +59,11 @@ def uploadCode(inputJson):
 
     random.seed(inputJson['USN'])
     dcli = Docker_Client()
-    thread = dcli.spawn_process(name=file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=inputJson["testcases"])
+    
+    thread_list = list()    
+    codeOutput = list()
+    for t in inputJson['testcases']:
+        thread_list.append(dcli.spawn_process(name='Input/'+file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=t))
     # Create a filename: 
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash
@@ -69,14 +73,15 @@ def uploadCode(inputJson):
     #     "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
     # )
 
-    outputFilePath = inputJson["outputFilePath"]
+    for i, thread in enumerate(thread_list):
+        outputFilePath = inputJson["outputFilePath"]+"_"+str(i)
 
-    with open(outputFilePath, 'w') as f:
-        output = thread.result_queue.get().decode('utf-8') 
-        f.write(output)
+        with open(outputFilePath, 'w') as f:
+            output = thread.result_queue.get().decode('utf-8') 
+            f.write(output)
     
-    #codeOutput should be a dictionary.
-    codeOutput = {"output":output}
+        #codeOutput should be a dictionary.
+        codeOutput.append({"output_"+str(i):output})
 
     return codeOutput
 

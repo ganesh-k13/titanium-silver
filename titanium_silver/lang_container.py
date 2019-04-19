@@ -7,6 +7,7 @@ class LangContainer(ABC):
 
     def run_container(self, cli):
         #pdb.set_trace()
+        container_name = self.name.split('/')[-1]+str(self.num)
         cli.create_container(
                         image=self.image,
                         command=self.command,
@@ -19,16 +20,16 @@ class LangContainer(ABC):
                                                                         }
                                                         }
                                         ),
-                        name=self.name,
+                        name=container_name,
                         working_dir='/opt',
                         environment=["DOCKER_CLIENT_TIMEOUT=120", "COMPOSE_HTTP_TIMEOUT=120"]
         )
 
-        cli.start(self.name)
-        cli.wait(self.name)
-        output = cli.logs(self.name)
+        cli.start(container_name)
+        cli.wait(container_name)
+        output = cli.logs(container_name)
 
-        cli.remove_container(self.name, force=True)
+        cli.remove_container(container_name, force=True)
         return output
 
     @abstractmethod
