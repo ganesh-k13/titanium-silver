@@ -13,11 +13,11 @@ t1 = models.Teacher(
 	)
 
 s1 = models.Student(
-		ID="01FB15ECS444",
+		ID="01FB15ECS104",
 		name="Student 1",
 		semester="6th",
-		username="student1@gmail.com",
-		password="password2",
+		username="student1@students.com",
+		password="student1",
 		noOfChallenges=0
 	)
 
@@ -222,7 +222,7 @@ subRes3 = models.SubmissionResult(
 		testPass=1
 	)
 
-
+db.create_all()
 db.session.add(t1)
 db.session.add(s1)
 db.session.add(c1)
