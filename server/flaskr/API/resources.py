@@ -404,12 +404,10 @@ class StopChallenge(Resource):
 class GetChallengeDetails(Resource):
     @jwt_required
     def post(self):
-        data = parser.parse_args()
-        cID = data["cID"]
-
+        data = request.get_json()
+        cID=data["cID"]
         res = modelHelpers.getChallengeDetailsByID(cID)
-
-        return res
+        return res["res"],res["code"]
 
 
 ## With refresh token, use this to get
