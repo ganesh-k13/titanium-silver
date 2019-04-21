@@ -17,11 +17,12 @@ class Challenge extends Component {
 	constructor(...args){
 		super(...args);
 		this.state={
-			showTestUI:true,
+			showTestUI:false,
 			challengeID:"",
 			alertVariant:"success",
 			alertMessage:"",
-			alertShow:false
+			alertShow:false,
+			questionList:[]
 		}
 	}
 
@@ -33,8 +34,9 @@ class Challenge extends Component {
 
 	loadChallenge = () => {
 		let inpData = {
-			challengeID:this.state.challengeID
+			cID:this.state.challengeID
 		}
+		console.log(inpData);
 		axios({
 			method: 'post',
 			url: 'http://localhost:8000/api/getchallengedetails',
@@ -44,10 +46,18 @@ class Challenge extends Component {
 			data: inpData
 		}).then((resp)=>{
 			console.log(resp);
+			// send the question list to  studenttestUI (state update)
+			// then for each question, make a sidebar tab, and populate the props.
+			// to do above, we've to do similar to question and questionitem in teacher 
 			this.setState({
 				alertShow:true,
 				alertMessage:"Success, challenge will load soon",
-				alertVariant:"success"
+				alertVariant:"success",
+				questionList:resp.data.questions
+			},()=>{
+				this.setState({
+					showTestUI:true
+				})
 			});
 		}).catch((error)=>{
 			console.log(error);
@@ -138,7 +148,11 @@ class Challenge extends Component {
 				</Container>
 			}
 			{
-				this.state.showTestUI && <StudentTestUI/>
+				this.state.showTestUI && 
+				<StudentTestUI
+					challengeID={this.state.challengeID}
+					questionList={this.state.questionList}
+				/>
 			}
 			</React.Fragment>
 		);

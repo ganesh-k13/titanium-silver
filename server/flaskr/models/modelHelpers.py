@@ -155,6 +155,9 @@ def getChallengeDetailsByID(ID):
         "questions":[]
     }
     challenge = getChallengeByChallengeID(ID)
+    if not challenge: # challenge ID is invalid
+        return {"res":"Invalid","code":500}
+
     questionList = getAllQuestionsByChallengeID(ID)
 
     for question in questionList:
@@ -180,13 +183,14 @@ def getChallengeDetailsByID(ID):
             testCases.append((testCaseString,expectedOutputString))
 
         res["questions"].append({
+            "questionID":question.qID,
             "questionName":questionName,
             "cpu":questionCpu,
             "memory":questionMemory,
             "testCases":testCases,
         })
 
-    return res
+    return {"res":res,"code":200}
 
 def setChallengeStatusByID(ID,status):
     challenge = getChallengeByChallengeID(ID)

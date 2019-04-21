@@ -8,132 +8,160 @@ import {
     Nav,
     Tab
 } from "react-bootstrap";
-import AceEditor from "react-ace";
 import axios from "axios";
 
-import "brace/mode/java";
-import "brace/mode/python";
-import "brace/mode/c_cpp";
-import "brace/mode/php";
-import "brace/mode/ruby";
-
-import "brace/theme/monokai";
-import "brace/theme/github";
-import "brace/theme/tomorrow";
-import "brace/theme/kuroir";
-import "brace/theme/twilight";
-import "brace/theme/xcode";
-import "brace/theme/textmate";
-import "brace/theme/solarized_dark";
-import "brace/theme/solarized_light";
-import "brace/theme/terminal";
-
-import StudentTestUISideBar from "./StudentTestUISideBar";
+import Editor from "./Editor";
 
 class StudentTestUI extends Component {
 
     constructor(...args){
         super(...args);
         this.state = {
-            cID:"",
-            code:"",
-            editorWidth:"",
-            mode:"c_cpp",
-            progLang:"C",
-            fontSize:14,
-            theme:"monokai",
-            questionID:""
+            challengeID:""
         }
     }
 
     componentDidMount(){
-
+        this.setState({
+            challengeID:this.props.challengeID
+        })
+        for (var i = this.props.questionList.length - 1; i >= 0; i--) {
+            this.setState({
+                [[this.props.questionList[i].questionID]+"code"]:"",
+                [[this.props.questionList[i].questionID]+"progLang"]:"",
+            });
+        }
     }
 
-    submitCode = () => {
+    submitCode = (e) => {
         let inpData = {
-            cID:this.state.cID,
-            code:this.state.code,
-            questionID:this.state.questionID,
-            progLang:this.state.progLang
+            challengeID:this.state.challengeID,
+            code:this.state[e.target.name+"code"],
+            questionID:e.target.name,
+            progLang:this.state[e.target.name+"progLang"]
         }
         console.log("inpData:",inpData);
-        axios({
-            method: 'post',
-            url: 'http://localhost:8000/api/submitcode',
-            headers: {
-                "Authorization":"Bearer "+localStorage.getItem("accessToken")
-            },
-            data: inpData
-        }).then((resp)=>{
-            console.log(resp);
-        }).catch((resp)=>{
-            console.log(resp);
-        })
+        // axios({
+        //     method: 'post',
+        //     url: 'http://localhost:8000/api/submitcode',
+        //     headers: {
+        //         "Authorization":"Bearer "+localStorage.getItem("accessToken")
+        //     },
+        //     data: inpData
+        // }).then((resp)=>{
+        //     console.log(resp);
+        // }).catch((resp)=>{
+        //     console.log(resp);
+        // })
     }
 
-    updateEditorLanguage = (e) => {
-        let progLang = e.target[e.target.selectedIndex].id;
-        let val = e.target.value;
+    updateOptions = (name,value) => {
         this.setState({
-            [e.target.name]:val,
-            progLang:progLang
+            [name]:value
         })
-    }
-
-    updateEditorProps = (e) => {
-        this.setState({
-            [e.target.name]:e.target.value
-        })
-    }
-
-    codeChange = (v) => {
-        this.setState({
-            "code":v
-        });
     }
 
     render(){
         // console.log(this.state);
-        return (
-            <React.Fragment>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+        var navItems =  this.props.questionList.map((question,index)=>(
+            <Nav.Item
+                key={question.questionID}
+            >
+                <Nav.Link 
+                    eventKey={index.toString()}
+                    style={appStyle.blackTabs}
+                >
+                    Question {(index+1).toString()}
+                </Nav.Link>
+            </Nav.Item>
+        ));
+
+        var tabItems =  this.props.questionList.map((question,index)=>(
+            <Tab.Pane 
+                key={question.questionID}
+                eventKey={index.toString()}
+            >
+                <Container>
                     <Row>
+                        <Col xl={12}>
+                            {question.questionName}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col 
+                        >
+                            <Editor
+                                updateOptions={this.updateOptions}
+                                editorName={question.questionID}
+                                code={this.state[question.questionID+"code"]}
+                            />
+                        </Col>
+                    </Row>
+                    <Row
+                        style={appStyle.shiftDown}
+                    >
+                        <Col
+                            xl={{span:4,offset:4}}
+                            lg={{span:4,offset:4}}
+                            md={{span:4,offset:4}}
+                            sm={{span:4,offset:4}}
+                            xs={{span:4,offset:4}}
+                        >    
+                            <Button
+                                variant="primary"
+                                onClick={this.submitCode}
+                                name={question.questionID}
+                                block
+                            >
+                                Submit
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xl={12}>
+                        Results appear here
+                        </Col>
+                    </Row>
+                </Container>
+            </Tab.Pane>
+        ));
+
+        return(
+            <React.Fragment>
+                <Tab.Container 
+                    defaultActiveKey="0" 
+                    transition={false}
+                >
+                    <Row
+                        style={appStyle.noRightMargin}
+                    >
                         <Col sm={2}>
                             <Nav variant="pills" className="flex-column">
-                                <StudentTestUISideBar/>
+                                {navItems}
                             </Nav>
                         </Col>
                         <Col sm={10}>
                             <Tab.Content>
-                                <Tab.Pane eventKey="first">
-                                    Tab 1
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="second">
-                                    Tab 2
-                                </Tab.Pane>
+                                {tabItems}
                             </Tab.Content>
                         </Col>
                     </Row>
                 </Tab.Container>
-
             </React.Fragment>
         );
     }
 }
 
-
-
-const outlineBorder = {
-    border : "1px solid #000000"
-};
-
-const paddLeftZero = {
-    paddingLeft:"0px"
-};
-
-const paddRightZero = {
-    paddingRight:"0px"
-};
+const appStyle = {
+    blackTabs:{
+        color:"#000000"
+    },
+    shiftDown:{
+        marginTop:"10px"
+    },
+    noRightMargin:{
+        marginRight:"0px"
+    }
+}
 
 export default StudentTestUI;
