@@ -14,6 +14,7 @@ class Python2Container(LangContainer):
         container_no = self.num
         container_name = self.name
         source_code_path = self.path
-        self.command =  ['sh','-c',('python /opt/%s.py %s'%(container_name, self.params))]
+        test_case_in = self.testcases['in']
+        self.command =  ['sh','-c',('python /opt/%s.py %s < %s'%(container_name, self.params, test_case_in))]
         self.image = "python:latest"
 
