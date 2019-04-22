@@ -73,15 +73,19 @@ def uploadCode(inputJson):
     #     "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
     # )
 
-    for i, thread in enumerate(thread_list):
+    for i, (thread, t) in enumerate(zip(thread_list, inputJson['testcases'])):
         outputFilePath = inputJson["outputFilePath"]+"_"+str(i)
 
         with open(outputFilePath, 'w') as f:
             output = thread.result_queue.get().decode('utf-8') 
             f.write(output)
-    
+        
         #codeOutput should be a dictionary.
-        codeOutput.append({"output_"+str(i):output})
+        output_file = os.path.join(app.config['EXPECTED_OUTPUTS_FOLDER'], t['out'].split('/')[-1])
+        with open(output_file) as f:
+            expected_out = f.read()
+            print(output, expected_out)
+            codeOutput.append({"output_"+str(i):output==expected_out})
 
     return codeOutput
 
