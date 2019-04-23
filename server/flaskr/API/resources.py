@@ -273,7 +273,15 @@ class UploadCode(Resource):
 
         # Get output Dictionary
         output = apiServer.uploadCode(inputJson)
-
+        
+        # GANESH [TODO]:
+        # please maintain your output like this:
+        # {
+        #     {tID1:true},
+        #     {tID2:true},
+        #     {tID3:false},
+        #     {compilePass:false}, ### important, please note the key name
+        # }
 
         # JSON Structure as Key-Value pairs (proposed):
         # +--------+--------+
@@ -287,10 +295,7 @@ class UploadCode(Resource):
             "output":output
         }
 
-        # Parse output JSON here (not outputJson, the variable "output")
-        # First check for the key "compileStatus" or something similar, consult Ganesh.
-        # Update the submission to that variable's boolean value
-        # Then for each test case update the SubmissionResult Table and send back stuff to UI.
+
 
         # outputJson["outputs"] is a list. But it's easier to process if the outputJson["outputs"]
         # are like:
