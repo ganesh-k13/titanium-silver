@@ -18,6 +18,16 @@ class FinishedChallengeItem extends Component {
 						<span style={questionDetsStyle}>{this.props.timeLimitHrs} hrs</span>
 						<span style={questionDetsStyle}> {this.props.timeLimitMins} mins</span>
 					</Col>
+					<Col xl={3} lg={3} md={3} sm={3} xs={3}>
+						<ButtonToolbar>
+							<Button
+								variant="info"
+								block
+							>
+								Details
+							</Button>
+						</ButtonToolbar>
+					</Col>
 				</Row>
 			</Container>
 		);

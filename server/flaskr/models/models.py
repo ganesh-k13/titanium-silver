@@ -115,7 +115,7 @@ class Submission(db.Model):
                                             self.cID,
                                             self.qID,
                                             self.codeFilePath,
-                                            self.status)
+                                            self.compilePass)
 
 class SubmissionResult(db.Model):
     sID = db.Column(db.String(18), db.ForeignKey("student.ID"),primary_key=True)
