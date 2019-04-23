@@ -24,7 +24,7 @@ parser.add_argument("progLang")
 parser.add_argument("questions")
 
 parser.add_argument("code")
-parser.add_argument("cID")
+parser.add_argument("challengeID")
 parser.add_argument("questionID")
 parser.add_argument("progLang")
 
@@ -213,13 +213,12 @@ class UploadCode(Resource):
     def post(self):
         claims = get_jwt_claims()
         username = claims["username"]
-
         data = parser.parse_args()
         code = data["code"]
         progLang = data["progLang"]
         
         sID = modelHelpers.getStudentByUsername(username).ID
-        cID = data["cID"]
+        cID = data["challengeID"]
         qID = data["questionID"]
         file_name = sID+"_"+qID
         codeFilePath = os.path.join(
@@ -233,14 +232,14 @@ class UploadCode(Resource):
         )
         
         testcases = modelHelpers.getTestcasesByQID(qID)
-
-        # modelHelpers.insertIntoSubmission(
-        #     sID=sID,
-        #     cID=cID,
-        #     qID=qID,
-        #     codeFilePath=codeFilePath,
-        #     status="Compile:Pending"
-        # )
+        if not modelHelpers.isExistingSubmission(sID,cID,qID):
+            modelHelpers.insertIntoSubmission(
+                sID=sID,
+                cID=cID,
+                qID=qID,
+                codeFilePath=codeFilePath,
+                compilePass=False
+            )
 
         inputJson = {
             "code":code,
@@ -288,7 +287,72 @@ class UploadCode(Resource):
             "output":output
         }
 
-        return outputJson, 201
+        # Parse output JSON here (not outputJson, the variable "output")
+        # First check for the key "compileStatus" or something similar, consult Ganesh.
+        # Update the submission to that variable's boolean value
+        # Then for each test case update the SubmissionResult Table and send back stuff to UI.
+
+        # outputJson["outputs"] is a list. But it's easier to process if the outputJson["outputs"]
+        # are like:
+        ## processedOutput:{
+        ##     testCaseID1:True,
+        ##     testCaseID2:True,
+        ##     testCaseID3:False,
+        ##     compilePass:True
+        ## }
+
+        processedOutput = {
+            "522961781448579731":True,
+            "1116729292136978953":False,
+            "186156821588580947":True,
+            "compilePass":True
+        }
+
+        # So the below stuff does that:
+
+        # processedOutput = {}
+        # for item in outputJson["output"]:
+        #     processedOutput.update(**item)
+
+        numTestCasePassed = 0
+        totalTestCases = 0
+
+        for key,value in processedOutput.items():
+            if key=="compilePass":
+                modelHelpers.updateSubmissionCompileStatus(
+                    sID=sID,
+                    cID=cID,
+                    qID=qID,
+                    compilePass=True
+                )                
+            else: # The key is a test case ID, value is True(i.e. Pass) or False(i.e. Fail)
+                if value:
+                    numTestCasePassed += 1
+                totalTestCases += 1
+
+                if not modelHelpers.isExistingSubmissionResult(
+                    sID=sID,
+                    cID=cID,
+                    qID=qID,
+                    tID=key                    
+                ):
+                    modelHelpers.insertIntoSubmissionResult(
+                        sID=sID,
+                        cID=cID,
+                        qID=qID,
+                        tID=key,
+                        testPass=value
+                    )
+                else:
+                    modelHelpers.updateTestPassSubmissionResult(
+                        sID=sID,
+                        cID=cID,
+                        qID=qID,
+                        tID=key,
+                        testPass=value
+                    )
+        processedOutput["testCasesResult"]="{0}/{1} passed.".format(numTestCasePassed,totalTestCases)
+        return processedOutput, 201
 
 
 class SetChallenge(Resource):

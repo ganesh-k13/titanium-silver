@@ -60,8 +60,15 @@ class Challenge extends Component {
 				})
 			});
 		}).catch((error)=>{
-			console.log(error);
-			if(error.response.status === 401){
+			if(error.response==undefined){
+				this.setState({
+					alertShow:true,
+					alertMessage:"Network/Server error",
+					alertVariant:"danger"
+				});
+
+			}
+			else if(error.response.status === 401){
 				this.setState({
 					alertShow:true,
 					alertMessage:"You don't seem to be logged in",
@@ -71,7 +78,7 @@ class Challenge extends Component {
 			else{
 				this.setState({
 					alertShow:true,
-					alertMessage:"Challenge ID is invalid, please check again and submit again",
+					alertMessage:"Challenge ID is invalid or Challenge hasn't started. Try again later",
 					alertVariant:"danger"
 				});
 			}

@@ -107,7 +107,7 @@ class Submission(db.Model):
     cID = db.Column(db.String(18), db.ForeignKey("challenge.ID"),primary_key=True)
     qID = db.Column(db.String(18), db.ForeignKey("question.ID"),primary_key=True)
     codeFilePath = db.Column(db.String(100))
-    status = db.Column(db.String(50)) # One of these -- [Compile:Pass,Compile:Fail]
+    compilePass = db.Column(db.Boolean) # True is Pass, False is Fail
 
     def __repr__(self):
         return "<Submission {0},{1},{2},{3},{4}>".format(

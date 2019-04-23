@@ -45,6 +45,7 @@ class Editor extends Component {
 		this.setState({
 			editorWidth: document.getElementById("editorParent").clientWidth
 		})
+		this.props.updateOptions(this.props.editorName+"progLang","C");
 	}
 
 	updateEditorLanguage = (e) => {
@@ -54,7 +55,7 @@ class Editor extends Component {
 			[e.target.name]:val,
 			progLang:progLang
 		})
-		this.props.updateOptions(this.props.editorName+"progLang",val);
+		this.props.updateOptions(this.props.editorName+"progLang",progLang);
 	}
 
 	updateEditorProps = (e) => {

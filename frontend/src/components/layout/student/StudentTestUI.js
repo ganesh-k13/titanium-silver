@@ -6,11 +6,14 @@ import {
     Form,
     Button,
     Nav,
-    Tab
+    Tab,
+    Spinner
 } from "react-bootstrap";
 import axios from "axios";
 
 import Editor from "./Editor";
+import Results from "./Results";
+import LoadingButton from "../common/LoadingButton";
 
 class StudentTestUI extends Component {
 
@@ -28,31 +31,44 @@ class StudentTestUI extends Component {
         for (var i = this.props.questionList.length - 1; i >= 0; i--) {
             this.setState({
                 [[this.props.questionList[i].questionID]+"code"]:"",
-                [[this.props.questionList[i].questionID]+"progLang"]:"",
+                [[this.props.questionList[i].questionID]+"progLang"]:"C",
+                [[this.props.questionList[i].questionID]+"disableBtn"]:false,
+                [[this.props.questionList[i].questionID]+"resultJson"]:{}
+            },()=>{
+                console.log(this.state);
             });
         }
     }
 
     submitCode = (e) => {
-        let inpData = {
-            challengeID:this.state.challengeID,
-            code:this.state[e.target.name+"code"],
-            questionID:e.target.name,
-            progLang:this.state[e.target.name+"progLang"]
-        }
-        console.log("inpData:",inpData);
-        // axios({
-        //     method: 'post',
-        //     url: 'http://localhost:8000/api/submitcode',
-        //     headers: {
-        //         "Authorization":"Bearer "+localStorage.getItem("accessToken")
-        //     },
-        //     data: inpData
-        // }).then((resp)=>{
-        //     console.log(resp);
-        // }).catch((resp)=>{
-        //     console.log(resp);
-        // })
+        let name = e.target.name;
+        this.setState({
+            [name+"disableBtn"]:true
+        },()=>{
+            let inpData = {
+                challengeID:this.state.challengeID,
+                code:this.state[name+"code"],
+                questionID:name,
+                progLang:this.state[name+"progLang"]
+            }
+            console.log("inpData:",inpData);
+            axios({
+                method: 'post',
+                url: 'http://localhost:8000/api/submitcode',
+                headers: {
+                    "Authorization":"Bearer "+localStorage.getItem("accessToken")
+                },
+                data: inpData
+            }).then((resp)=>{
+                console.log(resp);
+                this.setState({
+                    [name+"resultJson"]:resp.data,
+                    [name+"disableBtn"]:false
+                })
+            }).catch((resp)=>{
+                console.log(resp);
+            })
+        });
     }
 
     updateOptions = (name,value) => {
@@ -111,15 +127,44 @@ class StudentTestUI extends Component {
                                 variant="primary"
                                 onClick={this.submitCode}
                                 name={question.questionID}
+                                disabled={this.state[question.questionID+"disableBtn"]}
                                 block
                             >
                                 Submit
                             </Button>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row
+                        style={appStyle.title}
+                    >
+                        <Col
+                            xl={12}
+                            lg={12}
+                            md={12}
+                        >
+                            Submission Result:
+                            {this.state[question.questionID+"disableBtn"] && 
+                            <Spinner 
+                                animation="border" 
+                                role="status"
+                                variant="primary"
+                            >
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>}
+                        </Col>
+                    </Row>
+                    <Row style={appStyle.shiftDown}>
                         <Col xl={12}>
-                        Results appear here
+                            <Results
+                                resultJson={(()=>{
+                                    if(this.state[question.questionID+"resultJson"] === null ||
+                                        this.state[question.questionID+"resultJson"] ===undefined
+                                    ){
+                                        return {}
+                                    }
+                                    return this.state[question.questionID+"resultJson"];
+                                })()}
+                            />
                         </Col>
                     </Row>
                 </Container>
@@ -129,7 +174,7 @@ class StudentTestUI extends Component {
         return(
             <React.Fragment>
                 <Tab.Container 
-                    defaultActiveKey="0" 
+                    defaultActiveKey="0"
                     transition={false}
                 >
                     <Row
@@ -161,6 +206,12 @@ const appStyle = {
     },
     noRightMargin:{
         marginRight:"0px"
+    },
+    shiftDown:{
+        marginTop:"10px"
+    },
+    title:{
+        fontSize:"24px"
     }
 }
 
