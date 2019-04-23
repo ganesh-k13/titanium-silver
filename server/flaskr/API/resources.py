@@ -300,19 +300,19 @@ class UploadCode(Resource):
         ##     testCaseID3:False,
         ##     compilePass:True
         ## }
-
-        processedOutput = {
-            "522961781448579731":True,
-            "1116729292136978953":False,
-            "186156821588580947":True,
-            "compilePass":True
-        }
+        ## Eg:
+        ## processedOutput = {
+        ##     "522961781448579731":True,
+        ##     "1116729292136978953":False,
+        ##     "186156821588580947":True,
+        ##     "compilePass":True
+        ## }
 
         # So the below stuff does that:
 
-        # processedOutput = {}
-        # for item in outputJson["output"]:
-        #     processedOutput.update(**item)
+        processedOutput = {}
+        for item in outputJson["output"]:
+            processedOutput.update(**item)
 
         numTestCasePassed = 0
         totalTestCases = 0
