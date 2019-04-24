@@ -7,7 +7,23 @@ import {
     Button
 } from "react-bootstrap";
 
+import FinishedChallengeItemBody from "./FinishedChallengeItemBody";
+import VerticalModal from '../common/VerticalModal';
+
 class FinishedChallengeItem extends Component {
+    constructor(...args){
+        super(...args);
+        this.state = {
+            modalShow: false
+        }
+    }
+
+    modalClose = () => {
+        this.setState({ 
+            modalShow: false 
+        })
+    }
+    
     render() {
         return (
             <Container style={questionWrapperStyle}>
@@ -19,14 +35,22 @@ class FinishedChallengeItem extends Component {
                         <span style={questionDetsStyle}> {this.props.timeLimitMins} mins</span>
                     </Col>
                     <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                        <ButtonToolbar>
-                            <Button
-                                variant="info"
-                                block
-                            >
-                                Details
-                            </Button>
-                        </ButtonToolbar>
+                            <ButtonToolbar>
+                                <Button
+                                    variant="info"
+                                    onClick={() => this.setState({ modalShow: true })}
+                                    block
+                                >
+                                    Details
+                                </Button>
+
+                                <VerticalModal
+                                    show={this.state.modalShow}
+                                    modaltitle="Results"
+                                    onHide={this.modalClose}
+                                    modalbody={<FinishedChallengeItemBody addTest={this.addTest} hideModal={this.modalClose}/>}
+                                />
+                            </ButtonToolbar>
                     </Col>
                 </Row>
             </Container>

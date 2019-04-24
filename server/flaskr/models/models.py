@@ -37,7 +37,7 @@ class Student(db.Model):
                                                 self.noOfChallenges)
 
 class Challenge(db.Model):
-    ID = db.Column(db.String(18), primary_key=True) # generated via uuid4
+    ID = db.Column(db.String(32), primary_key=True) # generated via uuid4
     teacherID = db.Column(db.String(10),db.ForeignKey("teacher.ID"), index=True)
     status = db.Column(db.String(8))
     timeLimitHrs = db.Column(db.Integer)
@@ -52,7 +52,7 @@ class Challenge(db.Model):
                                                 self.timeLimitMins)
 
 class Question(db.Model):
-    ID = db.Column(db.String(18), primary_key=True)# Question ID # generated via uuid4
+    ID = db.Column(db.String(32), primary_key=True)# Question ID # generated via uuid4
     name = db.Column(db.String(20))
     CPU = db.Column(db.String(10))
     memory = db.Column(db.String(10))
@@ -65,7 +65,7 @@ class Question(db.Model):
                                                 self.memory)
 
 class TestCase(db.Model):
-    ID = db.Column(db.String(18), primary_key=True)# Test Case ID # generated via uuid4
+    ID = db.Column(db.String(32), primary_key=True)# Test Case ID # generated via uuid4
     testCasePath = db.Column(db.String(20))
     expectedOutputPath = db.Column(db.String(20))
 
@@ -76,8 +76,8 @@ class TestCase(db.Model):
                                             self.expectedOutputPath)
 
 class ChallengeAndQuestion(db.Model): # relationship tables
-    cID = db.Column(db.String(18), db.ForeignKey("challenge.ID"),primary_key=True)
-    qID = db.Column(db.String(18), db.ForeignKey("question.ID"),primary_key=True)
+    cID = db.Column(db.String(32), db.ForeignKey("challenge.ID"),primary_key=True)
+    qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
 
     def __repr__(self):
         return "<ChallengeAndQuestion {0},{1}>".format(
@@ -85,8 +85,8 @@ class ChallengeAndQuestion(db.Model): # relationship tables
                                             self.qID)
 
 class ChallengeAndStudent(db.Model): # relationship tables
-    cID = db.Column(db.String(18), db.ForeignKey("challenge.ID"),primary_key=True)
-    sID = db.Column(db.String(18), db.ForeignKey("student.ID"),primary_key=True)
+    cID = db.Column(db.String(32), db.ForeignKey("challenge.ID"),primary_key=True)
+    sID = db.Column(db.String(12), db.ForeignKey("student.ID"),primary_key=True)
 
     def __repr__(self):
         return "<ChallengeAndStudent {0},{1}>".format(
@@ -94,8 +94,8 @@ class ChallengeAndStudent(db.Model): # relationship tables
                                             self.sID)
 
 class QuestionAndTestCase(db.Model): # relationship tables
-    qID = db.Column(db.String(18), db.ForeignKey("question.ID"),primary_key=True)
-    tID = db.Column(db.String(18), db.ForeignKey("test_case.ID"),primary_key=True)
+    qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
+    tID = db.Column(db.String(12), db.ForeignKey("test_case.ID"),primary_key=True)
 
     def __repr__(self):
         return "<QuestionAndTestCase {0},{1}>".format(
@@ -103,9 +103,9 @@ class QuestionAndTestCase(db.Model): # relationship tables
                                             self.tID)
 
 class Submission(db.Model):
-    sID = db.Column(db.String(18), db.ForeignKey("student.ID"),primary_key=True)
-    cID = db.Column(db.String(18), db.ForeignKey("challenge.ID"),primary_key=True)
-    qID = db.Column(db.String(18), db.ForeignKey("question.ID"),primary_key=True)
+    sID = db.Column(db.String(12), db.ForeignKey("student.ID"),primary_key=True)
+    cID = db.Column(db.String(32), db.ForeignKey("challenge.ID"),primary_key=True)
+    qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
     codeFilePath = db.Column(db.String(100))
     compilePass = db.Column(db.Boolean) # True is Pass, False is Fail
 
@@ -118,10 +118,10 @@ class Submission(db.Model):
                                             self.compilePass)
 
 class SubmissionResult(db.Model):
-    sID = db.Column(db.String(18), db.ForeignKey("student.ID"),primary_key=True)
-    cID = db.Column(db.String(18), db.ForeignKey("challenge.ID"),primary_key=True)
-    qID = db.Column(db.String(18), db.ForeignKey("question.ID"),primary_key=True)
-    tID = db.Column(db.String(18), db.ForeignKey("test_case.ID"),primary_key=True)
+    sID = db.Column(db.String(12), db.ForeignKey("student.ID"),primary_key=True)
+    cID = db.Column(db.String(32), db.ForeignKey("challenge.ID"),primary_key=True)
+    qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
+    tID = db.Column(db.String(12), db.ForeignKey("test_case.ID"),primary_key=True)
     testPass = db.Column(db.Boolean) 
 
     def __repr__(self):

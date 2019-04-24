@@ -382,7 +382,7 @@ class SetChallenge(Resource):
         # Create a UUID $uuid1
         # Create a models.Challenge entry with UUID $uuid1, teacherID, status="INACTIVE", timeLimitHrs, timeLimitMins
 
-        challengeID = uuid4().time #18 character long unique ID
+        challengeID = uuid4().hex #18 character long unique ID
         modelHelpers.insertIntoChallenge(
             ID=challengeID,
             teacherID=teacherID,
@@ -404,7 +404,7 @@ class SetChallenge(Resource):
 
 
         for question in questions:
-            questionID = uuid4().time
+            questionID = uuid4().hex
             modelHelpers.insertIntoQuestion(
                 ID=questionID,
                 name=question["questionName"],
@@ -413,7 +413,7 @@ class SetChallenge(Resource):
             )
 
             for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
-                testCaseID = uuid4().time
+                testCaseID = uuid4().hex
                 testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
                 expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
 
