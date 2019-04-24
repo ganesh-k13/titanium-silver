@@ -1,5 +1,6 @@
 import os
 from titanium_silver.lang_container import LangContainer 
+import pdb
 
 class PythonContainer(LangContainer):
     def __init__(self):
@@ -14,6 +15,9 @@ class PythonContainer(LangContainer):
         container_no = self.num
         container_name = self.name
         source_code_path = self.path
-        self.command =  ['sh','-c',('gcc /opt/%s.c -o /opt/%s && /opt/%s '%(container_name, container_name, container_name)) + self.params]
+        # pdb.set_trace()
+        test_case_in = self.testcases['in']
+        # print(test_case_in)
+        self.command =  ['sh','-c',('python3 /opt/%s.py %s < %s'%(container_name, self.params, test_case_in))]
         self.image = "python:latest"
 

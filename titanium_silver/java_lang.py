@@ -14,5 +14,6 @@ class JavaContainer(LangContainer):
         container_no = self.num
         container_name = self.name
         source_code_path = self.path
-        self.command = ['sh','-c',('javac /opt/%s.java && java -cp /opt %s %s')%(container_name, container_name, self.params)]
+        test_case_in = self.testcases['in']
+        self.command = ['sh','-c',('javac /opt/%s.java && java -cp /opt %s %s < %s')%(container_name, container_name, self.params, test_case_in)]
         self.image = "java:latest"

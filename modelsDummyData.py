@@ -59,21 +59,21 @@ t1_1uuid = "1234567"
 t1_1 = models.TestCase(
 		ID=t1_1uuid,
 		testCasePath="TestCases/t1",
-		expectedOutputPath="ExpectedOutput/t1e"
+		expectedOutputPath="ExpectedOutputs/t1e"
 	)
 
 t1_2uuid = "12345678"
 t1_2 = models.TestCase(
 		ID=t1_2uuid,
 		testCasePath="TestCases/t2",
-		expectedOutputPath="ExpectedOutput/t2e"
+		expectedOutputPath="ExpectedOutputs/t2e"
 	)
 
 t1_3uuid = "12345679"
 t1_3 = models.TestCase(
 		ID=t1_3uuid,
 		testCasePath="TestCases/t3",
-		expectedOutputPath="ExpectedOutput/t3e"
+		expectedOutputPath="ExpectedOutputs/t3e"
 	)
 
 
@@ -81,35 +81,35 @@ t2uuid = str(uuid4().time)
 t2 = models.TestCase(
 		ID=t2uuid,
 		testCasePath="TestCases/t2",
-		expectedOutputPath="ExpectedOutput/t2e"
+		expectedOutputPath="ExpectedOutputs/t2e"
 	)
 
 t3uuid = str(uuid4().time)
 t3 = models.TestCase(
 		ID=t3uuid,
 		testCasePath="TestCases/t3",
-		expectedOutputPath="ExpectedOutput/t3e"
+		expectedOutputPath="ExpectedOutputs/t3e"
 	)
 
 t4uuid = str(uuid4().time)
 t4 = models.TestCase(
 		ID=t4uuid,
 		testCasePath="TestCases/t4",
-		expectedOutputPath="ExpectedOutput/t4e"
+		expectedOutputPath="ExpectedOutputs/t4e"
 	)
 
 t5uuid = str(uuid4().time)
 t5 = models.TestCase(
 		ID=t5uuid,
 		testCasePath="TestCases/t5",
-		expectedOutputPath="ExpectedOutput/t5e"
+		expectedOutputPath="ExpectedOutputs/t5e"
 	)
 
 t6uuid = str(uuid4().time)
 t6 = models.TestCase(
 		ID=t6uuid,
 		testCasePath="TestCases/t6",
-		expectedOutputPath="ExpectedOutput/t6e"
+		expectedOutputPath="ExpectedOutputs/t6e"
 	)
 
 
