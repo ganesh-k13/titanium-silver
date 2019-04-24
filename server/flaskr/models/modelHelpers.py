@@ -88,13 +88,13 @@ def insertIntoQuestionAndTestCase(qID,tID):
     db.session.add(newItem)
     db.session.commit()
 
-def insertIntoSubmission(sID,cID,qID,codeFilePath,status):
+def insertIntoSubmission(sID,cID,qID,codeFilePath,compilePass):
     newSubmission = models.Submission(
         sID=sID,
         cID=cID,
         qID=qID,
         codeFilePath=codeFilePath,
-        status=status
+        compilePass=compilePass
     )
     db.session.add(newSubmission)
     db.session.commit()
@@ -155,6 +155,12 @@ def getChallengeDetailsByID(ID):
         "questions":[]
     }
     challenge = getChallengeByChallengeID(ID)
+    if not challenge: # challenge ID is invalid
+        return {"res":"Invalid","code":500}
+
+    if challenge.status=="INACTIVE":
+        return {"res":"Challenge not started yet","code":500}
+
     questionList = getAllQuestionsByChallengeID(ID)
 
     for question in questionList:
@@ -180,13 +186,14 @@ def getChallengeDetailsByID(ID):
             testCases.append((testCaseString,expectedOutputString))
 
         res["questions"].append({
+            "questionID":question.qID,
             "questionName":questionName,
             "cpu":questionCpu,
             "memory":questionMemory,
             "testCases":testCases,
         })
 
-    return res
+    return {"res":res,"code":200}
 
 def setChallengeStatusByID(ID,status):
     challenge = getChallengeByChallengeID(ID)
@@ -201,3 +208,36 @@ def getTestcasesByQID(ID):
         testcase = db.session.query(models.TestCase).filter_by(ID=tid.tID).first()
         testcases_list.append({'in': testcase.testCasePath,'out': testcase.expectedOutputPath})
     return testcases_list
+
+def isExistingSubmission(sID,cID,qID):
+    return not db.session.query(models.Submission).filter_by(sID=sID,cID=cID,qID=qID).first()==None
+
+def getSubmissionDetailsByIDs(sID,cID,qID):
+    return db.session.query(models.Submission).filter_by(sID=sID,cID=cID,qID=qID).first()
+
+def updateSubmissionCompileStatus(sID,cID,qID,compilePass):
+    submission = getSubmissionDetailsByIDs(sID,cID,qID)
+    submission.compilePass = compilePass
+    db.session.commit()
+
+def insertIntoSubmissionResult(sID,cID,qID,tID,testPass):
+    newSubmission = models.SubmissionResult(
+        sID=sID,
+        cID=cID,
+        qID=qID,
+        tID=tID,
+        testPass=testPass
+    )
+    db.session.add(newSubmission)
+    db.session.commit()
+
+def isExistingSubmissionResult(sID,cID,qID,tID):
+    return not db.session.query(models.SubmissionResult).filter_by(sID=sID,cID=cID,qID=qID,tID=tID).first()==None
+
+def getSubmissionResultDetailsByIDs(sID,cID,qID,tID):
+    return db.session.query(models.SubmissionResult).filter_by(sID=sID,cID=cID,qID=qID,tID=tID).first()
+
+def updateTestPassSubmissionResult(sID,cID,qID,tID,testPass):
+    submissionRes = getSubmissionResultDetailsByIDs(sID,cID,qID,tID)
+    submissionRes.testPass = testPass
+    db.session.commit()

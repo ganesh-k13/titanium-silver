@@ -58,17 +58,17 @@ class SetTestBody extends Component{
 							</Form.Text>
 						</Col>
 					</Row>
-				</Container>			
+				</Container>
 				<Container>
-					<Row>
+					<Row>	
 						<Col xl={6} lg={6} md={6}>
 							<Form.Label>Test Cases:</Form.Label>
 						</Col>
 						<Col xl={6} lg={6} md={6}>
 							<Form.Label>Expected Outputs:</Form.Label>
 						</Col>
-					</Row>			
-					<Row>
+					</Row>
+					<Row>	
 						<Col xl={6} lg={6} md={6}>
 							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
 							<Form.Text className="text-muted">
@@ -82,8 +82,7 @@ class SetTestBody extends Component{
 							</Form.Text>
 						</Col>
 					</Row>
-				</Container>		
-
+				</Container>
 				<Container>
 					<Row>
 						<Col md={{ span: 2, offset: 8 }}  lg={{ span: 2, offset: 8 }}  xl={{ span: 2, offset: 8 }}>
@@ -99,4 +98,41 @@ class SetTestBody extends Component{
 	}
 }
 
+
+				// <Container>
+				// 	<Row  style={{marginTop:"40px"}}>
+				// 		<Col xl={12} lg={12} md={12}>
+				// 			Choose the languages to allow:
+				// 		</Col>
+				// 	</Row>
+				// </Container>
+				// <Container>
+				// 	<Row>
+				// 		<Col xl={12} lg={12} md={12}>
+				//             <Form.Check inline label="C" type="checkbox"/>
+				//             <Form.Check inline label="C++" type="checkbox"/>
+				//             <Form.Check inline label="Java" type="checkbox"/>
+				//             <Form.Check inline label="Python3" type="checkbox"/>
+				//             <Form.Check inline label="Python" type="checkbox"/>
+				//             <Form.Check inline label="Ruby" type="checkbox"/>
+				//             <Form.Check inline label="PHP5.x" type="checkbox"/>
+				//             <Form.Check inline label="PHP7.x" type="checkbox"/>
+				// 		</Col>
+				// 	</Row>
+				// </Container>
+				// <Container>
+				// 	<Row  style={{marginTop:"40px"}}>
+				// 		<Col xl={6} lg={6} md={6}>
+				// 			<Form.Label>Test Cases and Expected Outputs File:</Form.Label>
+				// 			<Form.Text className="text-muted">
+				// 				Name Test Case as "in***" and its Expected Output as "out***"<br/>
+				// 				where *** are digits and the same number. Eg: in001 and out001<br/>
+				// 				are mapped.
+				// 			</Form.Text>
+				// 		</Col>
+				// 		<Col xl={6} lg={6} md={6}>
+				// 			<input type="file"/>
+				// 		</Col>
+				// 	</Row>
+				// </Container>
 export default SetTestBody;

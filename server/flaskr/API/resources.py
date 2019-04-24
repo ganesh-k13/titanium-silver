@@ -24,7 +24,7 @@ parser.add_argument("progLang")
 parser.add_argument("questions")
 
 parser.add_argument("code")
-parser.add_argument("cID")
+parser.add_argument("challengeID")
 parser.add_argument("questionID")
 parser.add_argument("progLang")
 
@@ -213,13 +213,12 @@ class UploadCode(Resource):
     def post(self):
         claims = get_jwt_claims()
         username = claims["username"]
-
         data = parser.parse_args()
         code = data["code"]
         progLang = data["progLang"]
         
         sID = modelHelpers.getStudentByUsername(username).ID
-        cID = data["cID"]
+        cID = data["challengeID"]
         qID = data["questionID"]
         file_name = sID+"_"+qID
         codeFilePath = os.path.join(
@@ -233,14 +232,14 @@ class UploadCode(Resource):
         )
         
         testcases = modelHelpers.getTestcasesByQID(qID)
-
-        # modelHelpers.insertIntoSubmission(
-        #     sID=sID,
-        #     cID=cID,
-        #     qID=qID,
-        #     codeFilePath=codeFilePath,
-        #     status="Compile:Pending"
-        # )
+        if not modelHelpers.isExistingSubmission(sID,cID,qID):
+            modelHelpers.insertIntoSubmission(
+                sID=sID,
+                cID=cID,
+                qID=qID,
+                codeFilePath=codeFilePath,
+                compilePass=False
+            )
 
         inputJson = {
             "code":code,
@@ -274,7 +273,15 @@ class UploadCode(Resource):
 
         # Get output Dictionary
         output = apiServer.uploadCode(inputJson)
-
+        
+        # GANESH [TODO]:
+        # please maintain your output like this:
+        # {
+        #     {tID1:true},
+        #     {tID2:true},
+        #     {tID3:false},
+        #     {compilePass:false}, ### important, please note the key name
+        # }
 
         # JSON Structure as Key-Value pairs (proposed):
         # +--------+--------+
@@ -288,7 +295,69 @@ class UploadCode(Resource):
             "output":output
         }
 
-        return outputJson, 201
+
+
+        # outputJson["outputs"] is a list. But it's easier to process if the outputJson["outputs"]
+        # are like:
+        ## processedOutput:{
+        ##     testCaseID1:True,
+        ##     testCaseID2:True,
+        ##     testCaseID3:False,
+        ##     compilePass:True
+        ## }
+        ## Eg:
+        ## processedOutput = {
+        ##     "522961781448579731":True,
+        ##     "1116729292136978953":False,
+        ##     "186156821588580947":True,
+        ##     "compilePass":True
+        ## }
+
+        # So the below stuff does that:
+
+        processedOutput = {}
+        for item in outputJson["output"]:
+            processedOutput.update(**item)
+
+        numTestCasePassed = 0
+        totalTestCases = 0
+
+        for key,value in processedOutput.items():
+            if key=="compilePass":
+                modelHelpers.updateSubmissionCompileStatus(
+                    sID=sID,
+                    cID=cID,
+                    qID=qID,
+                    compilePass=True
+                )                
+            else: # The key is a test case ID, value is True(i.e. Pass) or False(i.e. Fail)
+                if value:
+                    numTestCasePassed += 1
+                totalTestCases += 1
+
+                if not modelHelpers.isExistingSubmissionResult(
+                    sID=sID,
+                    cID=cID,
+                    qID=qID,
+                    tID=key                    
+                ):
+                    modelHelpers.insertIntoSubmissionResult(
+                        sID=sID,
+                        cID=cID,
+                        qID=qID,
+                        tID=key,
+                        testPass=value
+                    )
+                else:
+                    modelHelpers.updateTestPassSubmissionResult(
+                        sID=sID,
+                        cID=cID,
+                        qID=qID,
+                        tID=key,
+                        testPass=value
+                    )
+        processedOutput["testCasesResult"]="{0}/{1} passed.".format(numTestCasePassed,totalTestCases)
+        return processedOutput, 201
 
 
 class SetChallenge(Resource):
@@ -313,7 +382,7 @@ class SetChallenge(Resource):
         # Create a UUID $uuid1
         # Create a models.Challenge entry with UUID $uuid1, teacherID, status="INACTIVE", timeLimitHrs, timeLimitMins
 
-        challengeID = uuid4().time #18 character long unique ID
+        challengeID = uuid4().hex #18 character long unique ID
         modelHelpers.insertIntoChallenge(
             ID=challengeID,
             teacherID=teacherID,
@@ -335,7 +404,7 @@ class SetChallenge(Resource):
 
 
         for question in questions:
-            questionID = uuid4().time
+            questionID = uuid4().hex
             modelHelpers.insertIntoQuestion(
                 ID=questionID,
                 name=question["questionName"],
@@ -344,7 +413,7 @@ class SetChallenge(Resource):
             )
 
             for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
-                testCaseID = uuid4().time
+                testCaseID = uuid4().hex
                 testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
                 expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
 
@@ -356,8 +425,8 @@ class SetChallenge(Resource):
 
                 modelHelpers.insertIntoTestCase(
                     ID=testCaseID,
-                    testCasePath=testCasePath,
-                    expectedOutputPath=expectedOutputPath
+                    testCasePath="TestCases/"+str(testCaseID),
+                    expectedOutputPath="ExpectedOutput/"+str(testCaseID)
                 )
 
                 modelHelpers.insertIntoQuestionAndTestCase(
@@ -404,12 +473,10 @@ class StopChallenge(Resource):
 class GetChallengeDetails(Resource):
     @jwt_required
     def post(self):
-        data = parser.parse_args()
-        cID = data["cID"]
-
+        data = request.get_json()
+        cID=data["cID"]
         res = modelHelpers.getChallengeDetailsByID(cID)
-
-        return res
+        return res["res"],res["code"]
 
 
 ## With refresh token, use this to get

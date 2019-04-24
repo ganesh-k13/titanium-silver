@@ -110,7 +110,7 @@ class Profile extends Component{
                     <Row style={{marginTop:"10px"}}>
                         <Col md={{ span: 5, offset: 5 }}  lg={{ span: 5, offset: 5 }}  xl={{ span: 5, offset: 5 }}>
                             <ButtonToolbar>
-                                <Link to={"/studentTest"}>
+                                <Link to={"/enterChallenge"}>
                                     <Button
                                         variant="primary"
                                         block
