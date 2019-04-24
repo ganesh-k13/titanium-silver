@@ -425,8 +425,8 @@ class SetChallenge(Resource):
 
                 modelHelpers.insertIntoTestCase(
                     ID=testCaseID,
-                    testCasePath=testCasePath,
-                    expectedOutputPath=expectedOutputPath
+                    testCasePath="TestCases/"+str(testCaseID),
+                    expectedOutputPath="ExpectedOutput/"+str(testCaseID)
                 )
 
                 modelHelpers.insertIntoQuestionAndTestCase(
