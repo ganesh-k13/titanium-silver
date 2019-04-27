@@ -241,3 +241,35 @@ def updateTestPassSubmissionResult(sID,cID,qID,tID,testPass):
     submissionRes = getSubmissionResultDetailsByIDs(sID,cID,qID,tID)
     submissionRes.testPass = testPass
     db.session.commit()
+
+
+def getChallengeQuestionByCID(ID):
+    res = {
+        "cID":ID,
+        "questions":[]
+    }
+    print(res)
+    challenge = getChallengeByChallengeID(ID)
+    print(challenge)
+    if not challenge: # challenge ID is invalid
+        return {"res":"Invalid","code":500}
+    print('adsfasdf')
+    if challenge.status=="INACTIVE":
+        return {"res":"Challenge not started yet","code":500}
+
+    questionList = getAllQuestionsByChallengeID(ID)
+
+    for question in questionList:
+        questionDet = getQuestionByQuestionID(question.qID)
+        questionName = questionDet.name
+        questionCpu = questionDet.CPU
+        questionMemory = questionDet.memory
+
+        res["questions"].append({
+            "questionID":question.qID,
+            "questionName":questionName,
+            "cpu":questionCpu,
+            "memory":questionMemory,
+        })
+
+    return {"res":res,"code":200}    

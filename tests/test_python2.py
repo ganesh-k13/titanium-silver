@@ -13,7 +13,7 @@ def test_basic():
 	thread_list = list()
 	for i in range(1):
 		print("Spawn container: %d"%i)
-		thread_list.append(dcli.spawn_process(name='myapp', num=i, params='%d 5000'%i, path=os.getcwd()+'/tests/SC', lang='Python2Container'))
+		thread_list.append(dcli.spawn_process(name='myapp', num=i, params='%d 5000'%i, path=os.getcwd()+'/tests/SC', lang='Python2Container', testcases = {'in':'in', 'out':'out'}))
 	
 	for i, t in enumerate(thread_list):
 		assert('Hello container: %d\n'%i == t.result_queue.get().decode('utf-8'))

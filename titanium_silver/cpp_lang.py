@@ -14,5 +14,6 @@ class CppContainer(LangContainer):
         container_no = self.num
         container_name = self.name
         source_code_path = self.path
-        self.command =  ['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s %s'%(container_name, container_name, container_name, self.params))]	 
+        test_case_in = self.testcases['in']
+        self.command =  ['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s %s < %s'%(container_name, container_name+str(container_no), container_name+str(container_no), self.params, test_case_in))]	 
         self.image = "gcc:4.9"
