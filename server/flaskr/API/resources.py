@@ -221,6 +221,7 @@ class UploadCode(Resource):
         cID = data["challengeID"]
         qID = data["questionID"]
         file_name = sID+"_"+qID
+        
         codeFilePath = os.path.join(
             app.config["INPUT_FOLDER"],
             file_name+"."+META_DATA[progLang]["extension"]
@@ -470,12 +471,12 @@ class StopChallenge(Resource):
         else:
             return {"Success":"Stopped Successfully"},200
 
-class GetChallengeDetails(Resource):
+class GetChallengeQuestions(Resource):
     @jwt_required
     def post(self):
         data = request.get_json()
         cID=data["cID"]
-        res = modelHelpers.getChallengeDetailsByID(cID)
+        res = modelHelpers.getChallengeQuestionByCID(cID)
         return res["res"],res["code"]
 
 
