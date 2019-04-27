@@ -8,6 +8,7 @@ class LangContainer(ABC):
     def run_container(self, cli):
         #pdb.set_trace()
         container_name = self.name.split('/')[-1]+str(self.num)
+        self.mem_limit = '128m' if not hasattr(self, 'mem_limit') else self.mem_limit
         cli.create_container(
                         image=self.image,
                         command=self.command,
