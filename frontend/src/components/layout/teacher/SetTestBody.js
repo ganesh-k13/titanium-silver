@@ -59,27 +59,40 @@ class SetTestBody extends Component{
 						</Col>
 					</Row>
 				</Container>
+				
 				<Container>
-					<Row>	
-						<Col xl={6} lg={6} md={6}>
-							<Form.Label>Test Cases:</Form.Label>
-						</Col>
-						<Col xl={6} lg={6} md={6}>
-							<Form.Label>Expected Outputs:</Form.Label>
+					<Row  style={{marginTop:"40px"}}>
+						<Col xl={12} lg={12} md={12}>
+							Choose the languages to allow:
 						</Col>
 					</Row>
-					<Row>	
+				</Container>
+				<Container>
+					<Row>
+						<Col xl={12} lg={12} md={12}>
+				            <Form.Check inline label="C" type="checkbox"/>
+				            <Form.Check inline label="C++" type="checkbox"/>
+				            <Form.Check inline label="Java" type="checkbox"/>
+				            <Form.Check inline label="Python3" type="checkbox"/>
+				            <Form.Check inline label="Python" type="checkbox"/>
+				            <Form.Check inline label="Ruby" type="checkbox"/>
+				            <Form.Check inline label="PHP5.x" type="checkbox"/>
+				            <Form.Check inline label="PHP7.x" type="checkbox"/>
+						</Col>
+					</Row>
+				</Container>
+				<Container>
+					<Row  style={{marginTop:"40px"}}>
 						<Col xl={6} lg={6} md={6}>
-							<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
+							<Form.Label>Test Cases and Expected Outputs File:</Form.Label>
 							<Form.Text className="text-muted">
-								End each test case with the text in a new line"---testcase---".
+								Name Test Case as "in***" and its Expected Output as "out***"<br/>
+								where *** are digits and the same number. Eg: in001 and out001<br/>
+								are mapped.
 							</Form.Text>
 						</Col>
 						<Col xl={6} lg={6} md={6}>
-							<Form.Control as="textarea" rows="3" id="expectedOutputs" onChange={this.formValChange}/>
-							<Form.Text className="text-muted">
-								End each expected output with the text in a new line"---testcase---".
-							</Form.Text>
+							<input type="file"/>
 						</Col>
 					</Row>
 				</Container>
@@ -98,41 +111,29 @@ class SetTestBody extends Component{
 	}
 }
 
-
 				// <Container>
-				// 	<Row  style={{marginTop:"40px"}}>
-				// 		<Col xl={12} lg={12} md={12}>
-				// 			Choose the languages to allow:
-				// 		</Col>
-				// 	</Row>
-				// </Container>
-				// <Container>
-				// 	<Row>
-				// 		<Col xl={12} lg={12} md={12}>
-				//             <Form.Check inline label="C" type="checkbox"/>
-				//             <Form.Check inline label="C++" type="checkbox"/>
-				//             <Form.Check inline label="Java" type="checkbox"/>
-				//             <Form.Check inline label="Python3" type="checkbox"/>
-				//             <Form.Check inline label="Python" type="checkbox"/>
-				//             <Form.Check inline label="Ruby" type="checkbox"/>
-				//             <Form.Check inline label="PHP5.x" type="checkbox"/>
-				//             <Form.Check inline label="PHP7.x" type="checkbox"/>
-				// 		</Col>
-				// 	</Row>
-				// </Container>
-				// <Container>
-				// 	<Row  style={{marginTop:"40px"}}>
+				// 	<Row>	
 				// 		<Col xl={6} lg={6} md={6}>
-				// 			<Form.Label>Test Cases and Expected Outputs File:</Form.Label>
+				// 			<Form.Label>Test Cases:</Form.Label>
+				// 		</Col>
+				// 		<Col xl={6} lg={6} md={6}>
+				// 			<Form.Label>Expected Outputs:</Form.Label>
+				// 		</Col>
+				// 	</Row>
+				// 	<Row>	
+				// 		<Col xl={6} lg={6} md={6}>
+				// 			<Form.Control as="textarea" rows="3" id="testCases" onChange={this.formValChange}/>
 				// 			<Form.Text className="text-muted">
-				// 				Name Test Case as "in***" and its Expected Output as "out***"<br/>
-				// 				where *** are digits and the same number. Eg: in001 and out001<br/>
-				// 				are mapped.
+				// 				End each test case with the text in a new line"---testcase---".
 				// 			</Form.Text>
 				// 		</Col>
 				// 		<Col xl={6} lg={6} md={6}>
-				// 			<input type="file"/>
+				// 			<Form.Control as="textarea" rows="3" id="expectedOutputs" onChange={this.formValChange}/>
+				// 			<Form.Text className="text-muted">
+				// 				End each expected output with the text in a new line"---testcase---".
+				// 			</Form.Text>
 				// 		</Col>
 				// 	</Row>
 				// </Container>
+
 export default SetTestBody;
