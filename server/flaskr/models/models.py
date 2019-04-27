@@ -141,3 +141,26 @@ class RevokedTokens(db.Model):
         return "<RevokedTokens {0},{1}>".format(
                                     self.ID,
                                     self.JTI)
+
+class QuestionAndLanguage(db.Model):
+    qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
+    C = db.Column(db.Boolean)
+    CPP = db.Column(db.Boolean)
+    Python = db.Column(db.Boolean)
+    Python3 = db.Column(db.Boolean)
+    Ruby = db.Column(db.Boolean)
+    PHP5x = db.Column(db.Boolean)
+    PHP7x = db.Column(db.Boolean)
+    Java = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return "<QuestionAndLanguage {0},{1},{2},{3},{4},{5},{6},{7},{8}>".format(
+                        self.qID,
+                        self.C,
+                        self.CPP,
+                        self.Python,
+                        self.Python3,
+                        self.Ruby,
+                        self.PHP5x,
+                        self.PHP7x,
+                        self.Java)

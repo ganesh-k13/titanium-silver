@@ -11,7 +11,15 @@ class SetTestBody extends Component{
 			cpu:"",
 			memory:"",
 			testCases:"",
-			expectedOutputs:""
+			expectedOutputs:"",
+			C:true,
+			CPP:false,
+			Python3:false,
+			Python:false,
+			Ruby:false,
+			PHP5x:false,
+			PHP7x:false,
+			Java:false,
 		}
 	}
 
@@ -20,9 +28,18 @@ class SetTestBody extends Component{
 	}
 
 	submitValues = () => {
-		this.setState({id:uuidv4()},()=>{
+		this.setState({
+			id:uuidv4()
+		},()=>{
+			console.log(this.state);
 			this.props.addTest(this.state);
 		});
+	}
+
+	handleLangChange = (e) => {
+		this.setState({
+			[e.target.name]:e.target.checked
+		})
 	}
 
 	render(){
@@ -70,14 +87,71 @@ class SetTestBody extends Component{
 				<Container>
 					<Row>
 						<Col xl={12} lg={12} md={12}>
-				            <Form.Check inline label="C" type="checkbox"/>
-				            <Form.Check inline label="C++" type="checkbox"/>
-				            <Form.Check inline label="Java" type="checkbox"/>
-				            <Form.Check inline label="Python3" type="checkbox"/>
-				            <Form.Check inline label="Python" type="checkbox"/>
-				            <Form.Check inline label="Ruby" type="checkbox"/>
-				            <Form.Check inline label="PHP5.x" type="checkbox"/>
-				            <Form.Check inline label="PHP7.x" type="checkbox"/>
+				            <Form.Check 
+				            	inline 
+				            	label="C" 
+				            	name="C"
+				            	type="checkbox" 
+				            	value={this.state["C"]}
+				            	onChange={this.handleLangChange}
+				            	defaultChecked={true}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="C++" 
+				            	name="CPP"
+				            	type="checkbox" 
+				            	value={this.state["CPP"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="Java" 
+				            	name="Java"
+				            	type="checkbox" 
+				            	value={this.state["Java"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="Python3" 
+				            	name="Python3"
+				            	type="checkbox" 
+				            	value={this.state["Python3"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="Python" 
+				            	name="Python"
+				            	type="checkbox" 
+				            	value={this.state["Python"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="Ruby" 
+				            	name="Ruby"
+				            	type="checkbox" 
+				            	value={this.state["Ruby"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="PHP5.x" 
+				            	name="PHP5x"
+				            	type="checkbox" 
+				            	value={this.state["PHP5x"]}
+				            	onChange={this.handleLangChange}
+				            />
+				            <Form.Check 
+				            	inline 
+				            	label="PHP7.x" 
+				            	name="PHP7x"
+				            	type="checkbox" 
+				            	value={this.state["PHP7x"]}
+				            	onChange={this.handleLangChange}
+				            />
 						</Col>
 					</Row>
 				</Container>

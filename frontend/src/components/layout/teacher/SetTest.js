@@ -72,7 +72,6 @@ class SetTest extends Component {
 	}
 
 	addTest = (question) => {
-
 		this.setState({ questions: [...this.state.questions, question] })
 	}
 
@@ -135,7 +134,7 @@ class SetTest extends Component {
 			<div>
 				<Container>
 					<Row>
-						<Col xl={12} lg={12} md={12}>
+						<Col xl={12} lg={12} md={12} style={{marginTop:"10px"}}>
                             <Alert variant={this.state.alertVariant}>
                                 {this.state.alertMessage}
                             </Alert>

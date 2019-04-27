@@ -242,18 +242,17 @@ def updateTestPassSubmissionResult(sID,cID,qID,tID,testPass):
     submissionRes.testPass = testPass
     db.session.commit()
 
+def getQuestionLanguagesByQID(qID):
+    return db.session.query(models.QuestionAndLanguage).filter_by(qID=qID).first()
 
 def getChallengeQuestionByCID(ID):
     res = {
         "cID":ID,
         "questions":[]
     }
-    print(res)
     challenge = getChallengeByChallengeID(ID)
-    print(challenge)
     if not challenge: # challenge ID is invalid
         return {"res":"Invalid","code":500}
-    print('adsfasdf')
     if challenge.status=="INACTIVE":
         return {"res":"Challenge not started yet","code":500}
 
@@ -265,11 +264,47 @@ def getChallengeQuestionByCID(ID):
         questionCpu = questionDet.CPU
         questionMemory = questionDet.memory
 
+        questionLang = getQuestionLanguagesByQID(question.qID)
+
         res["questions"].append({
             "questionID":question.qID,
             "questionName":questionName,
             "cpu":questionCpu,
             "memory":questionMemory,
+            "C":questionLang.C,
+            "CPP":questionLang.CPP,
+            "Python":questionLang.Python,
+            "Python3":questionLang.Python3,
+            "Ruby":questionLang.Ruby,
+            "PHP5x":questionLang.PHP5x,
+            "PHP7x":questionLang.PHP7x,
+            "Java":questionLang.Java,
         })
 
-    return {"res":res,"code":200}    
+    return {"res":res,"code":200}
+
+
+def insertIntoQuestionAndLanguage(
+        qID,
+        C,
+        CPP,
+        Python,
+        Python3,
+        Ruby,
+        PHP5x,
+        PHP7x,
+        Java
+    ):
+    newItem = models.QuestionAndLanguage(
+        qID=qID,
+        C=C,
+        CPP=CPP,
+        Python=Python,
+        Python3=Python3,
+        Ruby=Ruby,
+        PHP5x=PHP5x,
+        PHP7x=PHP7x,
+        Java=Java
+    )
+    db.session.add(newItem)
+    db.session.commit()
