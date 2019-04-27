@@ -15,10 +15,11 @@ class LangContainer(ABC):
                         volumes=['/opt'],
                         host_config=cli.create_host_config(
                                         binds={ self.path: {
-                                                                        'bind': '/opt',
-                                                                        'mode': 'rw',
-                                                                        }
-                                                        }
+                                                                'bind': '/opt',
+                                                                'mode': 'rw',
+                                                           }
+                                              },
+                                              mem_limit = self.mem_limit
                                         ),
                         name=container_name,
                         working_dir='/opt',

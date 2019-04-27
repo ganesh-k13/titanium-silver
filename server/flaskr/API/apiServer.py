@@ -63,7 +63,7 @@ def uploadCode(inputJson):
     thread_list = list()    
     codeOutput = list()
     for t in inputJson['testcases']:
-        thread_list.append(dcli.spawn_process(name='Input/'+file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=t))
+        thread_list.append(dcli.spawn_process(name='Input/'+file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=t, cpu=inputJson['cpu'], mem_limit=inputJson['mem_limit']))
     # Create a filename: 
     # opFileName = 
     #    "op" + _ + USN_of_user + _ + questionHash

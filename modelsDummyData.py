@@ -35,7 +35,7 @@ q1 = models.Question(
 		ID=q1uuid,
 		name="This is question 1",
 		CPU="2GHz",
-		memory="1000MB"
+		memory="128m"
 	)
 
 q2uuid = str(uuid4().time)
@@ -43,7 +43,7 @@ q2 = models.Question(
 		ID=q2uuid,
 		name="This is question 2",
 		CPU="1GHz",
-		memory="100MB"
+		memory="128m"
 	)
 
 q3uuid = str(uuid4().time)
@@ -51,7 +51,7 @@ q3 = models.Question(
 		ID=q3uuid,
 		name="This is question 3",
 		CPU="1.5GHz",
-		memory="300MB"
+		memory="128m"
 	)
 
 
@@ -174,54 +174,6 @@ qt6 = models.QuestionAndTestCase(
 		tID=t6uuid
 	)
 
-sub1 = models.Submission(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q1uuid,
-		codeFilePath="./codes/Input/01FB15ECS444",
-		status="Compile:Pass"
-	)
-
-sub2 = models.Submission(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q2uuid,
-		codeFilePath="./codes/Input/01FB15ECS444",
-		status="Compile:Fail"
-	)
-
-sub3 = models.Submission(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q3uuid,
-		codeFilePath="./codes/Input/01FB15ECS444",
-		status="Compile:Pass"
-	)
-
-subRes1 = models.SubmissionResult(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q1uuid,
-		tID=t1_1uuid,
-		testPass=0
-	)
-
-subRes2 = models.SubmissionResult(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q1uuid,
-		tID=t2uuid,
-		testPass=1
-	)
-
-subRes3 = models.SubmissionResult(
-		sID="01FB15ECS444",
-		cID=c1uuid,
-		qID=q3uuid,
-		tID=t6uuid,
-		testPass=1
-	)
-
 db.create_all()
 db.session.add(t1)
 db.session.add(s1)
@@ -249,11 +201,11 @@ db.session.add(qt3)
 db.session.add(qt4)
 db.session.add(qt5)
 db.session.add(qt6)
-db.session.add(sub1)
-db.session.add(sub2)
-db.session.add(sub3)
-db.session.add(subRes1)
-db.session.add(subRes2)
-db.session.add(subRes3)
+#db.session.add(sub1)
+#db.session.add(sub2)
+#db.session.add(sub3)
+#db.session.add(subRes1)
+#db.session.add(subRes2)
+#db.session.add(subRes3)
 
 db.session.commit()
