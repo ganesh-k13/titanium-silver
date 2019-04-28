@@ -75,42 +75,83 @@ class SetTest extends Component {
 		this.setState({ questions: [...this.state.questions, question] })
 	}
 
-	addChallenge = (question) => {
+	addChallenge = () => {
 		console.log("addChallenge");
+		console.log(this.state.questions);
+		var files = new FormData();
+
+		for (var i = 0; i < this.state.questions.length;i++) {
+			var file = this.state.questions[i].selectedFile;
+			console.log("file:",file);
+			var filename="";
+			if(this.state.questions[i].selectedFile.type == "application/gzip"){
+				filename=this.state.questions[i].id+".tar.gz"
+			}
+			else if(this.state.questions[i].selectedFile.type == "application/x-xz"){
+				filename=this.state.questions[i].id+".tar.xz"
+			}
+			else{
+				filename=this.state.questions[i].id+".zip"				
+			}
+			files.set("name",filename);
+			files.append("file",file,filename);
+		}
+		// for (var key of files.entries()) {
+		// 	console.log(key[0]);
+		// 	console.log(key[1]);
+		// }
+
+		// return 0;
 		let questions = this.state.questions;
 		let props = this.props;
 
 		let inpData = {
-			questions:this.transformQuestions(questions),
+			questions:questions,
 			timeLimitHrs:this.state.timeLimitHrs,
 			timeLimitMins:this.state.timeLimitMins
 
 		}
 		console.log(inpData);
 
-		let setTestThis = this;
-
 		axios({
-			method: 'post',
-			url: 'http://localhost:8000/api/setchallenge',
+			method: "post",
+			url: "http://localhost:8000/api/setchallenge",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
-
 			data: inpData
 		}).then((resp)=>{
-			
 			console.log(resp);
-			setTestThis.setState({
-                "alertVariant":"success",
-                "alertMessage":"Submission successful, you'll be redirected back soon",
-            },()=>{
-				setTimeout(()=>{setTestThis.props.history.push("/teacher")},2000);
-            })
+
+			axios({
+				method: "post",
+				url: "http://localhost:8000/api/uploadfiles",
+				headers: {
+					"Authorization":"Bearer "+localStorage.getItem("accessToken"),
+					"Content-Type":"multipart/form-data"
+				},
+				data: files
+			}).then((resp)=>{
+				
+				console.log(resp);
+				this.setState({
+	                "alertVariant":"success",
+	                "alertMessage":"Submission successful, you'll be redirected back soon",
+	            },()=>{
+					setTimeout(()=>{this.props.history.push("/teacher")},2000);
+	            })
+
+			}).catch((resp)=>{
+				console.log(resp);
+				this.setState({
+	                "alertVariant":"danger",
+	                "alertMessage":"Server error:"+resp
+	            });
+			})
 
 		}).catch((resp)=>{
 			console.log(resp);
-			setTestThis.setState({
+			this.setState({
                 "alertVariant":"danger",
                 "alertMessage":"Server error:"+resp
             });
