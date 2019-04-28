@@ -1,10 +1,12 @@
 import os
+import shutil
 
 from uuid import uuid4
 
-from flask import request, jsonify
+from flask import request, jsonify, flash
 from flask_restful import Resource,reqparse
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, get_jwt_claims
+from werkzeug.utils import secure_filename
 
 from server.flaskr import app
 from server.flaskr.models import modelHelpers
@@ -407,7 +409,7 @@ class SetChallenge(Resource):
 
 
         for question in questions:
-            questionID = uuid4().hex
+            questionID = question["id"]
             modelHelpers.insertIntoQuestion(
                 ID=questionID,
                 name=question["questionName"],
@@ -427,27 +429,27 @@ class SetChallenge(Resource):
                 Java=question["Java"],
             )
 
-            for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
-                testCaseID = uuid4().hex
-                testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
-                expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
+            # for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
+            #     testCaseID = uuid4().hex
+            #     testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
+            #     expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
 
-                with open(testCasePath,"w") as fp:
-                    fp.write(testCase)
+            #     with open(testCasePath,"w") as fp:
+            #         fp.write(testCase)
 
-                with open(expectedOutputPath,"w") as fp:
-                    fp.write(expectedOutput)
+            #     with open(expectedOutputPath,"w") as fp:
+            #         fp.write(expectedOutput)
 
-                modelHelpers.insertIntoTestCase(
-                    ID=testCaseID,
-                    testCasePath="TestCases/"+str(testCaseID),
-                    expectedOutputPath="ExpectedOutput/"+str(testCaseID)
-                )
+            #     modelHelpers.insertIntoTestCase(
+            #         ID=testCaseID,
+            #         testCasePath="TestCases/"+str(testCaseID),
+            #         expectedOutputPath="ExpectedOutput/"+str(testCaseID)
+            #     )
 
-                modelHelpers.insertIntoQuestionAndTestCase(
-                    qID=questionID,
-                    tID=testCaseID
-                )
+            #     modelHelpers.insertIntoQuestionAndTestCase(
+            #         qID=questionID,
+            #         tID=testCaseID
+            #     )
 
             modelHelpers.insertIntoChallengeAndQuestion(
                 cID=challengeID,
@@ -498,3 +500,52 @@ class GetChallengeQuestions(Resource):
     # @jwt_refresh_token_required
         # current_user = get_jwt_identity()
         # print(current_user)
+
+class UploadFiles(Resource):
+    @jwt_required
+    def post(self):
+
+        if "file" not in request.files:
+            flash("No file part")
+            return redirect(request.url)
+        files = request.files.getlist("file")
+        for file in files:
+            filename = secure_filename(file.filename)
+            questionID = filename.split(".")[0]
+            print("-------------")
+            print("questionID:",questionID)
+            filePath = os.path.join(app.config["ZIP_FOLDER"], filename)
+            file.save(filePath)
+            
+            tmpFolderPath = os.path.join(app.config["TMP_FOLDER"],filename)
+            testCasePath = app.config["TEST_CASES_FOLDER"]
+            expectedOutputPath = app.config["EXPECTED_OUTPUTS_FOLDER"]
+
+            os.mkdir(tmpFolderPath)
+
+            shutil.unpack_archive(filePath,tmpFolderPath)
+            
+            numOfFiles = len(os.listdir(tmpFolderPath))//2
+
+            for fileNum in range(numOfFiles):
+                tcFileName = questionID+"in"+str(fileNum)
+                exFileName = questionID+"out"+str(fileNum)
+
+                tcFilePath = os.path.join(testCasePath,questionID+"in"+str(fileNum))
+                exFilePath = os.path.join(expectedOutputPath,questionID+"out"+str(fileNum))
+
+                os.rename(os.path.join(tmpFolderPath,"in"+str(fileNum)),tcFilePath)
+                os.rename(os.path.join(tmpFolderPath,"out"+str(fileNum)),exFilePath)
+
+                testCaseID = uuid4().hex
+                modelHelpers.insertIntoTestCase(
+                    ID=testCaseID,
+                    testCasePath="TestCases/"+tcFileName,
+                    expectedOutputPath="ExpectedOutput/"+exFileName
+                )
+
+                modelHelpers.insertIntoQuestionAndTestCase(
+                    qID=questionID,
+                    tID=testCaseID
+                )
+        return {},200
