@@ -107,6 +107,23 @@ class StudentTestUI extends Component {
                         <Col 
                         >
                             <Editor
+                                langToDisplay = {(()=>{
+                                    var langToDisplay = {
+                                        C:false,
+                                        CPP:false,
+                                        Java:false,
+                                        Python3:false,
+                                        Python:false,
+                                        Ruby:false,
+                                        PHP5x:false,
+                                        PHP7x:false,
+                                    };
+                                    for(var key in question){
+                                        langToDisplay[key] = question[key]
+                                    }
+                                    console.log(langToDisplay)
+                                    return langToDisplay
+                                })()}
                                 updateOptions={this.updateOptions}
                                 editorName={question.questionID}
                                 code={this.state[question.questionID+"code"]}
