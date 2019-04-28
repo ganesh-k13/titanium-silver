@@ -17,8 +17,8 @@ META_DATA = {
 }
 
 def uploadCode(inputJson):
-    # Create a filename: 
-    # inpFileName = 
+    # Create a filename:
+    # inpFileName =
     #    USN_of_user + _ + questionHash + "." + extension_of_user_code
     # Eg: USN:usn-11, questionHash = 1, progLang = cpp gives :
     # inpFileName = usn-11_1.cpp
@@ -38,14 +38,14 @@ def uploadCode(inputJson):
         inputFp.flush()
         os.fsync(inputFp)
         inputFp.close()
-          
+
     # ------------------------------------------------------
     # Add lines of code here to communicate with docker code
-    # and then read the OP file. Not syncing here will 
+    # and then read the OP file. Not syncing here will
     # cause major discrepancies.
     # ------------------------------------------------------
-    
-	# [TODO]: Ganesh
+
+    # [TODO]: Ganesh
     # 1. Send lang to dcli
     # 2. For each testcase, run in loop
     # 3. Process output per testcase to give boolean pass or fail
@@ -53,19 +53,19 @@ def uploadCode(inputJson):
     # [TODO]: RAHUL
     # Query to get TC input and output file name in two list variables(one question multiple TC).
     # path must be relative to INPUT_FOLDER.
-    # For example, if INPUT_FOLDER is '/server/flaskr/codes/Input' and TC is like: 
+    # For example, if INPUT_FOLDER is '/server/flaskr/codes/Input' and TC is like:
     # input: /server/flaskr/codes/Input/TC_IN/q1_1.in, q1_2.in and output: /server/flaskr/codes/Input/TC_OUT/q1_1.out, q1_2.out
     # Variables must be: tc_in = [TC_IN/q1_1.in, TC_IN/q1_2.in] and tc_out = [/TC_OUT/q1_1.out, /TC_OUT/q1_2.out]
 
     random.seed(inputJson['USN'])
     dcli = Docker_Client()
-    
-    thread_list = list()    
+
+    thread_list = list()
     codeOutput = list()
     for t in inputJson['testcases']:
         thread_list.append(dcli.spawn_process(name='Input/'+file_name, num=random.randint(1, 99999999), params='%s 5000'%inputJson['USN'], path=app.config["CODE_FOLDER"], lang=META_DATA[inputJson["progLang"]]["container"], testcases=t, cpu=inputJson['cpu'], mem_limit=inputJson['mem_limit']))
-    # Create a filename: 
-    # opFileName = 
+    # Create a filename:
+    # opFileName =
     #    "op" + _ + USN_of_user + _ + questionHash
 
     # opFileName = os.path.join(
@@ -73,20 +73,23 @@ def uploadCode(inputJson):
     #     "op"+"_"+inputJson['USN']+"_"+inputJson['questionHash']
     # )
 
+    compilePass = True
+
     for i, (thread, t) in enumerate(zip(thread_list, inputJson['testcases'])):
         outputFilePath = inputJson["outputFilePath"]+"_"+str(i)
-
+        testcase_name = t['out'].split('/')[-1]
         with open(outputFilePath, 'w') as f:
-            output = thread.result_queue.get().decode('utf-8') 
+            output = thread.result_queue.get().decode('utf-8')
+            if(file_name in output):
+                compilePass = False
             f.write(output)
-        
+
         #codeOutput should be a dictionary.
-        output_file = os.path.join(app.config['EXPECTED_OUTPUTS_FOLDER'], t['out'].split('/')[-1])
+        output_file = os.path.join(app.config['EXPECTED_OUTPUTS_FOLDER'], testcase_name)
         with open(output_file) as f:
             expected_out = f.read()
             print(output, expected_out)
-            codeOutput.append({"output_"+str(i):output==expected_out})
-
+            codeOutput.append({testcase_name:output==expected_out})
+    codeOutput.append({'compilePass':compilePass})
     return codeOutput
-
 
