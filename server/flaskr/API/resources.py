@@ -96,7 +96,7 @@ class UserRegistration(Resource):
 class UserLogin(Resource):
     def post(self):        
         data = parser.parse_args()
-
+        currentUser = None
         if(data["acctType"]=="Student"):
             currentUser = modelHelpers.isExistingStudentByUsername(data["username"])
         else:
@@ -374,9 +374,6 @@ class SetChallenge(Resource):
         timeLimitMins = request.get_json()["timeLimitMins"]
 
         ROOT_FOLDER = app.config["ROOT_FOLDER"]
-        print("----------")
-        print("ROOT_FOLDER:",ROOT_FOLDER)
-        print("----------")
         TEST_CASES_FOLDER = app.config["TEST_CASES_FOLDER"]
         EXPECTED_OUTPUTS_FOLDER = app.config["EXPECTED_OUTPUTS_FOLDER"]
 
@@ -411,6 +408,18 @@ class SetChallenge(Resource):
                 name=question["questionName"],
                 CPU=question["cpu"],
                 memory=question["memory"]
+            )
+
+            modelHelpers.insertIntoQuestionAndLanguage(
+                qID=questionID,
+                C=question["C"],
+                CPP=question["CPP"],
+                Python=question["Python"],
+                Python3=question["Python3"],
+                Ruby=question["Ruby"],
+                PHP5x=question["PHP5x"],
+                PHP7x=question["PHP7x"],
+                Java=question["Java"],
             )
 
             for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):

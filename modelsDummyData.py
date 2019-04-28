@@ -78,6 +78,41 @@ q3 = models.Question(
 		memory="300MB"
 	)
 
+q1l = models.QuestionAndLanguage(
+	    qID=q1uuid,
+	    C=True,
+	    CPP=False,
+	    Python=True,
+	    Python3=False,
+	    Ruby=True,
+	    PHP5x=False,
+	    PHP7x=False,
+	    Java=False
+	)
+
+q2l = models.QuestionAndLanguage(
+	    qID=q2uuid,
+	    C=False,
+	    CPP=True,
+	    Python=True,
+	    Python3=False,
+	    Ruby=False,
+	    PHP5x=False,
+	    PHP7x=False,
+	    Java=False
+	)
+
+q3l = models.QuestionAndLanguage(
+	    qID=q3uuid,
+	    C=False,
+	    CPP=False,
+	    Python=True,
+	    Python3=True,
+	    Ruby=False,
+	    PHP5x=False,
+	    PHP7x=False,
+	    Java=True
+	)
 
 # t1_1uuid = str(uuid4().hex)
 t1_1uuid = "t1_1"
@@ -345,6 +380,9 @@ db.session.add(c1)
 db.session.add(q1)
 db.session.add(q2)
 db.session.add(q3)
+db.session.add(q1l)
+db.session.add(q2l)
+db.session.add(q3l)
 db.session.add(t1_1)
 db.session.add(t1_2)
 db.session.add(t1_3)
