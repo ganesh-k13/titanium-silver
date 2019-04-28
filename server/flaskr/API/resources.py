@@ -429,28 +429,6 @@ class SetChallenge(Resource):
                 Java=question["Java"],
             )
 
-            # for testCase,expectedOutput in zip(question["testCases"],question["expectedOutputs"]):
-            #     testCaseID = uuid4().hex
-            #     testCasePath = os.path.join(TEST_CASES_FOLDER,str(testCaseID))
-            #     expectedOutputPath = os.path.join(EXPECTED_OUTPUTS_FOLDER,str(testCaseID))
-
-            #     with open(testCasePath,"w") as fp:
-            #         fp.write(testCase)
-
-            #     with open(expectedOutputPath,"w") as fp:
-            #         fp.write(expectedOutput)
-
-            #     modelHelpers.insertIntoTestCase(
-            #         ID=testCaseID,
-            #         testCasePath="TestCases/"+str(testCaseID),
-            #         expectedOutputPath="ExpectedOutput/"+str(testCaseID)
-            #     )
-
-            #     modelHelpers.insertIntoQuestionAndTestCase(
-            #         qID=questionID,
-            #         tID=testCaseID
-            #     )
-
             modelHelpers.insertIntoChallengeAndQuestion(
                 cID=challengeID,
                 qID=questionID
@@ -507,7 +485,8 @@ class UploadFiles(Resource):
 
         if "file" not in request.files:
             flash("No file part")
-            return redirect(request.url)
+            return {},400
+
         files = request.files.getlist("file")
         for file in files:
             filename = secure_filename(file.filename)
