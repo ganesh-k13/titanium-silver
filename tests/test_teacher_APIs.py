@@ -2,6 +2,7 @@ import pytest
 import pytest_flask
 import json
 from server.flaskr import app
+from server.flaskr import db
 
 globalData = {
     "teacherRegistration" : {
@@ -24,6 +25,7 @@ globalData = {
 class TestRegistrations:
 
     def testTeacher(self, client):
+        db.create_all()
         headers = {
             "Content-Type": "application/json;charset=utf-8",
             "Accept": "application/json, text/plain, */*"

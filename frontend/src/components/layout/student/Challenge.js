@@ -39,7 +39,7 @@ class Challenge extends Component {
 		console.log(inpData);
 		axios({
 			method: 'post',
-			url: 'http://localhost:8000/api/getchallengedetails',
+			url: 'http://localhost:8000/api/getchallengequestions',
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
