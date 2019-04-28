@@ -57,7 +57,7 @@ q1 = models.Question(
 		ID=q1uuid,
 		name="This is question 1",
 		CPU="2GHz",
-		memory="1000MB"
+		memory="128m"
 	)
 
 # q2uuid = str(uuid4().hex)
@@ -66,7 +66,7 @@ q2 = models.Question(
 		ID=q2uuid,
 		name="This is question 2",
 		CPU="1GHz",
-		memory="100MB"
+		memory="128m"
 	)
 
 # q3uuid = str(uuid4().hex)
@@ -75,7 +75,7 @@ q3 = models.Question(
 		ID=q3uuid,
 		name="This is question 3",
 		CPU="1.5GHz",
-		memory="300MB"
+		memory="128m"
 	)
 
 q1l = models.QuestionAndLanguage(
@@ -403,11 +403,11 @@ db.session.add(qt3)
 db.session.add(qt4)
 db.session.add(qt5)
 db.session.add(qt6)
-db.session.add(sub1)
-db.session.add(sub2)
-db.session.add(sub3)
-db.session.add(subRes1)
-db.session.add(subRes2)
-db.session.add(subRes3)
+#db.session.add(sub1)
+#db.session.add(sub2)
+#db.session.add(sub3)
+#db.session.add(subRes1)
+#db.session.add(subRes2)
+#db.session.add(subRes3)
 
 db.session.commit()

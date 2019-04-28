@@ -220,6 +220,9 @@ class UploadCode(Resource):
         sID = modelHelpers.getStudentByUsername(username).ID
         cID = data["challengeID"]
         qID = data["questionID"]
+        question = modelHelpers.getQuestionByQuestionID(qID)
+        cpu = question.CPU
+        mem_limit = question.memory
         file_name = sID+"_"+qID
         
         codeFilePath = os.path.join(
@@ -241,7 +244,7 @@ class UploadCode(Resource):
                 codeFilePath=codeFilePath,
                 compilePass=False
             )
-
+            
         inputJson = {
             "code":code,
             "questionID":qID,
@@ -249,6 +252,8 @@ class UploadCode(Resource):
             "testcases":testcases,
             "codeFilePath":codeFilePath,
             "outputFilePath":outputFilePath,
+            "cpu": cpu,
+            "mem_limit": mem_limit,
             "USN":sID, #sent for random.seed line 55 apiServer, remove if unnecessary,
             "file_name":file_name #sent since DockerClient names containers as file_name
         }

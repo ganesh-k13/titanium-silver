@@ -8,6 +8,7 @@ class LangContainer(ABC):
     def run_container(self, cli):
         #pdb.set_trace()
         container_name = self.name.split('/')[-1]+str(self.num)
+        self.mem_limit = '128m' if not hasattr(self, 'mem_limit') else self.mem_limit
         cli.create_container(
                         image=self.image,
                         command=self.command,
@@ -15,10 +16,11 @@ class LangContainer(ABC):
                         volumes=['/opt'],
                         host_config=cli.create_host_config(
                                         binds={ self.path: {
-                                                                        'bind': '/opt',
-                                                                        'mode': 'rw',
-                                                                        }
-                                                        }
+                                                                'bind': '/opt',
+                                                                'mode': 'rw',
+                                                           }
+                                              },
+                                              mem_limit = self.mem_limit
                                         ),
                         name=container_name,
                         working_dir='/opt',
