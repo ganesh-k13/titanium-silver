@@ -23,7 +23,6 @@ before_install:
   - docker pull python:latest
   - docker pull java:latest
   - tests/SC/clone.sh 100 tests/SC/myapp.cpp tests/SC/usn
-  - rm server/TitaniumSilver.db
   - python3 modelsDummyData.py --dir ..
 
 install: 
