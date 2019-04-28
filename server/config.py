@@ -24,6 +24,8 @@ class DevelopmentConfig(Config):
     JWT_BLACKLIST_TOKEN_CHECKS = ["access","refresh"]
 
     ROOT_FOLDER = os.getcwd()
+    ZIP_FOLDER = os.getcwd()+"/server/flaskr/zips/"
+    TMP_FOLDER = os.getcwd()+"/server/flaskr/tmp/"
     CODE_FOLDER = os.getcwd()+"/server/flaskr/codes"
     INPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Input"
     OUTPUT_FOLDER = os.getcwd()+"/server/flaskr/codes/Output"

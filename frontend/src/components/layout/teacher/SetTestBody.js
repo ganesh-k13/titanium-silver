@@ -2,6 +2,8 @@ import React,{ Component } from "react";
 import { Container,Col,Row,Form,Button } from "react-bootstrap";
 import uuidv4 from "uuid/v4";
 
+import "./SetTestBody.css";
+
 class SetTestBody extends Component{
 	constructor(...args){
 		super(...args);
@@ -10,8 +12,6 @@ class SetTestBody extends Component{
 			questionName:"",
 			cpu:"",
 			memory:"",
-			testCases:"",
-			expectedOutputs:"",
 			C:true,
 			CPP:false,
 			Python3:false,
@@ -20,6 +20,7 @@ class SetTestBody extends Component{
 			PHP5x:false,
 			PHP7x:false,
 			Java:false,
+			selectedFile:null
 		}
 	}
 
@@ -29,7 +30,7 @@ class SetTestBody extends Component{
 
 	submitValues = () => {
 		this.setState({
-			id:uuidv4()
+			id:uuidv4().split("-").join("")
 		},()=>{
 			console.log(this.state);
 			this.props.addTest(this.state);
@@ -40,6 +41,31 @@ class SetTestBody extends Component{
 		this.setState({
 			[e.target.name]:e.target.checked
 		})
+	}
+
+	handleFileChange = (e) => {
+		let files = e.target.files;
+		// allowed file mime types:
+		// application/gzip
+		// application/x-xz
+		// application/zip
+		let allowedMimeTypes = new Set(["application/gzip","application/x-xz","application/zip"]);
+
+		let currentMimeType = files[0].type;
+		console.log(currentMimeType);
+		if(allowedMimeTypes.has(currentMimeType)){
+			console.log("here")
+			this.setState({
+				selectedFile:files[0],
+				loaded:0
+			})
+		}
+		else{
+			this.setState({
+				selectedFile:null,
+				loaded:0
+			})			
+		}
 	}
 
 	render(){
@@ -166,7 +192,16 @@ class SetTestBody extends Component{
 							</Form.Text>
 						</Col>
 						<Col xl={6} lg={6} md={6}>
-							<input type="file"/>
+							<div className="form-group files">
+								<label>Upload Your File
+								</label>
+								<input 
+									type="file" 
+									className="form-control"
+									onChange={this.handleFileChange}
+								/>
+							</div>
+
 						</Col>
 					</Row>
 				</Container>

@@ -36,4 +36,5 @@ api.add_resource(resources.SetChallenge, "/api/setchallenge")
 api.add_resource(resources.StartChallenge, "/api/startchallenge")
 api.add_resource(resources.StopChallenge, "/api/stopchallenge")
 api.add_resource(resources.GetChallengeQuestions, "/api/getchallengequestions")
+api.add_resource(resources.UploadFiles, "/api/uploadfiles")
 
