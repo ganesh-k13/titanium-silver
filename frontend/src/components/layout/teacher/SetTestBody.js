@@ -49,7 +49,13 @@ class SetTestBody extends Component{
 		// application/gzip
 		// application/x-xz
 		// application/zip
-		let allowedMimeTypes = new Set(["application/gzip","application/x-xz","application/zip"]);
+		let allowedMimeTypes = new Set([
+			"application/gzip",
+			"application/x-xz",
+			"application/zip",
+			"application/x-gzip-compressed",
+			"application/x-zip-compressed"
+		]);
 
 		let currentMimeType = files[0].type;
 		console.log(currentMimeType);

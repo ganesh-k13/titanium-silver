@@ -7,7 +7,6 @@ import {
     Button,
 	Form
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 class QuestionKey extends Component{
 	constructor(...args){

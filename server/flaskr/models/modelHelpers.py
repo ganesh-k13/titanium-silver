@@ -88,13 +88,14 @@ def insertIntoQuestionAndTestCase(qID,tID):
     db.session.add(newItem)
     db.session.commit()
 
-def insertIntoSubmission(sID,cID,qID,codeFilePath,compilePass):
+def insertIntoSubmission(sID,cID,qID,codeFilePath,compilePass,progLang):
     newSubmission = models.Submission(
         sID=sID,
         cID=cID,
         qID=qID,
         codeFilePath=codeFilePath,
-        compilePass=compilePass
+        compilePass=compilePass,
+        progLang=progLang
     )
     db.session.add(newSubmission)
     db.session.commit()
@@ -308,3 +309,10 @@ def insertIntoQuestionAndLanguage(
     )
     db.session.add(newItem)
     db.session.commit()
+
+def updateSubmissionProgLang(sID,cID,qID,progLang):
+    submission = getSubmissionDetailsByIDs(sID,cID,qID)
+    submission.progLang = progLang
+
+    db.session.commit()
+

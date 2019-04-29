@@ -3,7 +3,6 @@ import {
     Container,
     Col,
     Row,
-    Form,
     Button,
     Nav,
     Tab,
@@ -13,7 +12,11 @@ import axios from "axios";
 
 import Editor from "./Editor";
 import Results from "./Results";
-import LoadingButton from "../common/LoadingButton";
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
+
 
 class StudentTestUI extends Component {
 
@@ -54,7 +57,7 @@ class StudentTestUI extends Component {
             console.log("inpData:",inpData);
             axios({
                 method: 'post',
-                url: 'http://localhost:8000/api/submitcode',
+                url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/submitcode",
                 headers: {
                     "Authorization":"Bearer "+localStorage.getItem("accessToken")
                 },
@@ -121,7 +124,7 @@ class StudentTestUI extends Component {
                                     for(var key in question){
                                         langToDisplay[key] = question[key]
                                     }
-                                    console.log(langToDisplay)
+                                    // console.log(langToDisplay)
                                     return langToDisplay
                                 })()}
                                 updateOptions={this.updateOptions}
@@ -195,7 +198,7 @@ class StudentTestUI extends Component {
                     transition={false}
                 >
                     <Row
-                        style={appStyle.noRightMargin}
+                        style={appStyle.margins}
                     >
                         <Col sm={2}>
                             <Nav variant="pills" className="flex-column">
@@ -221,11 +224,9 @@ const appStyle = {
     shiftDown:{
         marginTop:"10px"
     },
-    noRightMargin:{
-        marginRight:"0px"
-    },
-    shiftDown:{
-        marginTop:"10px"
+    margins:{
+        marginRight:"0px",
+        marginTop:"60px"
     },
     title:{
         fontSize:"24px"

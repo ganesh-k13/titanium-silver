@@ -4,7 +4,6 @@ import {
 	Col,
 	Row,
 	Form,
-	Button
 } from "react-bootstrap";
 import AceEditor from "react-ace";
 
@@ -190,16 +189,8 @@ class Editor extends Component {
 						        // <option id="PHP5.x" value="php">PHP 5.x</option>
 						        // <option id="PHP7.x" value="php">PHP 7.x</option>
 
-const outlineBorder = {
-    border : "1px solid #000000"
-};
-
 const paddLeftZero = {
     paddingLeft:"0px"
-};
-
-const paddRightZero = {
-    paddingRight:"0px"
 };
 
 export default Editor;
