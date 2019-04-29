@@ -90,6 +90,8 @@ def uploadCode(inputJson):
             expected_out = f.read()
             print(output, expected_out)
             codeOutput.append({testcase_name:output==expected_out})
+    codeMessage = "" if compilePass else output
     codeOutput.append({'compilePass':compilePass})
+    codeOutput.append({'codeMessage':codeMessage})
     return codeOutput
 
