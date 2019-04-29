@@ -6,6 +6,8 @@ import {
     ButtonToolbar
 } from "react-bootstrap";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
 import {
     SERVER_IP,
@@ -30,22 +32,43 @@ class NavbarComponent extends Component {
             data: {}
         }).then((resp)=>{
             console.log(resp);
+            axios({
+                method: 'post',
+                url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/logout/refresh",
+                headers: {
+                    "Authorization":"Bearer "+localStorage.getItem("refreshToken")
+                },
+                data: {}
+            }).then((resp)=>{
+                console.log(resp);
+                toast.success('Logout Successful', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                });
+            }).catch((resp)=>{
+                console.log(resp);
+                toast.error("You're not logged in yet.", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                });
+            })
         }).catch((resp)=>{
             console.log(resp);
+            toast.error("You're not logged in yet.", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
         })
 
-        axios({
-            method: 'post',
-            url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/logout/refresh",
-            headers: {
-                "Authorization":"Bearer "+localStorage.getItem("refreshToken")
-            },
-            data: {}
-        }).then((resp)=>{
-            console.log(resp);
-        }).catch((resp)=>{
-            console.log(resp);
-        })
     }
 
     render(){
