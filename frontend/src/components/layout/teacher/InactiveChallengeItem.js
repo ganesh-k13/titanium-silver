@@ -14,6 +14,7 @@ import {
 } from "../../../globals";
 import StartChallengeModal from "./StartChallengeModal";
 import DeleteChallengeModal from "./DeleteChallengeModal";
+import "./Profile.css";
 
 class InactiveChallengeItem extends Component {
 	constructor(...args){
@@ -92,50 +93,40 @@ class InactiveChallengeItem extends Component {
 		return (
 			<Container style={questionWrapperStyle}>
 				<Row style={questionStyle}>
-					<Col xl={7} lg={7} md={7} sm={7} xs={7}>
+					<Col xl={9} lg={9} md={9} sm={9} xs={9}>
 						<span style={questionNameStyle}>ID: {this.props.ID}</span><br/>
 						<span style={questionDetsStyle}>Time Limit: </span>
 						<span style={questionDetsStyle}>{this.props.timeLimitHrs} hrs</span>
 						<span style={questionDetsStyle}> {this.props.timeLimitMins} mins</span>
 					</Col>
-					<Col xl={2} lg={2} md={2} sm={2} xs={2}>
-						<ButtonToolbar>
-							<Button 
-								variant="info"
-								id={this.props.ID}
-								onClick={this.getChallengeDetails} 
-								block
-							>
-								Details
-							</Button>
+					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
+						<Button 
+							variant="info"
+							id={this.props.ID}
+							onClick={this.getChallengeDetails} 
+						>
+							Details
+						</Button>
 							
-						</ButtonToolbar>
-					</Col>
-					<Col xl={2} lg={2} md={2} sm={2} xs={2}>
-						<ButtonToolbar>
-							<Button 
-								variant="success"
-								id={this.props.ID}
-								onClick={this.startChallenge} 
-								block
-							>
-								Start
-							</Button>
-
-						</ButtonToolbar>
 					</Col>
 					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
-						<ButtonToolbar>
-							<Button 
-								variant="danger"
-								id={this.props.ID}
-								style={{paddingLeft:"8px"}} 
-								onClick={this.deleteChallenge} 
-								block
-							>
-								Delete
-							</Button>
-						</ButtonToolbar>
+						<Button 
+							variant="success"
+							id={this.props.ID}
+							onClick={this.startChallenge} 
+						>
+							Start
+						</Button>
+
+					</Col>
+					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
+						<Button 
+							variant="danger"
+							id={this.props.ID}
+							onClick={this.deleteChallenge} 
+						>
+							Delete
+						</Button>
 					</Col>
 					<StartChallengeModal
 						show={this.state.startmodalshow}
@@ -155,27 +146,21 @@ class InactiveChallengeItem extends Component {
 	}
 }
 
-					// <ChallengeDetailsModal
-					// 	show={this.state.challengemodalshow}
-					// 	onHide={this.handleClose}
-					// 	data={this.state.data}
-					// />
-
-
 const questionWrapperStyle = {
+	paddingLeft:"10px",
+	paddingRight:"10px",
+}
+
+const questionStyle = {
+	backgroundColor:"#EAEAEA",
+	marginTop:"10px",
+	paddingTop:"10px",
 	paddingLeft:"10px",
 	paddingRight:"10px"
 }
 
-const questionStyle = {
-	marginTop:"10px",
-	paddingLeft:"10px",
-	paddingRight:"10px",
-	borderBottom:"1px solid black"
-}
-
 const questionNameStyle = {
-	fontSize:"20px"	
+	fontSize:"15px"	
 }
 
 const questionDetsStyle = {

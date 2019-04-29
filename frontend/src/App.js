@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Home from "./components/pages/home/Home";
 import Login from "./components/layout/login/Login";
@@ -10,6 +12,7 @@ import TeacherProfile from "./components/layout/teacher/Profile";
 import TeacherSetTest from "./components/layout/teacher/SetTest";
 import Challenge from "./components/layout/student/Challenge";
 
+toast.configure()
 class App extends Component {
     render() {
         return (

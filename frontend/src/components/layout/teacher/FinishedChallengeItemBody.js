@@ -7,8 +7,6 @@ import {
 } from "react-bootstrap";
 import { VictoryPie } from 'victory';
 
-import result from "../../../images/results.png";
-
 class FinishedChallengeItemBody extends Component {
 	render() {
 		return (

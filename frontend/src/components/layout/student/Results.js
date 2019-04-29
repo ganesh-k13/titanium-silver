@@ -48,7 +48,7 @@ class Results extends Component {
 					}
 				}
 				if(key==="codeMessage"){
-					codeMessage = (<div>ele[key]</div>);
+					codeMessage = (<div><span style={{backgroundColor:"#CACACA",padding:"5px 5px 5px 5px"}}>{ele[key]}</span></div>);
 				}
 				if(key!=="compilePass" && key!=="codeMessage" && ele[key] === true){
 					tcEle =  (<div style={{color:"green"}}>Pass</div>);
@@ -90,6 +90,7 @@ class Results extends Component {
 						md={12}
 					>
 						{compilePass}
+						{codeMessage}
 					</Col>
 				</Row>
 

@@ -14,6 +14,7 @@ import {
     SERVER_IP,
     SERVER_PORT
 } from "../../../globals";
+import "./Profile.css";
 
 class Profile extends Component{
 
@@ -78,49 +79,49 @@ class Profile extends Component{
                         </Col>
                     </Row>
                     <Row style={profileTitle}>
-                        <Col xl={12} lg={12} md={12} style={paddLeftZero}>
-                            Student
+                        <Col xl={12} lg={12} md={12} style={title}>
+                            Welcome back {this.state.name}!
                         </Col>
                     </Row>
-
+                    <hr className="style14"/>
                     {/* This row handles profile information */}
                     <Row style={outlineBorder}>
                         <Col xl={12} lg={12} md={12}>
                             <Container>
                                 <Row>
-                                    <Col xl={2} lg={2} md={2}>
-                                        <b>ID</b>: {this.state.ID}
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>ID</b><br/> {this.state.ID}
                                     </Col>
                                     <Col xl={3} lg={3} md={3}>
-                                        <b>Name</b>: {this.state.name}
+                                        <b>Username</b><br/> {this.state.username}
                                     </Col>
-                                    <Col xl={4} lg={4} md={4}>
-                                        <b>Username</b>: {this.state.username}
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>Semester</b><br/> {this.state.semester}
                                     </Col>
-                                    <Col xl={1} lg={1} md={1}>
-                                        <b>Semester</b>: {this.state.semester}
-                                    </Col>
-                                    <Col xl={2} lg={2} md={2}>
-                                        <b>No Of Challenges</b>: {this.state.noOfChallenges}
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>No Of Challenges</b><br/> {this.state.noOfChallenges}
                                     </Col>
                                 </Row>
                             </Container>
                         </Col>
                     </Row>
+                    <hr className="style14"/>
 
-                    <Row style={{marginTop:"10px"}}>
-                        <Col md={{ span: 5, offset: 5 }}  lg={{ span: 5, offset: 5 }}  xl={{ span: 5, offset: 5 }}>
-                            <ButtonToolbar>
-                                <Link to={"/enterChallenge"}>
-                                    <Button
-                                        variant="primary"
-                                        block
-                                    >
-                                        Enter a Challenge
-                                    </Button>
-                                    <div></div>
-                                </Link>
-                            </ButtonToolbar>
+                    <Row style={{marginTop:"40px"}}>
+                        <Col 
+                            md={{ span: 4, offset: 4 }}  
+                            lg={{ span: 4, offset: 4 }}  
+                            xl={{ span: 4, offset: 4 }}
+                        >
+                            <Link to={"/enterChallenge"}>
+                                <Button
+                                    variant="primary"
+                                    block
+                                >
+                                    Enter a Challenge
+                                </Button>
+                                <div></div>
+                            </Link>
                         </Col>
                     </Row>
 
@@ -130,13 +131,16 @@ class Profile extends Component{
                         <Col xl={12} lg={12} md={12} style={paddRightZero}>
                             <Container style={paddLeftZero}>
                                 <Row>
-                                    <Col xl={12} lg={12} md={12} style={paddLeftZero}>
+                                    <Col xl={12} lg={12} md={12} style={title}>
                                         <div>Completed Challenges</div>
                                     </Col>
                                 </Row>
-                                <Row style={outlineBorder}>
-                                    <Col xl={12} lg={12} md={12}>
-                                        <div>Challenges appear here</div>
+                            </Container>
+                            <hr className="style14"/>
+                            <Container style={paddLeftZero}>
+                                <Row>
+                                    <Col xl={12} lg={12} md={12} style={others}>
+                                        <div>No challenges completed</div>
                                     </Col>
                                 </Row>
                             </Container>
@@ -154,11 +158,20 @@ const profileTitle = {
 };
 
 const outlineBorder = {
-    border : "1px solid #000000"
 };
 
 const paddLeftZero = {
     paddingLeft:"0px"
+};
+
+const title = {
+    paddingLeft:"20px",
+    fontSize:"25px",
+    marginTop:"20px"
+};
+
+const others = {
+    paddingLeft:"30px"
 };
 
 const paddRightZero = {

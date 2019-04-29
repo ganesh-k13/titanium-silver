@@ -13,6 +13,7 @@ import {
     SERVER_PORT
 } from "../../../globals";
 import VerticalModal from "../common/VerticalModal";
+import "./Profile.css";
 
 class ActiveChallengeItem extends Component {
 
@@ -63,24 +64,21 @@ class ActiveChallengeItem extends Component {
 		return (
 			<Container style={questionWrapperStyle}>
 				<Row style={questionStyle}>
-					<Col xl={9} lg={9} md={9} sm={9} xs={9}>
+					<Col xl={11} lg={11} md={11} sm={11} xs={11}>
 						<span style={questionNameStyle}>ID: {this.props.ID}</span><br/>
 						<span style={questionDetsStyle}>Time Limit: </span>
 						<span style={questionDetsStyle}>{this.props.timeLimitHrs} hrs</span>
 						<span style={questionDetsStyle}> {this.props.timeLimitMins} mins</span>
 					</Col>
-					<Col xl={3} lg={3} md={3} sm={3} xs={3}>
-						<ButtonToolbar>
-							<Button 
-								variant="danger"
-								id={this.props.ID}
-								style={{paddingLeft:"8px"}} 
-								onClick={this.stopChallenge} 
-								block
-							>
-								Stop Challenge
-							</Button>
-						</ButtonToolbar>
+					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
+						<Button 
+							variant="danger"
+							id={this.props.ID}
+							style={{paddingLeft:"8px"}} 
+							onClick={this.stopChallenge} 								
+						>
+							Stop
+						</Button>
 					</Col>
 					<VerticalModal
 						show={this.state.modalShow}
@@ -96,18 +94,19 @@ class ActiveChallengeItem extends Component {
 
 const questionWrapperStyle = {
 	paddingLeft:"10px",
-	paddingRight:"10px"
+	paddingRight:"10px",
 }
 
 const questionStyle = {
+	backgroundColor:"#EAEAEA",
 	marginTop:"10px",
+	paddingTop:"10px",
 	paddingLeft:"10px",
-	paddingRight:"10px",
-	borderBottom:"1px solid black"
+	paddingRight:"10px"
 }
 
 const questionNameStyle = {
-	fontSize:"20px"	
+	fontSize:"15px"	
 }
 
 const questionDetsStyle = {
