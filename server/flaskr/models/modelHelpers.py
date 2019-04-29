@@ -316,3 +316,26 @@ def updateSubmissionProgLang(sID,cID,qID,progLang):
 
     db.session.commit()
 
+def getSubmissionLanguageCountByCID(cID):
+    from sqlalchemy import func
+    from sqlalchemy.sql import text
+    return db.session.query(models.Submission,func.count(models.Submission.progLang).label("langCount")).filter_by(cID=cID).group_by(models.Submission.progLang).order_by(text("langCount DESC")).all()
+
+def insertIntoChallengeAndStudent(cID,sID):
+    item = models.ChallengeAndStudent(
+                cID=cID,
+                sID=sID
+           )
+    db.session.add(item)
+    db.session.commit()
+
+def isExistingChallengeAndStudent(cID,sID):
+    return not db.session.query(models.ChallengeAndStudent).filter_by(cID=cID,sID=sID).first()==None
+
+def getAllChallengeAndStudentByCID(cID):
+    return db.session.query(models.ChallengeAndStudent).filter_by(cID=cID).all()
+
+def getStudentRanksByCID(cID):
+    from sqlalchemy import func
+    from sqlalchemy.sql import text
+    return db.session.query(models.SubmissionResult,func.count(models.SubmissionResult.sID).label("student")).filter_by(cID=cID).group_by(models.SubmissionResult.sID).order_by(text("student DESC")).all()

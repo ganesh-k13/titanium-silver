@@ -537,3 +537,38 @@ class UploadFiles(Resource):
                     tID=testCaseID
                 )
         return {},200
+
+class PostChallengeMetrics(Resource):
+    @jwt_required
+    def get(self,cID):
+        res = {
+            "noOfStudents":0,
+            "rankOneStudent":"",
+            "mostUsedLang":0,
+            "langPie":[],
+            "studentRanks":[]
+        }
+        # get most used language
+        rows = modelHelpers.getAllChallengeAndStudentByCID(cID=cID)
+
+        res["noOfStudents"] = len(rows)
+
+        rows = modelHelpers.getSubmissionLanguageCountByCID(cID)
+
+        for row in rows:
+            res["langPie"].append({
+                "x":row[0].progLang,
+                "y":int(row[1])
+            })
+        res["mostUsedLang"]=rows[0][0].progLang
+
+        rows = modelHelpers.getStudentRanksByCID(cID)
+        print(rows)
+        for row in rows:
+            res["studentRanks"].append({
+                "USN":row[0].sID
+            })
+        res["rankOneStudent"]=rows[0][0].sID
+
+
+        return res,200

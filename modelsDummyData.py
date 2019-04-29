@@ -247,7 +247,8 @@ sub1 = models.Submission(
 		cID=c1uuid,
 		qID=q1uuid,
 		codeFilePath=inputDir+student_id+"_"+q1uuid+".c",
-		compilePass=True
+		compilePass=True,
+                progLang="C"
 	)
 
 sub2 = models.Submission(
@@ -255,7 +256,9 @@ sub2 = models.Submission(
 		cID=c1uuid,
 		qID=q2uuid,
 		codeFilePath=inputDir+student_id+"_"+q2uuid+".cpp",
-		compilePass=False
+		compilePass=False,
+                progLang="Python3"
+
 	)
 
 sub3 = models.Submission(
@@ -263,7 +266,9 @@ sub3 = models.Submission(
 		cID=c1uuid,
 		qID=q3uuid,
 		codeFilePath=inputDir+student_id+"_"+q3uuid+".py",
-		compilePass=True
+		compilePass=True,
+                progLang="Python"
+
 	)
 
 subRes1 = models.SubmissionResult(
