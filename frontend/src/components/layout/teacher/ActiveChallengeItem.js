@@ -8,6 +8,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 import VerticalModal from "../common/VerticalModal";
 
 class ActiveChallengeItem extends Component {
@@ -27,7 +31,7 @@ class ActiveChallengeItem extends Component {
 		}
         axios({
 			method: 'post',
-			url: 'http://localhost:8000/api/stopchallenge',
+			url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/stopchallenge",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},

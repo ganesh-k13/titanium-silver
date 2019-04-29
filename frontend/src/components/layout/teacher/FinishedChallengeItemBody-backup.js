@@ -6,12 +6,7 @@ import {
     ButtonToolbar,
     Button
 } from "react-bootstrap";
-import axios from 'axios';
 
-import {
-    SERVER_IP,
-    SERVER_PORT
-} from "../../../globals";
 import FinishedChallengeItemBody from "./FinishedChallengeItemBody";
 import VerticalModal from '../common/VerticalModal';
 
@@ -19,43 +14,16 @@ class FinishedChallengeItem extends Component {
     constructor(...args){
         super(...args);
         this.state = {
-            modalShow: false,
-            resultJson:{}
+            modalShow: false
         }
     }
 
     modalClose = () => {
         this.setState({ 
-            modalShow: false,
-            resultJson: {}
-        });
+            modalShow: false 
+        })
     }
     
-    handleClick = () => {
-        console.log("Here:")
-        console.log(SERVER_IP,SERVER_PORT)
-        axios({
-            method:"get",
-            url:"http://"+SERVER_IP+":"+SERVER_PORT+"/api/postchallengemetrics/"+this.props.ID,
-            headers: {
-                "Authorization" : "Bearer "+localStorage.getItem("accessToken")
-            }
-        })
-        .then((resp)=>{
-            console.log("resp:",resp);
-            this.setState({
-                resultJson:resp.data
-            },()=>{
-                this.setState({
-                    modalShow:true
-                })
-            })
-        })
-        .catch((resp)=>{
-
-        })
-    }
-
     render() {
         return (
             <Container style={questionWrapperStyle}>
@@ -70,7 +38,7 @@ class FinishedChallengeItem extends Component {
                             <ButtonToolbar>
                                 <Button
                                     variant="info"
-                                    onClick={this.handleClick}
+                                    onClick={() => this.setState({ modalShow: true })}
                                     block
                                 >
                                     Details
@@ -80,13 +48,7 @@ class FinishedChallengeItem extends Component {
                                     show={this.state.modalShow}
                                     modaltitle="Results"
                                     onHide={this.modalClose}
-                                    modalbody={
-                                        <FinishedChallengeItemBody 
-                                            addTest = {this.addTest} 
-                                            hideModal = {this.modalClose}
-                                            resultJson = {this.state.resultJson}
-                                        />
-                                    }
+                                    modalbody={<FinishedChallengeItemBody addTest={this.addTest} hideModal={this.modalClose}/>}
                                 />
                             </ButtonToolbar>
                     </Col>

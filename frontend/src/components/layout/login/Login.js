@@ -3,6 +3,10 @@ import { Container,Col,Row,Dropdown,Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 class Login extends Component{
 
     constructor(...args){
@@ -33,7 +37,7 @@ class Login extends Component{
 
         let loginThis = this;
 
-        axios.post('http://localhost:8000/api/login',inpData)
+        axios.post("http://"+SERVER_IP+":"+SERVER_PORT+"/api/login",inpData)
         .then(function (resp) {
             if(resp["data"].hasOwnProperty("success")){
                 localStorage.setItem("accessToken",resp["data"]["accessToken"]);

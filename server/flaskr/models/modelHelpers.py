@@ -88,13 +88,14 @@ def insertIntoQuestionAndTestCase(qID,tID):
     db.session.add(newItem)
     db.session.commit()
 
-def insertIntoSubmission(sID,cID,qID,codeFilePath,compilePass):
+def insertIntoSubmission(sID,cID,qID,codeFilePath,compilePass,progLang):
     newSubmission = models.Submission(
         sID=sID,
         cID=cID,
         qID=qID,
         codeFilePath=codeFilePath,
-        compilePass=compilePass
+        compilePass=compilePass,
+        progLang=progLang
     )
     db.session.add(newSubmission)
     db.session.commit()
@@ -308,3 +309,33 @@ def insertIntoQuestionAndLanguage(
     )
     db.session.add(newItem)
     db.session.commit()
+
+def updateSubmissionProgLang(sID,cID,qID,progLang):
+    submission = getSubmissionDetailsByIDs(sID,cID,qID)
+    submission.progLang = progLang
+
+    db.session.commit()
+
+def getSubmissionLanguageCountByCID(cID):
+    from sqlalchemy import func
+    from sqlalchemy.sql import text
+    return db.session.query(models.Submission,func.count(models.Submission.progLang).label("langCount")).filter_by(cID=cID).group_by(models.Submission.progLang).order_by(text("langCount DESC")).all()
+
+def insertIntoChallengeAndStudent(cID,sID):
+    item = models.ChallengeAndStudent(
+                cID=cID,
+                sID=sID
+           )
+    db.session.add(item)
+    db.session.commit()
+
+def isExistingChallengeAndStudent(cID,sID):
+    return not db.session.query(models.ChallengeAndStudent).filter_by(cID=cID,sID=sID).first()==None
+
+def getAllChallengeAndStudentByCID(cID):
+    return db.session.query(models.ChallengeAndStudent).filter_by(cID=cID).all()
+
+def getStudentRanksByCID(cID):
+    from sqlalchemy import func
+    from sqlalchemy.sql import text
+    return db.session.query(models.SubmissionResult,func.count(models.SubmissionResult.sID).label("student")).filter_by(cID=cID).group_by(models.SubmissionResult.sID).order_by(text("student DESC")).all()

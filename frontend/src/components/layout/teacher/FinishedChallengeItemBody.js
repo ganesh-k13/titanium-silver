@@ -5,148 +5,157 @@ import {
 	Col,
 	ListGroup
 } from "react-bootstrap";
+import { VictoryPie } from 'victory';
 
 import result from "../../../images/results.png";
 
 class FinishedChallengeItemBody extends Component {
 	render() {
 		return (
-			<React.Fragment>
-				<Container>
-					<Row>
-						<Col
-							xl={12}
-							lg={12}
-							md={12}
-							style={{fontSize:"24px"}}
+			<Container>
+				{/* Starting numbers row */}
+				<Row>
+					<Col>
+						<Container
+							style={{
+								backgroundColor:"#1C4E80",
+								height:"100px",color:"white",
+								borderRadius:"10px",
+								padding:"3px 3px 3px 3px"
+							}}
 						>
-							Students Ranked:
-						</Col>
-					</Row>
-					<Row>
-						<Col
-							xl={6}
-							lg={6}
-							md={6}
-						>
-							<ListGroup style={{height:"300px",overflowY:"scroll"}}>
-							    <ListGroup.Item>Ram Naresh</ListGroup.Item>
-							    <ListGroup.Item>Sudhir N</ListGroup.Item>
-							    <ListGroup.Item>Shyam P</ListGroup.Item>
-							    <ListGroup.Item>Golu M</ListGroup.Item>
-							    <ListGroup.Item>KKK Akhil</ListGroup.Item>
-							    <ListGroup.Item>Priya K</ListGroup.Item>
-							    <ListGroup.Item>Preeti P</ListGroup.Item>
-							    <ListGroup.Item>Manoj T</ListGroup.Item>
-							    <ListGroup.Item>Ram YY</ListGroup.Item>
-							    <ListGroup.Item>Murali P</ListGroup.Item>
-							    <ListGroup.Item>Swetha I</ListGroup.Item>
-							    <ListGroup.Item>TR Surya</ListGroup.Item>
-							</ListGroup>
-						</Col>
-						<Col
-							xl={6}
-							lg={6}
-							md={6}
-						>
-							<Container>
-								<div
+							<Row>
+								<Col
 									style={{
-										marginTop:"20px",
-										boxShadow: "0px 0px 6px -1px rgba(0,0,0,0.75)"
+										textAlign:"center",
+										borderBottom:"1px solid #F1F1F1"
 									}}
 								>
-									<Row>
-										<Col
-											xl={{span:4,offset:4}}
-											lg={{span:4,offset:4}}
-											md={{span:4,offset:4}}
-											style={{fontSize:"24px"}}
-										>
-											12
-										</Col>
-									</Row>
-									<Row>
-										<Col
-											xl={{span:10,offset:2}}
-											lg={{span:10,offset:2}}
-											md={{span:10,offset:2}}
-										>
-											<span style={{fontSize:"15px"}}>Students who took your test</span>
-										</Col>
-									</Row>
+									<span
+										style={{fontSize:"24px",display:"inline-block"}}
+									>
+										{this.props.resultJson.noOfStudents}
+									</span>
+								</Col>
+							</Row>
+							<Row>
+								<Col
+									style={{textAlign:"center"}}
+								>
+									<span
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
+									>
+										students took<br/> the challenge
+									</span>
+								</Col>
+							</Row>
+						</Container>
+					</Col>
 
-								</div>
-								<div
-									style={{
-										marginTop:"20px",
-										boxShadow: "0px 0px 6px -1px rgba(0,0,0,0.75)"
-									}}
-								>
-									<Row>
-										<Col
-											xl={{span:4,offset:4}}
-											lg={{span:4,offset:4}}
-											md={{span:4,offset:4}}
-											style={{fontSize:"24px"}}
-										>
-											3
-										</Col>
-									</Row>
-									<Row>
-										<Col
-											xl={{span:10,offset:2}}
-											lg={{span:10,offset:2}}
-											md={{span:10,offset:2}}
-										>
-											<span style={{fontSize:"15px"}}>Most number of correct submissions</span>
-										</Col>
-									</Row>
-								</div>
-
-								<div
-									style={{
-										marginTop:"20px",
-										boxShadow: "0px 0px 6px -1px rgba(0,0,0,0.75)"
-									}}
-								>
-									<Row>
-										<Col
-											xl={{span:4,offset:4}}
-											lg={{span:4,offset:4}}
-											md={{span:4,offset:4}}
-											style={{fontSize:"24px"}}
-										>
-											C
-										</Col>
-									</Row>
-									<Row>
-										<Col
-											xl={{span:10,offset:2}}
-											lg={{span:10,offset:2}}
-											md={{span:10,offset:2}}
-										>
-											<span style={{fontSize:"15px"}}>Most used langauge</span>
-										</Col>
-									</Row>
-								</div>
-							</Container>
-						</Col>
-					</Row>
-					<Row>
-						<Col
-							xl={12}
-							lg={12}
-							md={12}
+					<Col>
+						<Container
+							style={{
+								backgroundColor:"#EA6A47",
+								height:"100px",color:"white",
+								borderRadius:"10px",
+								padding:"3px 3px 3px 3px"
+							}}
 						>
-							<img src={result} alt="result" style={{
-								height:"300px",
-								width:"700px"
-							}}/>
-						</Col>
-					</Row>
-				</Container>
-			</React.Fragment>
+							<Row>
+								<Col
+									style={{
+										textAlign:"center",
+										borderBottom:"1px solid #F1F1F1"
+									}}
+								>
+									<span
+										style={{fontSize:"24px",display:"inline-block"}}
+									>
+										{this.props.resultJson.rankOneStudent}
+									</span>
+								</Col>
+							</Row>
+							<Row>
+								<Col
+									style={{textAlign:"center"}}
+								>
+									<span
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
+									>
+										student got most <br/> questions correct
+									</span>
+								</Col>
+							</Row>
+						</Container>
+					</Col>
+					
+					<Col>
+						<Container
+							style={{
+								backgroundColor:"#0091D5",
+								height:"100px",color:"white",
+								borderRadius:"10px",
+								padding:"3px 3px 3px 3px"
+							}}
+						>
+							<Row>
+								<Col
+									style={{
+										textAlign:"center",
+										borderBottom:"1px solid #F1F1F1"
+									}}
+								>
+									<span
+										style={{fontSize:"24px",display:"inline-block"}}
+									>
+										{this.props.resultJson.mostUsedLang}
+									</span>
+								</Col>
+							</Row>
+							<Row>
+								<Col
+									style={{textAlign:"center"}}
+								>
+									<span
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
+									>
+										most used language
+									</span>
+								</Col>
+							</Row>
+						</Container>
+					</Col>
+				</Row>
+				<hr/>
+				{/* Bar Graph and Pie chart row */}
+				<Row>
+					<Col>
+						<VictoryPie
+							data={this.props.resultJson.langPie}
+							colorScale={["#1C4E80", "#D32D41", "#EA6A47" ]}
+						/>
+					</Col>
+					<Col>
+						Students ranked: (most test cases passed overall)
+						<ListGroup>
+							{
+								this.props.resultJson.studentRanks!==undefined && 
+								this.props.resultJson.studentRanks.map((student)=>(
+									<ListGroup.Item
+										key={student.USN}
+									>
+										{student.USN}
+									</ListGroup.Item>
+								))
+							}
+						</ListGroup>
+					</Col>
+				</Row>
+
+				{/* Students ranked list */}
+				<Row>
+				</Row>
+			</Container>
 		);
 	}
 }

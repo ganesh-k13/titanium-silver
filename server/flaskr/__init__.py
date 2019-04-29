@@ -17,7 +17,7 @@ api = Api(app)
 db = SQLAlchemy(app)
 
 
-from server.flaskr.views import views 
+from server.flaskr.views import views
 from server.flaskr.models import models
 from server.flaskr.API import resources
 from server.flaskr.models import modelHelpers
@@ -37,4 +37,5 @@ api.add_resource(resources.StartChallenge, "/api/startchallenge")
 api.add_resource(resources.StopChallenge, "/api/stopchallenge")
 api.add_resource(resources.GetChallengeQuestions, "/api/getchallengequestions")
 api.add_resource(resources.UploadFiles, "/api/uploadfiles")
+api.add_resource(resources.PostChallengeMetrics, "/api/postchallengemetrics/<cID>")
 
