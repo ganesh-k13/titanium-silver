@@ -252,6 +252,9 @@ class UploadCode(Resource):
         if submission.progLang != progLang:
             modelHelpers.updateSubmissionProgLang(sID,cID,qID,progLang)
 
+        if not modelHelpers.isExistingChallengeAndStudent(cID,sID):
+            modelHelpers.insertIntoChallengeAndStudent(cID,sID)
+
         inputJson = {
             "code":code,
             "questionID":qID,

@@ -43,9 +43,9 @@ class FinishedChallengeItemBody extends Component {
 									style={{textAlign:"center"}}
 								>
 									<span
-										style={{fontSize:"15px",display:"inline-block"}}
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
 									>
-										number of students<br/> who took the challenge
+										students took<br/> the challenge
 									</span>
 								</Col>
 							</Row>
@@ -80,9 +80,9 @@ class FinishedChallengeItemBody extends Component {
 									style={{textAlign:"center"}}
 								>
 									<span
-										style={{fontSize:"15px",display:"inline-block"}}
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
 									>
-										student got all <br/> questions correct
+										student got most <br/> questions correct
 									</span>
 								</Col>
 							</Row>
@@ -117,7 +117,7 @@ class FinishedChallengeItemBody extends Component {
 									style={{textAlign:"center"}}
 								>
 									<span
-										style={{fontSize:"15px",display:"inline-block"}}
+										style={{fontSize:"15px",display:"inline-block",padding:"3px 3px 3px 3px"}}
 									>
 										most used language
 									</span>
