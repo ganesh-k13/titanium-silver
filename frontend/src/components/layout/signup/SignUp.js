@@ -2,6 +2,11 @@ import React,{ Component } from "react";
 import { Container,Col,Row,Dropdown,Alert } from "react-bootstrap";
 import axios from "axios";
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
+
 class SignUp extends Component{
     
     constructor(...args){
@@ -38,7 +43,7 @@ class SignUp extends Component{
 
         let registrationThis = this;
 
-        axios.post('http://localhost:8000/api/registration',inpData)
+        axios.post("http://"+SERVER_IP+":"+SERVER_PORT+"/api/registration",inpData)
         .then(function (resp) {
             if(resp["data"].hasOwnProperty("success")){
                 localStorage.setItem("accessToken",resp["data"]["accessToken"]);

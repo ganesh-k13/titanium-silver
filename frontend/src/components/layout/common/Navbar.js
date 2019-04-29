@@ -7,6 +7,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import "../../../../node_modules/font-awesome/css/font-awesome.min.css";
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 
 class NavbarComponent extends Component {
     constructor(...args){
@@ -19,7 +23,7 @@ class NavbarComponent extends Component {
     logOut = () => {
         axios({
             method: 'post',
-            url: 'http://localhost:8000/api/logout/access',
+            url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/logout/access",
             headers: {
                 "Authorization":"Bearer "+localStorage.getItem("accessToken")
             },
@@ -32,7 +36,7 @@ class NavbarComponent extends Component {
 
         axios({
             method: 'post',
-            url: 'http://localhost:8000/api/logout/refresh',
+            url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/logout/refresh",
             headers: {
                 "Authorization":"Bearer "+localStorage.getItem("refreshToken")
             },

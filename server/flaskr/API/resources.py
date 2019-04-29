@@ -66,7 +66,7 @@ class UserRegistration(Resource):
                     "accessToken": accessToken,
                     "refreshToken": refreshToken
                 }
-                
+
                 # except:
                 #     return {"error": "Something went wrong"}, 500
 
@@ -90,13 +90,13 @@ class UserRegistration(Resource):
                         "accessToken": accessToken,
                         "refreshToken": refreshToken
                     }
-                    
+
                 except:
                     return {"error": "Something went wrong"}, 500
 
 
 class UserLogin(Resource):
-    def post(self):        
+    def post(self):
         data = parser.parse_args()
         currentUser = None
         if(data["acctType"]=="Student"):
@@ -106,7 +106,7 @@ class UserLogin(Resource):
 
         if not currentUser:
             return {"error": "User {} doesn't exist".format(data["username"])}
-        
+
         if(data["acctType"]=="Student"):
             currentUser = modelHelpers.getStudentByUsername(data["username"])
         else:
@@ -218,7 +218,7 @@ class UploadCode(Resource):
         data = parser.parse_args()
         code = data["code"]
         progLang = data["progLang"]
-        
+
         sID = modelHelpers.getStudentByUsername(username).ID
         cID = data["challengeID"]
         qID = data["questionID"]
@@ -226,7 +226,7 @@ class UploadCode(Resource):
         cpu = question.CPU
         mem_limit = question.memory
         file_name = sID+"_"+qID
-        
+
         codeFilePath = os.path.join(
             app.config["INPUT_FOLDER"],
             file_name+"."+META_DATA[progLang]["extension"]
@@ -236,7 +236,7 @@ class UploadCode(Resource):
             app.config["OUTPUT_FOLDER"],
             "op"+"_"+sID+"_"+qID
         )
-        
+
         testcases = modelHelpers.getTestcasesByQID(qID)
         if not modelHelpers.isExistingSubmission(sID,cID,qID):
             modelHelpers.insertIntoSubmission(
@@ -244,9 +244,14 @@ class UploadCode(Resource):
                 cID=cID,
                 qID=qID,
                 codeFilePath=codeFilePath,
-                compilePass=False
+                compilePass=False,
+                progLang=progLang
             )
-            
+
+        submission = modelHelpers.getSubmissionDetailsByIDs(sID,cID,qID)
+        if submission.progLang != progLang:
+            modelHelpers.updateSubmissionProgLang(sID,cID,qID,progLang)
+
         inputJson = {
             "code":code,
             "questionID":qID,
@@ -268,7 +273,7 @@ class UploadCode(Resource):
         # Read incoming JSON
         # JSON Structure as Key-Value pairs (proposed):
         # +--------------+---------+
-        # | USN          | String  |    
+        # | USN          | String  |
         # | code         | String  |
         # | progLang     | String  |
         # | questionHash | String  |
@@ -281,7 +286,7 @@ class UploadCode(Resource):
 
         # Get output Dictionary
         output = apiServer.uploadCode(inputJson)
-        
+
         # GANESH [TODO]:
         # please maintain your output like this:
         # {
@@ -332,13 +337,17 @@ class UploadCode(Resource):
 
         for key,value in processedOutput.items():
             if key=="compilePass":
+                print("-------------")
+                print("herere")
+                print("-------------")
+
                 modelHelpers.updateSubmissionCompileStatus(
                     sID=sID,
                     cID=cID,
                     qID=qID,
-                    compilePass=True
+                    compilePass=value
                 )
-            elif key == "codeMessage":
+            else if key=="codeMessage":
                 continue
             else: # The key is a test case ID, value is True(i.e. Pass) or False(i.e. Fail)
                 if value:
@@ -349,7 +358,7 @@ class UploadCode(Resource):
                     sID=sID,
                     cID=cID,
                     qID=qID,
-                    tID=key                    
+                    tID=key
                 ):
                     modelHelpers.insertIntoSubmissionResult(
                         sID=sID,
@@ -400,13 +409,13 @@ class SetChallenge(Resource):
 
         # For each question in questions:
         #   Create a UUID $uuid2
-        #   Create a models.Question entry with UUID $uuid2, name=question.questionName, CPU=question.cpu, memory=question.memory 
+        #   Create a models.Question entry with UUID $uuid2, name=question.questionName, CPU=question.cpu, memory=question.memory
         #   For each testCase,expectedOutput in question.testCase,question.expectedOutput:
         #       Create a UUID #uuid3
         #       Make a file each for testCase and expectedOutput
         #       Create a models.TestCase entry with: $uuid3, testCase filePath, expectedOutput filePath
         #       Create a models.QuestionAndTestCase entry with $uuid2,$uuid3
-        #   
+        #
         #   Create a models.ChallengeAndQuestion entry with $uuid1,$uuid2
 
 
@@ -448,7 +457,7 @@ class StartChallenge(Resource):
         dbTimers.endChallengeAfter(
                             seconds=seconds, # convert HH:MM to SS
                             cID=challenge.ID
-                        ) 
+                        )
         try:
             sendMail.sendMail(data["recipients"],str(data["cID"]))
         except:
@@ -497,7 +506,7 @@ class UploadFiles(Resource):
             print("questionID:",questionID)
             filePath = os.path.join(app.config["ZIP_FOLDER"], filename)
             file.save(filePath)
-            
+
             tmpFolderPath = os.path.join(app.config["TMP_FOLDER"],filename)
             testCasePath = app.config["TEST_CASES_FOLDER"]
             expectedOutputPath = app.config["EXPECTED_OUTPUTS_FOLDER"]
@@ -505,7 +514,7 @@ class UploadFiles(Resource):
             os.mkdir(tmpFolderPath)
 
             shutil.unpack_archive(filePath,tmpFolderPath)
-            
+
             numOfFiles = len(os.listdir(tmpFolderPath))//2
 
             for fileNum in range(numOfFiles):
@@ -530,3 +539,38 @@ class UploadFiles(Resource):
                     tID=testCaseID
                 )
         return {},200
+
+class PostChallengeMetrics(Resource):
+    @jwt_required
+    def get(self,cID):
+        res = {
+            "noOfStudents":0,
+            "rankOneStudent":"",
+            "mostUsedLang":0,
+            "langPie":[],
+            "studentRanks":[]
+        }
+        # get most used language
+        rows = modelHelpers.getAllChallengeAndStudentByCID(cID=cID)
+
+        res["noOfStudents"] = len(rows)
+
+        rows = modelHelpers.getSubmissionLanguageCountByCID(cID)
+
+        for row in rows:
+            res["langPie"].append({
+                "x":row[0].progLang,
+                "y":int(row[1])
+            })
+        res["mostUsedLang"]=rows[0][0].progLang
+
+        rows = modelHelpers.getStudentRanksByCID(cID)
+        print(rows)
+        for row in rows:
+            res["studentRanks"].append({
+                "USN":row[0].sID
+            })
+        res["rankOneStudent"]=rows[0][0].sID
+
+
+        return res,200

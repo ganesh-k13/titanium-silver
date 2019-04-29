@@ -10,6 +10,11 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
+
 class StartChallengeModal extends Component {
 	constructor(...args){
 		super(...args);
@@ -35,7 +40,7 @@ class StartChallengeModal extends Component {
 		console.log("---inpdata---:",inpData);
 		axios({
 			method:"post",
-			url:"http://localhost:8000/api/startchallenge",
+			url:"http://"+SERVER_IP+":"+SERVER_PORT+"/api/startchallenge",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},

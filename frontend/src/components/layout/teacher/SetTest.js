@@ -5,12 +5,15 @@ import {
 	Row,
 	ButtonToolbar,
 	Button,
-	Form,
 	Alert
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 import VerticalModal from '../common/VerticalModal';
 import SetTestBody from "./SetTestBody";
 import {Minutes,Hours} from "./Time";
@@ -37,7 +40,7 @@ class SetTest extends Component {
 	
 	removeEmptyStringsFromList = (stringList) => {
 		for (var i = stringList.length - 1; i >= 0; i--) {
-			if(stringList[i]==""){
+			if(stringList[i]===""){
 				stringList.splice(i,1);
 			}
 		}
@@ -45,8 +48,6 @@ class SetTest extends Component {
 	}
 
 	transformQuestions = (questions) => {
-		var testCaseString;
-		var expectedOutputString;
 		let newLineRegex = /\r?\n|\r/g;
 
 		for (var i = questions.length - 1; i >= 0; i--) {
@@ -60,6 +61,7 @@ class SetTest extends Component {
 	deleteTest = (e) => {
 		const questions = Object.assign([],this.state.questions);
 		for(var i=0;i<questions.length;i++){
+			// eslint-disable-next-line
 			if(questions[i]["id"] == e.target.id){
 				break;
 			}
@@ -84,10 +86,10 @@ class SetTest extends Component {
 			var file = this.state.questions[i].selectedFile;
 			console.log("file:",file);
 			var filename="";
-			if(this.state.questions[i].selectedFile.type == "application/gzip"){
+			if(this.state.questions[i].selectedFile.type === "application/gzip"){
 				filename=this.state.questions[i].id+".tar.gz"
 			}
-			else if(this.state.questions[i].selectedFile.type == "application/x-xz"){
+			else if(this.state.questions[i].selectedFile.type === "application/x-xz"){
 				filename=this.state.questions[i].id+".tar.xz"
 			}
 			else{
@@ -103,8 +105,7 @@ class SetTest extends Component {
 
 		// return 0;
 		let questions = this.state.questions;
-		let props = this.props;
-
+		
 		let inpData = {
 			questions:questions,
 			timeLimitHrs:this.state.timeLimitHrs,
@@ -115,7 +116,7 @@ class SetTest extends Component {
 
 		axios({
 			method: "post",
-			url: "http://localhost:8000/api/setchallenge",
+			url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/setchallenge",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
@@ -125,7 +126,7 @@ class SetTest extends Component {
 
 			axios({
 				method: "post",
-				url: "http://localhost:8000/api/uploadfiles",
+				url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/uploadfiles",
 				headers: {
 					"Authorization":"Bearer "+localStorage.getItem("accessToken"),
 					"Content-Type":"multipart/form-data"

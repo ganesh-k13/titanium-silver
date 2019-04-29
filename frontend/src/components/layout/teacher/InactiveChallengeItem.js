@@ -8,8 +8,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-import VerticalModal from '../common/VerticalModal';
-import ChallengeDetailsModal from "./ChallengeDetailsModal";
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 import StartChallengeModal from "./StartChallengeModal";
 import DeleteChallengeModal from "./DeleteChallengeModal";
 
@@ -40,7 +42,7 @@ class InactiveChallengeItem extends Component {
 
         axios({
 			method: 'post',
-			url: 'http://localhost:8000/api/getchallengedetails',
+			url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/getchallengedetails",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
@@ -66,7 +68,7 @@ class InactiveChallengeItem extends Component {
 	deleteChallenge = (e) => {
 		let challengeThis = this;
 	    axios.get(
-            "http://localhost:8000/api/",
+            "http://"+SERVER_IP+":"+SERVER_PORT+"/api/",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")

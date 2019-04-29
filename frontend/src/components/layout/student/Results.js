@@ -32,27 +32,38 @@ class Results extends Component {
 		}
 		final.push(portion);
 
-
+		var compilePass;
+		var codeMessage;
 		var output = final.map((ele) => {
 			var res=[];
 			var i=0;
 			for(var key in ele){
-				if(key!=="testCasesResult"){
+				var tcEle;
+				if(key==="compilePass"){
+					if(ele[key] === true){
+						compilePass = (<div>Compile:<span style={{color:"green"}}>Pass</span></div>);
+					}
+					else{
+						compilePass = (<div>Compile:<span style={{color:"red"}}>Fail</span></div>);
+					}
+				}
+				if(key==="codeMessage"){
+					codeMessage = (<div>ele[key]</div>);
+				}
+				if(key!=="compilePass" && key!=="codeMessage" && ele[key] === true){
+					tcEle =  (<div style={{color:"green"}}>Pass</div>);
+				}
+				else if (key!=="compilePass"){
+					tcEle =  (<div style={{color:"red"}}>Fail</div>);
+				}
+				if(key!=="testCasesResult" && key!=="codeMessage" && key!=="compilePass"){
 					res.push((
 						<Col
 							xl={3}
 							lg={3}
 							md={3}
 						>
-							Test Case {i++}: {(()=>{
-								// console.log("in anonymous");
-								if(ele[key] === true){
-									return (<div style={{color:"green"}}>Pass</div>);
-								}
-								else{
-									return <div style={{color:"red"}}>Fail</div>;
-								}
-							})()} 
+							Test Case {i++}: {tcEle} 
 						</Col>					
 					));
 				}
@@ -72,6 +83,16 @@ class Results extends Component {
 
 		return (
 			<Container>
+				<Row>
+					<Col
+						xl={12}
+						lg={12}
+						md={12}
+					>
+						{compilePass}
+					</Col>
+				</Row>
+
 				<Row>
 					<Col
 						xl={12}

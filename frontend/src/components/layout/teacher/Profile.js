@@ -9,6 +9,10 @@ import {
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 import ActiveChallenge from "./ActiveChallenge";
 import InactiveChallenge from "./InactiveChallenge";
 import FinishedChallenge from "./FinishedChallenge";
@@ -33,7 +37,7 @@ class Profile extends Component {
     componentDidMount(){
         let profileThis = this;
         axios.get(
-            "http://localhost:8000/api/getteacherdetails",
+            "http://"+SERVER_IP+":"+SERVER_PORT+"/api/getteacherdetails",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")
@@ -41,7 +45,7 @@ class Profile extends Component {
             }
         )
         .then(function(resp) {
-            if(resp.data == "not valid"){
+            if(resp.data === "not valid"){
                 profileThis.setState({
                     showAlert:true
                 });
@@ -65,7 +69,7 @@ class Profile extends Component {
         })
 
         axios.get(
-            "http://localhost:8000/api/getteacherchallenges",
+            "http://"+SERVER_IP+":"+SERVER_PORT+"/api/getteacherchallenges",
             {
                 headers: {
                     "Authorization" : "Bearer "+localStorage.getItem("accessToken")
@@ -73,7 +77,7 @@ class Profile extends Component {
             }
         )
         .then(function(resp) {
-            if(resp.data == "not valid"){
+            if(resp.data === "not valid"){
                 profileThis.setState({
                     showAlert:true
                 });
@@ -236,14 +240,6 @@ class Profile extends Component {
 // {/*<SetTest modaltitle="Set Test" modalbody={<SetTestBody/>} modalfooter={<SetTestFooter/>}/>*/}
 const profileTitle = {
 
-};
-
-const picStyle = {
-    height             : "200px",
-    width             : "200px",
-    border             : "1px solid #000000",
-    marginTop         : "5px", 
-    marginBottom     : "5px" 
 };
 
 const outlineBorder = {

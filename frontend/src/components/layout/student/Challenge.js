@@ -10,6 +10,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+import {
+    SERVER_IP,
+    SERVER_PORT
+} from "../../../globals";
 import StudentTestUI from "./StudentTestUI";
 
 class Challenge extends Component {
@@ -39,7 +43,7 @@ class Challenge extends Component {
 		console.log(inpData);
 		axios({
 			method: 'post',
-			url: 'http://localhost:8000/api/getchallengequestions',
+			url: "http://"+SERVER_IP+":"+SERVER_PORT+"/api/getchallengequestions",
 			headers: {
 				"Authorization":"Bearer "+localStorage.getItem("accessToken")
 			},
@@ -60,7 +64,7 @@ class Challenge extends Component {
 				})
 			});
 		}).catch((error)=>{
-			if(error.response==undefined){
+			if(error.response===undefined){
 				this.setState({
 					alertShow:true,
 					alertMessage:"Network/Server error",

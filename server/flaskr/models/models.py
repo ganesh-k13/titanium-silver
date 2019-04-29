@@ -2,14 +2,14 @@ from datetime import datetime
 from server.flaskr import db
 
 class Teacher(db.Model):
-    ID = db.Column(db.String(12), primary_key=True) # Teacher TRN 
+    ID = db.Column(db.String(12), primary_key=True) # Teacher TRN
     name = db.Column(db.String(20))
     designation=db.Column(db.String(20))
     username = db.Column(db.String(20),index=True,unique=True,nullable=False)  # Email for login
     password = db.Column(db.String(10))
     noOfChallenges = db.Column(db.Integer)          # Challenges created
     # challenges = db.relationship("Challenge", backref="teacher", lazy=True)
-    
+
     def __repr__(self):
         return "<Teacher {0},{1},{2},{3},{4},{5}>".format(
                                                 self.ID,
@@ -20,7 +20,7 @@ class Teacher(db.Model):
                                                 self.noOfChallenges)
 
 class Student(db.Model):
-    ID = db.Column(db.String(12), primary_key=True)# Student SRN 
+    ID = db.Column(db.String(12), primary_key=True)# Student SRN
     name = db.Column(db.String(20))
     semester = db.Column(db.String(3))
     username = db.Column(db.String(20),index=True,unique=True,nullable=False) # Email for login
@@ -108,21 +108,23 @@ class Submission(db.Model):
     qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
     codeFilePath = db.Column(db.String(100))
     compilePass = db.Column(db.Boolean) # True is Pass, False is Fail
+    progLang = db.Column(db.String(10))
 
     def __repr__(self):
-        return "<Submission {0},{1},{2},{3},{4}>".format(
+        return "<Submission {0},{1},{2},{3},{4},{5}>".format(
                                             self.sID,
                                             self.cID,
                                             self.qID,
                                             self.codeFilePath,
-                                            self.compilePass)
+                                            self.compilePass,
+                                            self.progLang)
 
 class SubmissionResult(db.Model):
     sID = db.Column(db.String(12), db.ForeignKey("student.ID"),primary_key=True)
     cID = db.Column(db.String(32), db.ForeignKey("challenge.ID"),primary_key=True)
     qID = db.Column(db.String(32), db.ForeignKey("question.ID"),primary_key=True)
     tID = db.Column(db.String(12), db.ForeignKey("test_case.ID"),primary_key=True)
-    testPass = db.Column(db.Boolean) 
+    testPass = db.Column(db.Boolean)
 
     def __repr__(self):
         return "<Submission {0},{1},{2},{3},{4}>".format(
@@ -136,7 +138,7 @@ class SubmissionResult(db.Model):
 class RevokedTokens(db.Model):
     ID = db.Column(db.Integer, primary_key = True)
     JTI = db.Column(db.String(120))
-    
+
     def __repr__(self):
         return "<RevokedTokens {0},{1}>".format(
                                     self.ID,

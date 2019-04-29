@@ -5,7 +5,6 @@ import Home from "./components/pages/home/Home";
 import Login from "./components/layout/login/Login";
 import SignUp from "./components/layout/signup/SignUp";
 import StudentProfile from "./components/layout/student/Profile";
-import Navbar from "./components/layout/common/Navbar";
 
 import TeacherProfile from "./components/layout/teacher/Profile";
 import TeacherSetTest from "./components/layout/teacher/SetTest";
