@@ -12,7 +12,8 @@
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "victory": "^32.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
