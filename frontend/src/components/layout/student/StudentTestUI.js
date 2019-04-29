@@ -16,7 +16,7 @@ import {
     SERVER_IP,
     SERVER_PORT
 } from "../../../globals";
-
+import "./Profile.css"
 
 class StudentTestUI extends Component {
 
@@ -102,12 +102,18 @@ class StudentTestUI extends Component {
             >
                 <Container>
                     <Row>
-                        <Col xl={12}>
+                        <Col 
+                            xl={12}
+                            style={{paddingLeft:"15px", fontSize:"20px", marginTop:"10px"}}
+                        >
                             {question.questionName}
                         </Col>
                     </Row>
-                    <Row>
-                        <Col 
+                    <hr/>
+                    <Row
+                            style={{paddingLeft:"15px"}}
+                    >
+                        <Col
                         >
                             <Editor
                                 langToDisplay = {(()=>{
@@ -144,7 +150,7 @@ class StudentTestUI extends Component {
                             xs={{span:4,offset:4}}
                         >    
                             <Button
-                                variant="primary"
+                                variant="success"
                                 onClick={this.submitCode}
                                 name={question.questionID}
                                 disabled={this.state[question.questionID+"disableBtn"]}
@@ -154,6 +160,7 @@ class StudentTestUI extends Component {
                             </Button>
                         </Col>
                     </Row>
+                    <hr/>
                     <Row
                         style={appStyle.title}
                     >
@@ -161,6 +168,7 @@ class StudentTestUI extends Component {
                             xl={12}
                             lg={12}
                             md={12}
+                            style={{marginBottom:"15px"}}
                         >
                             Submission Result:
                             {this.state[question.questionID+"disableBtn"] && 
@@ -200,12 +208,21 @@ class StudentTestUI extends Component {
                     <Row
                         style={appStyle.margins}
                     >
-                        <Col sm={2}>
-                            <Nav variant="pills" className="flex-column">
-                                {navItems}
-                            </Nav>
+                        <Col 
+                            sm={2}
+                            style={{borderRight:"1px solid #8C8B8B",paddingRight:"2px"}}
+                        >
+                            <div
+                                style={{marginLeft:"2px"}}
+                            >
+                                <Nav variant="pills" className="flex-column">
+                                    {navItems}
+                                </Nav>
+                            </div>
                         </Col>
-                        <Col sm={10}>
+                        <Col 
+                            sm={10}
+                        >
                             <Tab.Content>
                                 {tabItems}
                             </Tab.Content>
@@ -219,7 +236,7 @@ class StudentTestUI extends Component {
 
 const appStyle = {
     blackTabs:{
-        color:"#000000"
+        color:"#2D2D2D"
     },
     shiftDown:{
         marginTop:"10px"

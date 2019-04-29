@@ -55,7 +55,7 @@ class Challenge extends Component {
 			// to do above, we've to do similar to question and questionitem in teacher 
 			this.setState({
 				alertShow:true,
-				alertMessage:"Success, challenge will load soon",
+				alertMessage:(<div>Success, challenge will load soon</div>),
 				alertVariant:"success",
 				questionList:resp.data.questions
 			},()=>{
@@ -67,7 +67,7 @@ class Challenge extends Component {
 			if(error.response===undefined){
 				this.setState({
 					alertShow:true,
-					alertMessage:"Network/Server error",
+					alertMessage:(<div>Network/Server error</div>),
 					alertVariant:"danger"
 				});
 
@@ -75,14 +75,14 @@ class Challenge extends Component {
 			else if(error.response.status === 401){
 				this.setState({
 					alertShow:true,
-					alertMessage:"You don't seem to be logged in",
+					alertMessage:(<div>You don't seem to be logged in, click <a href="/login" style={{color:"black"}}> here </a> to login.</div>),
 					alertVariant:"info"
 				});
 			}
 			else{
 				this.setState({
 					alertShow:true,
-					alertMessage:"Challenge ID is invalid or Challenge hasn't started. Try again later",
+					alertMessage:(<div>Challenge ID is invalid or Challenge hasn't started. Try again later</div>),
 					alertVariant:"danger"
 				});
 			}
