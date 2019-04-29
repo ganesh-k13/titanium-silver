@@ -350,6 +350,8 @@ class UploadCode(Resource):
                     qID=qID,
                     compilePass=value
                 )
+            elif key == "codeMessage":
+                continue
             else: # The key is a test case ID, value is True(i.e. Pass) or False(i.e. Fail)
                 if value:
                     numTestCasePassed += 1
