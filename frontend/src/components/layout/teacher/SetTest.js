@@ -227,7 +227,7 @@ class SetTest extends Component {
 						</Col>
 					</Row>
 
-					<Row style={{marginTop:"10px"}}>
+					<Row style={{marginTop:"10px",marginBottom:"10px"}}>
 						<Col xl={6} lg={6} md={6}>
 							<Button
 								variant="success"

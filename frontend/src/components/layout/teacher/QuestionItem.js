@@ -13,13 +13,15 @@ class QuestionItem extends Component{
 			<Container style={questionWrapperStyle}>
 				<Row style={questionStyle}>
 					<Col xl={11} lg={11} md={11} sm={11} xs={11}>
-						<span style={questionNameStyle}>{this.props.questionName}</span><br/>
-						<span style={questionDetsStyle}>{this.props.cpu}</span>
-						<span style={questionDetsStyle}>{this.props.memory}</span>
-						<span style={questionDetsStyle}>{this.props.testCases}</span>
+						<div
+						>
+							<span style={questionNameStyle}>{this.props.questionName}</span><br/>
+							CPU:<span style={questionDetsStyle}>{this.props.cpu}</span>
+							Memory:<span style={questionDetsStyle}>{this.props.memory}</span>
+						</div>
 					</Col>
 					<Col xl={1} lg={1} md={1} sm={1} xs={1}>
-						<Button variant="danger" id={this.props.qID} onClick={this.props.deleteQuestion}>X</Button>
+						<Button variant="outline-danger" id={this.props.qID} onClick={this.props.deleteQuestion}>X</Button>
 					</Col>
 				</Row>
 			</Container>
@@ -29,14 +31,16 @@ class QuestionItem extends Component{
 
 const questionWrapperStyle = {
 	paddingLeft:"10px",
-	paddingRight:"10px"
+	paddingRight:"10px",
+	marginBottom:"5px",
+	overflowX:"hidden",
+	borderBottom:"1px solid #8c8b8b"
 }
 
 const questionStyle = {
 	marginTop:"10px",
 	paddingLeft:"10px",
-	paddingRight:"10px",
-	borderBottom:"1px solid black"
+	paddingRight:"10px"
 }
 
 const questionNameStyle = {
@@ -44,7 +48,8 @@ const questionNameStyle = {
 }
 
 const questionDetsStyle = {
-	fontSize:"15px"	
+	fontSize:"12px",
+	marginRight:"3px"
 }
 
 export default QuestionItem;

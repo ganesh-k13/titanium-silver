@@ -16,6 +16,7 @@ import {
 import ActiveChallenge from "./ActiveChallenge";
 import InactiveChallenge from "./InactiveChallenge";
 import FinishedChallenge from "./FinishedChallenge";
+import "./Profile.css";
 
 class Profile extends Component {
 
@@ -130,35 +131,34 @@ class Profile extends Component {
                     </Row>
                     {/* This row is just title only */}
                     <Row style={profileTitle}>
-                        <Col xl={12} lg={12} md={12} style={paddLeftZero}>
-                            Teacher
+                        <Col xl={12} lg={12} md={12} style={title}>
+                            Welcome back {this.state.name}!
                         </Col>
                     </Row>
+                    <hr className="style14"/>
                     
                     {/* This row handles profile information */}
                     <Row style={outlineBorder}>
                         <Col xl={12} lg={12} md={12}>
                             <Container>
                                 <Row>
-                                    <Col xl={2} lg={2} md={2}>
-                                        <b>ID</b>: {this.state.ID}
-                                    </Col>
-                                    <Col xl={2} lg={2} md={2}>
-                                        <b>Name</b>: {this.state.name}
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>ID</b><br/> {this.state.ID}
                                     </Col>
                                     <Col xl={3} lg={3} md={3}>
-                                        <b>Username</b>: {this.state.username}
+                                        <b>Username</b><br/> {this.state.username}
                                     </Col>
                                     <Col xl={3} lg={3} md={3}>
-                                        <b>Designation</b>: {this.state.designation}
+                                        <b>Designation</b><br/> {this.state.designation}
                                     </Col>
-                                    <Col xl={2} lg={2} md={2}>
-                                        <b>No Of Challenges</b>: {this.state.noOfChallenges}
+                                    <Col xl={3} lg={3} md={3}>
+                                        <b>No Of Challenges</b><br/> {this.state.noOfChallenges}
                                     </Col>
                                 </Row>
                             </Container>
                         </Col>
                     </Row>
+                    <hr className="style14"/>
 
                     {/* This row handles the button to set tests */}
                     <Row style={{marginTop:"10px"}}>
@@ -179,10 +179,13 @@ class Profile extends Component {
                         <Col xl={12} lg={12} md={12} style={paddRightZero}>
                             <Container style={paddLeftZero}>
                                 <Row>
-                                    <Col xl={12} lg={12} md={12} style={paddLeftZero}>
+                                    <Col xl={12} lg={12} md={12} style={otherTitle}>
                                         <div>Active Challenges</div>
                                     </Col>
                                 </Row>
+                            </Container>
+                            <hr className="style7"/>
+                            <Container>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
                                         <ActiveChallenge challengeList={this.state.activeChallenges}/>
@@ -197,10 +200,13 @@ class Profile extends Component {
                         <Col xl={12} lg={12} md={12} style={paddRightZero}>
                             <Container style={paddLeftZero}>
                                 <Row>
-                                    <Col xl={12} lg={12} md={12} style={paddLeftZero}>
+                                    <Col xl={12} lg={12} md={12} style={otherTitle}>
                                         <div>Challenges yet to be started</div>
                                     </Col>
                                 </Row>
+                            </Container>
+                            <hr className="style7"/>
+                            <Container>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
                                         <InactiveChallenge challengeList={this.state.inactiveChallenges}/>
@@ -215,10 +221,13 @@ class Profile extends Component {
                         <Col xl={12} lg={12} md={12} style={paddRightZero}>
                             <Container style={paddLeftZero}>
                                 <Row>
-                                    <Col xl={12} lg={12} md={12} style={paddLeftZero}>
+                                    <Col xl={12} lg={12} md={12} style={otherTitle}>
                                         <div>Completed Challenges</div>
                                     </Col>
                                 </Row>
+                            </Container>
+                            <hr className="style7"/>
+                            <Container>
                                 <Row style={outlineBorder}>
                                     <Col xl={12} lg={12} md={12}>
                                         <FinishedChallenge challengeList={this.state.finishedChallenges}/>
@@ -232,18 +241,24 @@ class Profile extends Component {
         )
     }
 }
-// <Link to="/settest" params={{ testvalue: "hello" }}> 
-//     <Button className="btn-block">
-//         Set Test 
-//     </Button>
-// </Link>
-// {/*<SetTest modaltitle="Set Test" modalbody={<SetTestBody/>} modalfooter={<SetTestFooter/>}/>*/}
+
 const profileTitle = {
 
 };
 
 const outlineBorder = {
-    border : "1px solid #000000"
+};
+
+const title = {
+    paddingLeft:"20px",
+    fontSize:"25px",
+    marginTop:"20px"
+};
+
+const otherTitle = {
+    paddingLeft:"20px",
+    fontSize:"20px",
+    marginTop:"20px"
 };
 
 const paddLeftZero = {

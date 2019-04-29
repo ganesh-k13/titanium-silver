@@ -53,7 +53,9 @@ class NavbarComponent extends Component {
             <Navbar bg="dark" variant="dark" style={navBarStyle}>
                 <Nav className="mr-auto">
                     <a href="/">
-                        <Navbar.Brand>&nbsp;&nbsp;&nbsp;Titanium Silver</Navbar.Brand>
+                        <Navbar.Brand>&nbsp;&nbsp;&nbsp;
+                            Titanium Silver
+                        </Navbar.Brand>
                     </a>
                 </Nav>
                 <Nav>
