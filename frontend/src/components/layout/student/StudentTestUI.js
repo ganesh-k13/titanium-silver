@@ -9,6 +9,7 @@ import {
     Spinner
 } from "react-bootstrap";
 import axios from "axios";
+import uuidv4 from "uuid/v4";
 
 import Editor from "./Editor";
 import Results from "./Results";
@@ -80,6 +81,15 @@ class StudentTestUI extends Component {
         })
     }
 
+    getFormattedQuestion = (question) => {
+        var res = question.replace(/\'/g,"");
+        res = res.replace(/\\n/g,"<br/>");
+        res = (<div>{res}</div>);
+        console.log(res);
+
+        return res;
+    }
+
     render(){
         // console.log(this.state);
         var navItems =  this.props.questionList.map((question,index)=>(
@@ -106,7 +116,20 @@ class StudentTestUI extends Component {
                             xl={12}
                             style={{paddingLeft:"15px", fontSize:"20px", marginTop:"10px"}}
                         >
-                            {question.questionName}
+                            <span
+                                style={{fontSize:"30px"}}
+                            >
+                                Question:
+                            </span>
+                            <hr/>
+                            {question.questionName.replace(/\'/g,"").split("\\n").map((item)=>(
+                                    <div
+                                        key={uuidv4()}
+                                    >
+                                        {item}
+                                        <br/>
+                                    </div>
+                            ))}
                         </Col>
                     </Row>
                     <hr/>

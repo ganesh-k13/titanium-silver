@@ -107,7 +107,7 @@ class SignUp extends Component{
     render(){
         return (
             <Container>
-                <Row className="justify-content-md-center">
+                <Row className="justify-content-md-center" style={{marginBottom:"20px"}}>
                     <Col xs lg="4">
                         <Container 
                             fluid={true} 

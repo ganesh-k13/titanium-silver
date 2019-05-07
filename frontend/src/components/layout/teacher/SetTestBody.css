@@ -44,3 +44,7 @@
     font-weight: 600;
     text-align: center;
 }
+
+#questionName{
+    white-space: pre-wrap;
+}

@@ -25,6 +25,7 @@ class SetTestBody extends Component{
 	}
 
 	formValChange = (e) =>{
+		console.log(e.target.value);
 		this.setState({[e.target.id]:e.target.value});
 	}
 

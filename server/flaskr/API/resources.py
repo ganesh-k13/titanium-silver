@@ -426,7 +426,7 @@ class SetChallenge(Resource):
             questionID = question["id"]
             modelHelpers.insertIntoQuestion(
                 ID=questionID,
-                name=question["questionName"],
+                name=repr(question["questionName"]),
                 CPU=question["cpu"],
                 memory=question["memory"]
             )
