@@ -339,3 +339,6 @@ def getStudentRanksByCID(cID):
     from sqlalchemy import func
     from sqlalchemy.sql import text
     return db.session.query(models.SubmissionResult,func.count(models.SubmissionResult.sID).label("student")).filter_by(cID=cID).group_by(models.SubmissionResult.sID).order_by(text("student DESC")).all()
+
+def getStudentByID(ID):
+    return db.session.query(models.Student).filter_by(ID=ID).first()

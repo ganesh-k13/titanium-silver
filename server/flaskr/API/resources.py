@@ -571,7 +571,8 @@ class PostChallengeMetrics(Resource):
         print(rows)
         for row in rows:
             res["studentRanks"].append({
-                "USN":row[0].sID
+                "USN":row[0].sID,
+                "name":modelHelpers.getStudentByID(row[0].sID).name
             })
         res["rankOneStudent"]=rows[0][0].sID
 

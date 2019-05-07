@@ -122,7 +122,7 @@ class StudentTestUI extends Component {
                                 Question:
                             </span>
                             <hr/>
-                            {question.questionName.replace(/\'/g,"").split("\\n").map((item)=>(
+                            {question.questionName.slice(1,question.questionName.length-1).split("\\n").map((item)=>(
                                     <div
                                         key={uuidv4()}
                                     >

@@ -127,13 +127,23 @@ class FinishedChallengeItemBody extends Component {
 				<hr/>
 				{/* Bar Graph and Pie chart row */}
 				<Row>
-					<Col>
+					<Col
+						xl={8}
+						lg={8}
+						md={8}
+					>
 						<VictoryPie
 							data={this.props.resultJson.langPie}
-							colorScale={["#1C4E80", "#D32D41", "#EA6A47" ]}
+							colorScale={["#1C4E80", "#D32D41", "#EA6A47", "#A5D8DD"]}
+							labelRadius={90}
+							style={{ labels: { fill: "white"} }}
 						/>
 					</Col>
-					<Col>
+					<Col
+						xl={4}
+						lg={4}
+						md={4}
+					>
 						Students ranked: (most test cases passed overall)
 						<ListGroup>
 							{
@@ -142,7 +152,7 @@ class FinishedChallengeItemBody extends Component {
 									<ListGroup.Item
 										key={student.USN}
 									>
-										{student.USN}
+										{student.USN} <br/> {student.name}
 									</ListGroup.Item>
 								))
 							}

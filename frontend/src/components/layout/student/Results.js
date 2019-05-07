@@ -34,9 +34,9 @@ class Results extends Component {
 
 		var compilePass;
 		var codeMessage;
+		var i=0;
 		var output = final.map((ele) => {
 			var res=[];
-			var i=0;
 			for(var key in ele){
 				var tcEle;
 				if(key==="compilePass"){

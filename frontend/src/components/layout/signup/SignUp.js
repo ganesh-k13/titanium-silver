@@ -175,6 +175,12 @@ class SignUp extends Component{
                                 </Row>
                                 <Row style={marginTop}>
                                     <Col xl={12} lg={12} md={12}>
+                                        <span>Repeat Password</span>
+                                        <input type="password" name="password" className="form-control"/>
+                                    </Col>
+                                </Row>
+                                <Row style={marginTop}>
+                                    <Col xl={12} lg={12} md={12}>
                                         <button className="btn btn-success btn-block" type="submit">Sign Up!</button>
                                     </Col>
                                 </Row>
