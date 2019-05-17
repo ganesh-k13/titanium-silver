@@ -11,13 +11,13 @@ globalData = {
         "name":"Pytest Student 1",
         "detailType":"semester",
         "detailValue":"6th",
-        "username":"pyteststudent123@students.com",
-        "password":"pyteststudent123"
+        "username":"student123@students.com",
+        "password":"student123"
     },
     "studentLogin" : {
         "acctType":"Student",
-        "username":"pyteststudent123@students.com",
-        "password":"pyteststudent123",
+        "username":"student123@students.com",
+        "password":"student123",
     },
     "accessToken" : ""
 }

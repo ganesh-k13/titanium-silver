@@ -72,6 +72,13 @@ class Challenge extends Component {
 				});
 
 			}
+			else if(error.response.status === 400){
+				this.setState({
+					alertShow:true,
+					alertMessage:(<div>Challenge has already ended.</div>),
+					alertVariant:"info"
+				});				
+			}
 			else if(error.response.status === 401){
 				this.setState({
 					alertShow:true,

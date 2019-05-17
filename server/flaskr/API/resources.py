@@ -578,3 +578,19 @@ class PostChallengeMetrics(Resource):
 
 
         return res,200
+
+class GetStudentChallenges(Resource):
+    @jwt_required
+    def get(self):
+        claims = get_jwt_claims()
+        username = claims["username"]
+        try:
+            sID = modelHelpers.getStudentByUsername(username).ID
+            challenges = modelHelpers.getAllChallengeAndStudentBySID(sID)
+            res = []
+
+            for challenge in challenges:
+                res.append(challenge.cID)
+            return {"challenges":res},200
+        except:
+            return {},400

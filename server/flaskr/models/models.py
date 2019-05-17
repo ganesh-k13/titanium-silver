@@ -5,7 +5,7 @@ class Teacher(db.Model):
     ID = db.Column(db.String(12), primary_key=True) # Teacher TRN
     name = db.Column(db.String(20))
     designation=db.Column(db.String(20))
-    username = db.Column(db.String(20),index=True,unique=True,nullable=False)  # Email for login
+    username = db.Column(db.String(40),index=True,unique=True,nullable=False)  # Email for login
     password = db.Column(db.String(10))
     noOfChallenges = db.Column(db.Integer)          # Challenges created
     # challenges = db.relationship("Challenge", backref="teacher", lazy=True)
@@ -23,7 +23,7 @@ class Student(db.Model):
     ID = db.Column(db.String(12), primary_key=True)# Student SRN
     name = db.Column(db.String(20))
     semester = db.Column(db.String(3))
-    username = db.Column(db.String(20),index=True,unique=True,nullable=False) # Email for login
+    username = db.Column(db.String(40),index=True,unique=True,nullable=False) # Email for login
     password = db.Column(db.String(10))
     noOfChallenges = db.Column(db.Integer)         # Challenges attended
 

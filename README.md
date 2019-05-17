@@ -54,21 +54,43 @@ npm install
 <in another shell> $ ./run.sh
 ```
 ### Production:
-Steps:
-1. Do these:
 
-```sh
-$ cd frontend/ && npm run build
-$ cd server/flaskr/ 
-$ ln -s ../../frontend/build/static static
-$ ln -s ../../frontend/build/ templates
-``` 
+Prerequisites for production
+-
 
-2. Open the file `index.html` in `frontend/build`. For each `<script>` tag, add this: `type="text/babel"`
-3. Remove the `<link>` for `manifest.json`
-4. For `favicon.ico` to load do this: 
-    1. Move `favicon.ico` to `build/static`.
-    2. Change `href` of `<link>` to : ```{{url_for("static",filename="./favicon.ico")}}```
+- Install MySQL as shown here: https://support.rackspace.com/how-to/installing-mysql-server-on-ubuntu/
+- Then go to: `./dbCreator.py`(`line 5`) and `./server/config.py`(`line 17`) and find the line starting from `"mysql+pymysql...."`:
+    - Replace `root` with your user (else create a root user in MySQL).
+    - Replace `RahulRB@1997` with your password.
+    - Replace `locahost` with another host name if DB is on another system.
+
+MySQL is making too much fuss / not so important now?
+-
+- In this case, comment out `lines 5 and 6` of `./dbCreator.py`
+- Uncomment `line 18` in `./server/config.py`.
+- Comment `line 17` in `./server/config.py`
+
+Note
+-
+- If the frontend fails to render, then do this from root of the project:
+	- Fix 1:
+		1. Open the file `index.html` in `frontend/build`. For each `<script>` tag, add this: `type="text/babel"`
+		2. Remove the `<link>` for `manifest.json`
+		3. For `favicon.ico` to load do this: 
+		    1. Move `favicon.ico` to `build/static`.
+		    2. Change `href` of `<link>` to : ```{{url_for("static",filename="./favicon.ico")}}```
+    
+    - Fix 2: (If Fix 1 fails)
+	    - `rm -r titanium-silver-venv`
+	    - `rm ./server/TitaniumSilver.db` (if you couldn't install/run/do stuff with MySQL).
+	    - Install `nvm` as shown here: https://github.com/nvm-sh/nvm
+	    - Restart the shell/open new shell and do: `nvm install node`
+	    - Go to `./frontend` and do:
+	        - `npm install` (this will take a few minutes)
+	        - `npm run build && mv build production`
+            - Run `production.sh`. Try doing Fix 1 if UI renders improperly.
+
+
 
 ### Tests
 

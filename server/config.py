@@ -9,12 +9,13 @@ class ProductionConfig(Config):
     pass
 
 class DevelopmentConfig(Config):
-    DEVELOPMENT = True
+    DEVELOPMENT = False
     DEBUG = True
     TEMPLATES_AUTO_RELOAD=True
     
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "sqlite:///" + os.path.join(basedir, "TitaniumSilver.db")
+        "mysql+pymysql://root:@127.0.0.1/TitaniumSilver"  # mysql+pymysql://user:password@host
+        # "sqlite:///" + os.path.join(basedir, "TitaniumSilver.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     SECRET_KEY = "somesecretkeyhereplease"

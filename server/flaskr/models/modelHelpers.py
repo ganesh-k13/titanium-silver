@@ -257,6 +257,9 @@ def getChallengeQuestionByCID(ID):
     if challenge.status=="INACTIVE":
         return {"res":"Challenge not started yet","code":500}
 
+    if challenge.status=="FINISHED":
+        return {"res":"Challenge already ended","code":400}
+
     questionList = getAllQuestionsByChallengeID(ID)
 
     for question in questionList:
@@ -334,6 +337,9 @@ def isExistingChallengeAndStudent(cID,sID):
 
 def getAllChallengeAndStudentByCID(cID):
     return db.session.query(models.ChallengeAndStudent).filter_by(cID=cID).all()
+
+def getAllChallengeAndStudentBySID(sID):
+    return db.session.query(models.ChallengeAndStudent).filter_by(sID=sID).all()
 
 def getStudentRanksByCID(cID):
     from sqlalchemy import func

@@ -38,4 +38,5 @@ api.add_resource(resources.StopChallenge, "/api/stopchallenge")
 api.add_resource(resources.GetChallengeQuestions, "/api/getchallengequestions")
 api.add_resource(resources.UploadFiles, "/api/uploadfiles")
 api.add_resource(resources.PostChallengeMetrics, "/api/postchallengemetrics/<cID>")
+api.add_resource(resources.GetStudentChallenges, "/api/getstudentchallenges")
 

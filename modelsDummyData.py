@@ -1,3 +1,8 @@
+from server.config import DevelopmentConfig
+if DevelopmentConfig.DEVELOPMENT == False:
+	print("THIS FILE IS FOR DEVELOPMENT PURPOSES ONLY\nUse the UI/APIs for interactions\nExiting now...")
+	exit()
+
 import argparse
 import os
 from server.flaskr import db
