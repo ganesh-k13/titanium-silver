@@ -49,6 +49,7 @@ before_script:
   - sudo apt-get update -q
   - sudo apt-get install -q --force-yes -o Dpkg::Options::=--force-confnew mysql-server
   - sudo mysql_upgrade --force
+  - sudo service mysql restart
 
 script: 
   - pytest tests/test_c.py
