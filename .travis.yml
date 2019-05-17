@@ -17,12 +17,21 @@ sudo: required
 
 services:
   - docker
+  - mysql
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
 
 before_install:
   - docker pull gcc:4.9
   - docker pull python:latest
   - docker pull java:latest
   - tests/SC/clone.sh 100 tests/SC/myapp.cpp tests/SC/usn
+  - python3 dbCreator.py
 
 install: 
   - pip3 install -r requirements.txt
