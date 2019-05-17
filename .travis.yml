@@ -36,8 +36,10 @@ install:
   - pip3 install -r requirements.txt
   - pip3 install -e .
 
+before_script:
+  - mysql -e 'create database TitaniumSilver;'
+
 script: 
-  - python3 dbCreator.py
   - pytest tests/test_c.py
   - pytest tests/test_cpp.py
   - pytest tests/test_python2.py
