@@ -14,8 +14,8 @@ class DevelopmentConfig(Config):
     TEMPLATES_AUTO_RELOAD=True
     
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "mysql+pymysql://root:RahulRB@1997@localhost/TitaniumSilver"  # mysql+pymysql://user:password@host
-        # "sqlite:///" + os.path.join(basedir, "TitaniumSilver.db")
+        # "mysql+pymysql://root:RahulRB@1997@localhost/TitaniumSilver"  # mysql+pymysql://user:password@host
+        "sqlite:///" + os.path.join(basedir, "TitaniumSilver.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     SECRET_KEY = "somesecretkeyhereplease"
