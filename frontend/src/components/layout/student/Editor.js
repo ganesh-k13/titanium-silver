@@ -76,38 +76,78 @@ class Editor extends Component {
                         <Form.Group controlId="exampleForm.ControlSelect1">
 						    <Form.Label>Mode</Form.Label>
 						    <select className="form-control" as="select" name="mode" onChange={this.updateEditorLanguage} value={this.state.mode}>
-			    	            {
-                                    this.props.langToDisplay.C && 
-                                    <option id="C" value="c_cpp">C</option>
-                                }
-                                {
-                                    this.props.langToDisplay.CPP && 
-                                    <option id="C++" value="c_cpp">C++</option>
-                                }
-                                {
-                                    this.props.langToDisplay.Java && 
-                                    <option id="Java" value="java">Java</option>
-                                }
-                                {
-                                    this.props.langToDisplay.Python3 && 
-                                    <option id="Python3" value="python">Python 3</option>
-                                }
-                                {
-                                    this.props.langToDisplay.Python && 
-                                    <option id="Python" value="python">Python 2</option>
-                                }
-                                {
-                                    this.props.langToDisplay.Ruby && 
-                                    <option id="Ruby" value="ruby">Ruby</option>
-                                }
-                                {
-                                    this.props.langToDisplay.PHP5x && 
-                                    <option id="PHP5.x" value="php">PHP 5.x</option>
-                                }
-                                {
-                                    this.props.langToDisplay.PHP7x && 
-                                    <option id="PHP7.x" value="php">PHP 7.x</option>
-                                }
+                                    {
+                                    	this.props.langToDisplay.C && 
+                                    	<option 
+	                                    	id="C" 
+	                                    	value="c_cpp"
+                                    	>
+                                    		C
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.CPP && 
+                                    	<option 
+	                                    	id="C++" 
+	                                    	value="c_cpp"
+                                    	>
+                                    		C++
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.Java && 
+                                    	<option 
+	                                    	id="Java" 
+	                                    	value="java"
+                                    	>
+                                    		Java
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.Python3 && 
+                                    	<option 
+	                                    	id="Python3" 
+	                                    	value="python"
+                                    	>
+                                    		Python 3
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.Python && 
+                                    	<option 
+	                                    	id="Python" 
+	                                    	value="python"
+                                    	>
+                                    		Python 2
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.Ruby && 
+                                    	<option 
+	                                    	id="Ruby" 
+	                                    	value="ruby"
+                                    	>
+                                    		Ruby
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.PHP5x && 
+                                    	<option 
+	                                    	id="PHP5.x" 
+	                                    	value="php"
+                                    	>
+                                    		PHP 5.x
+                                    	</option>
+                                    }
+                                    {
+                                    	this.props.langToDisplay.PHP7x && 
+                                    	<option 
+	                                    	id="PHP7.x" 
+	                                    	value="php"
+                                    	>
+                                    		PHP 7.x
+                                    	</option>
+                                    }
 						    </select>
 						</Form.Group>
                     </Col>

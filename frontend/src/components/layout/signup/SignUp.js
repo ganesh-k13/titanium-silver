@@ -107,7 +107,7 @@ class SignUp extends Component{
     render(){
         return (
             <Container>
-                <Row className="justify-content-md-center">
+                <Row className="justify-content-md-center" style={{marginBottom:"20px"}}>
                     <Col xs lg="4">
                         <Container 
                             fluid={true} 
@@ -171,6 +171,12 @@ class SignUp extends Component{
                                     <Col xl={12} lg={12} md={12}>
                                         <span>Password</span>
                                         <input type="password" name="password" className="form-control" onChange={this.handleChange}/>
+                                    </Col>
+                                </Row>
+                                <Row style={marginTop}>
+                                    <Col xl={12} lg={12} md={12}>
+                                        <span>Repeat Password</span>
+                                        <input type="password" name="password" className="form-control"/>
                                     </Col>
                                 </Row>
                                 <Row style={marginTop}>
