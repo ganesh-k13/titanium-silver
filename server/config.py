@@ -9,7 +9,7 @@ class ProductionConfig(Config):
     pass
 
 class DevelopmentConfig(Config):
-    DEVELOPMENT = True
+    DEVELOPMENT = False
     DEBUG = True
     TEMPLATES_AUTO_RELOAD=True
     

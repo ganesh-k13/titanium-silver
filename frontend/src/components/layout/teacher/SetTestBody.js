@@ -104,7 +104,7 @@ class SetTestBody extends Component{
 							<Form.Label>Memory:</Form.Label>
 							<Form.Control type="text" placeholder="Memory Usage" id="memory" onChange={this.formValChange}/>
 							<Form.Text className="text-muted">
-								Example: 100MB, 1GB
+								Example: 1g for 1GB, 1m for 1MB, minimum is 128MB
 							</Form.Text>
 						</Col>
 					</Row>
@@ -194,8 +194,8 @@ class SetTestBody extends Component{
 							<Form.Label>Test Cases and Expected Outputs File:</Form.Label>
 							<Form.Text className="text-muted">
 								Name Test Case as "in***" and its Expected Output as "out***"<br/>
-								where *** are digits and the same number. Eg: in001 and out001<br/>
-								are mapped.
+								where *** are digits and the same number. <br/>
+								Eg: in001 and out001 are mapped.
 							</Form.Text>
 						</Col>
 						<Col xl={6} lg={6} md={6}>

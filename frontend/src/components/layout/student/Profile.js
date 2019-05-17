@@ -15,6 +15,7 @@ import {
     SERVER_PORT
 } from "../../../globals";
 import "./Profile.css";
+import FinishedChallenge from "./FinishedChallenge";
 
 class Profile extends Component{
 
@@ -26,7 +27,8 @@ class Profile extends Component{
             username:"",
             semester:"",
             noOfChallenges:"",
-            showAlert:false
+            showAlert:false,
+            finishedChallenges:[]
         }
     }
 
@@ -62,6 +64,36 @@ class Profile extends Component{
             profileThis.setState({
                 showAlert:true
             });
+        });
+
+        axios.get(
+            "http://"+SERVER_IP+":"+SERVER_PORT+"/api/getstudentchallenges",
+            {
+                headers: {
+                    "Authorization" : "Bearer "+localStorage.getItem("accessToken")
+                }
+            }
+        )
+        .then(function(resp) {
+            if(resp.data === "not valid"){
+                profileThis.setState({
+                    showAlert:true
+                });
+            }
+            else{
+                var challenges = resp.data.challenges;
+                var finishedChallenges=challenges;
+
+                profileThis.setState({
+                    finishedChallenges:finishedChallenges
+                })
+
+            }    
+        })
+        .catch(function(resp) {
+            profileThis.setState({
+                showAlert:true
+            });            
         })
     }
 
@@ -140,7 +172,7 @@ class Profile extends Component{
                             <Container style={paddLeftZero}>
                                 <Row>
                                     <Col xl={12} lg={12} md={12} style={others}>
-                                        <div>No challenges completed</div>
+                                        <FinishedChallenge challengeList={this.state.finishedChallenges}/>
                                     </Col>
                                 </Row>
                             </Container>
