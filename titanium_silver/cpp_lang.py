@@ -1,6 +1,12 @@
 import os
 from titanium_silver.lang_container import LangContainer 
 
+def read_cmd():
+    cmd_fd = open('./scripts/cpp_lang.sh', 'r')
+    cmd = cmd_fd.readlines()
+    cmd_fd.close()
+    return cmd[0]
+
 class CppContainer(LangContainer):
     def __init__(self):
         pass
@@ -15,5 +21,6 @@ class CppContainer(LangContainer):
         container_name = self.name
         source_code_path = self.path
         test_case_in = self.testcases['in']
-        self.command =  ['sh','-c',('g++ -std=c++11 /opt/%s.cpp -o /opt/%s && /opt/%s %s < %s'%(container_name, container_name+str(container_no), container_name+str(container_no), self.params, test_case_in))]	 
+        cmd = read_cmd()
+        self.command =  [cmd%(container_name, container_name+str(container_no), container_name+str(container_no), self.params, test_case_in)]	 
         self.image = "gcc:4.9"

@@ -1,6 +1,12 @@
 import os
 from titanium_silver.lang_container import LangContainer 
 
+def read_cmd():
+    cmd_fd = open('./scripts/python2_lang.sh', 'r')
+    cmd = cmd_fd.readlines()
+    cmd_fd.close()
+    return cmd[0]
+
 class Python2Container(LangContainer):
     def __init__(self):
         pass
@@ -15,6 +21,7 @@ class Python2Container(LangContainer):
         container_name = self.name
         source_code_path = self.path
         test_case_in = self.testcases['in']
-        self.command =  ['sh','-c',('python /opt/%s.py %s < %s'%(container_name, self.params, test_case_in))]
+        cmd = read_cmd()
+        self.command =  [cmd%(container_name, self.params, test_case_in)]
         self.image = "python:latest"
 

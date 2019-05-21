@@ -2,6 +2,12 @@ import os
 from titanium_silver.lang_container import LangContainer 
 import pdb
 
+def read_cmd():
+    cmd_fd = open('./scripts/python_lang.sh', 'r')
+    cmd = cmd_fd.readlines()
+    cmd_fd.close()
+    return cmd[0]
+
 class PythonContainer(LangContainer):
     def __init__(self):
         pass
@@ -18,6 +24,7 @@ class PythonContainer(LangContainer):
         # pdb.set_trace()
         test_case_in = self.testcases['in']
         # print(test_case_in)
-        self.command =  ['sh','-c',('python3 /opt/%s.py %s < %s'%(container_name, self.params, test_case_in))]
+        cmd = read_cmd()
+        self.command =  [cmd%(container_name, self.params, test_case_in)]
         self.image = "python:latest"
 
