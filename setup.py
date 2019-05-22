@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/ganesh-k13/titanium-silver",
     packages=['titanium_silver'],
     package_dir = {'titanium_silver': 'titanium_silver'},
-    package_data={'titanium_silver': ['SC/*']},
+    package_data={'titanium_silver': ['SC/*', 'scripts/*']},
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

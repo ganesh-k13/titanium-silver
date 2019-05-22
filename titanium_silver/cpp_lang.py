@@ -1,11 +1,11 @@
 import os
+import pkg_resources as pkg
 from titanium_silver.lang_container import LangContainer 
 
 def read_cmd():
-    cmd_fd = open('./scripts/cpp_lang.sh', 'r')
-    cmd = cmd_fd.readlines()
-    cmd_fd.close()
-    return cmd[0]
+    file_name = pkg.resource_filename('titanium_silver', 'cpp_lang.sh')
+    with open(file_name, 'r') as cmd_fd:
+        return cmd_fd.read()
 
 class CppContainer(LangContainer):
     def __init__(self):
