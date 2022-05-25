@@ -22,7 +22,7 @@ more-itertools==5.0.0
 passlib==1.7.1
 pluggy==0.6.0
 py==1.10.0
-PyJWT==1.7.1
+PyJWT==2.4.0
 pytest==3.6.1
 pytest-flask==0.14.0
 pytz==2018.9
